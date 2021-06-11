@@ -1,32 +1,66 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <!--<div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <router-view/>-->
+    <section class="navy">
+      <Porfile/>
+      <hr>
+      <Navy/>
+    </section>
+    <section class="content">
+      <router-view/>
+    </section>
   </div>
 </template>
+<script>
+  import Porfile from './components/Porfile'
+  import Navy from './components/Navy'
+export default {
+  components:{
+    Porfile,
+    Navy
+  },
+  data(){
+    return{
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
     }
   }
 }
+</script>
+<style lang="sass">
+  *
+    padding: 0
+    margin: 0
+    box-sizing: border-box
+  
+  body
+    font-family: sans-serif
+    font-size: 16px
+
+  #app
+    background: rgba(233, 133, 136, .9)
+    width: 100%
+    height: 100%
+    display: flex
+    .navy
+      display: flex
+      justify-content: start
+      flex-direction: column
+      flex-wrap: wrap
+      width: 20vw
+      height: 100vh
+      background: rgba(10, 70, 93, .9)
+    .content
+      display: flex
+      width: 80vw
+      height: 100vh
+      background: rgba(2, 28, 54, .9)
+  
+  hr
+    width: 80%
+    margin: 0 auto
+
 </style>
