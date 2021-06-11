@@ -4,7 +4,7 @@
           <img class="image-inner" src="../assets/logo.png" alt="" width="70" height="70">
       </div>
       <div class="title">
-          <p class="title-inner">DB Sistema MEVN</p>
+          <p class="title-inner">DB Sistema<br> MEVN</p>
       </div>
   </div>
 </template>

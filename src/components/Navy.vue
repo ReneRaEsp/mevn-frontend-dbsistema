@@ -2,22 +2,22 @@
 <div>
   <ul class="navy-inner">
       <li class="list-element">
-          <router-link class="button" to="/">Articulos</router-link>
-      </li>
-      <li class="list-element">
-          <router-link class="button" to="/categorias">Categorias</router-link>
-      </li>
-      <li class="list-element">
-          <router-link class="button" to="/ventas">Ventas</router-link>
-      </li>
-      <li class="list-element">
-          <router-link class="button" to="/ingresos">Ingresos</router-link>
+          <router-link class="button" to="/">Inicio</router-link>
       </li>
       <li class="list-element">
           <router-link class="button" to="/almacen">Almacen</router-link>
       </li>
       <li class="list-element">
-          <router-link class="button" to="/grafico">Grafico</router-link>
+          <router-link class="button" to="/compras">Compras</router-link>
+      </li>
+      <li class="list-element">
+          <router-link class="button" to="/ventas">Ventas</router-link>
+      </li>
+      <li class="list-element">
+          <router-link class="button" to="/accesos">Accesos</router-link>
+      </li>
+      <li class="list-element">
+          <router-link class="button" to="/consultas">Consultas</router-link>
       </li>
       <li class="list-element">
           <router-link class="button" to="/acerca-de">Acerca de</router-link>
@@ -51,7 +51,7 @@ export default {
                 font-size: 1.2rem
                 width: 100%
                 height: 2.5rem
-                border: 2px solid rgba(21, 211, 211, .0)
+                border: 2px solid rgba(21, 211, 211, .01)
                 color: rgba(200, 210, 190, 1)
                 background: rgba(24, 24, 24, .1)
                 cursor: pointer
@@ -60,6 +60,7 @@ export default {
                 display: flex
                 justify-content: center
                 align-items: center
+                border-radius: .7rem
                 &:hover
                     border: 2px solid rgba(21, 211, 211, .9)
                     color: rgba(21, 211, 211, .9)

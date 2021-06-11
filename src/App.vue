@@ -41,7 +41,10 @@ export default {
     font-size: 16px
 
   #app
-    background: rgba(233, 133, 136, .9)
+    background-image: url("assets/img/fondo.jpg")
+    background-position: center
+    background-repeat: no-repeat
+    background-size: cover
     width: 100%
     height: 100%
     display: flex
@@ -52,12 +55,13 @@ export default {
       flex-wrap: wrap
       width: 20vw
       height: 100vh
-      background: rgba(10, 70, 93, .9)
+      //background-image: url("assets/img/fondo.jpg")
+      background: rgba(10, 70, 93, .55)
     .content
       display: flex
       width: 80vw
       height: 100vh
-      background: rgba(2, 28, 54, .9)
+      background: rgba(2, 28, 54, .6)
   
   hr
     width: 80%

@@ -5,48 +5,35 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
- /* {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(*//* webpackChunkName: "about" *//* '../views/About.vue')
-  }*/
   {
     path: '/',
-    name: 'Articulos',
-    component: ()=> import(/* webpackChunkName: "articulos" */'../views/Articulos.vue')
-  },
-  {
-    path: '/categorias',
-    name: 'Categorias',
-    component: ()=> import(/* webpackChunkName: "categorias" */'../views/Categorias.vue')
-  },
-  {
-    path: '/grafico',
-    name: 'Grafico',
-    component: ()=> import(/* webpackChunkName: "grafico" */'../views/Grafico.vue')
-  },
-  {
-    path: '/ventas',
-    name: 'Ventas',
-    component: ()=> import(/* webpackChunkName: "categorias" */'../views/Ventas.vue')
-  },
-  {
-    path: '/ingresos',
-    name: 'Ingresos',
-    component: ()=> import(/* webpackChunkName: "ingresos" */'../views/Ingresos.vue')
+    name: 'Inicio',
+    component: ()=> import(/* webpackChunkName: "articulos" */'../views/Inicio.vue')
   },
   {
     path: '/almacen',
     name: 'Almacen',
     component: ()=> import(/* webpackChunkName: "almacen" */'../views/Almacen.vue')
+  },
+  {
+    path: '/compras',
+    name: 'Compras',
+    component: ()=> import(/* webpackChunkName: "articulos" */'../views/Compras.vue')
+  },
+  {
+    path: '/ventas',
+    name: 'Ventas',
+    component: ()=> import(/* webpackChunkName: "ventas" */'../views/Ventas.vue')
+  },
+  {
+    path: '/accesos',
+    name: 'Accesos',
+    component: ()=> import(/* webpackChunkName: "accesos" */'../views/Accesos.vue')
+  },
+  {
+    path: '/consultas',
+    name: 'Consultas',
+    component: ()=> import(/* webpackChunkName: "ingresos" */'../views/Consultas.vue')
   },
   {
     path: '/acerca-de',
