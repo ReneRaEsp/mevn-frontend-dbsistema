@@ -5,7 +5,7 @@
           <router-link class="button" to="/">Inicio</router-link>
       </li>
       <li class="list-element">
-          <router-link class="button" to="/almacen">Almacen</router-link>
+          <router-link class="button" to="/almacen/categorias">Almacen</router-link>
       </li>
       <li class="list-element">
           <router-link class="button" to="/compras">Compras</router-link>

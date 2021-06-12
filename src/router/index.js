@@ -16,6 +16,16 @@ const routes = [
     component: ()=> import(/* webpackChunkName: "almacen" */'../views/Almacen.vue')
   },
   {
+    path: '/almacen/categorias',
+    name: 'AlmacenCategorias',
+    component: ()=> import(/* webpackChunkName: "almacen-categorias" */'../views/subviews/Categorias.vue')
+  },
+  {
+    path: '/almacen/articulos',
+    name: 'AlmacenArticulos',
+    component: ()=> import(/* webpackChunkName: "almacen-categorias" */'../views/subviews/Articulos.vue')
+  },
+  {
     path: '/compras',
     name: 'Compras',
     component: ()=> import(/* webpackChunkName: "articulos" */'../views/Compras.vue')

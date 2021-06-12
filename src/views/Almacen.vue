@@ -1,12 +1,18 @@
 <template>
   <section class="Almacen">
-      <h1 class="title">Almacen</h1>
+      <CabeceroAlmacen/>
+      <CuerpoAlmacen/>
   </section>
 </template>
 
 <script>
+import CabeceroAlmacen from '../components/almacen/CabeceroAlmacen.vue'
+import CuerpoAlmacen from '../components/almacen/CuerpoAlmacen.vue'
 export default {
-
+    components:{
+        CabeceroAlmacen,
+        CuerpoAlmacen
+    }
 }
 </script>
 
@@ -14,6 +20,8 @@ export default {
     .Almacen
         display: flex
         justify-content: center
+        flex-direction: column
+        flex-wrap: wrap
         .title
             color: white                    
 </style>
