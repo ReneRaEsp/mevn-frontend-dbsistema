@@ -4,11 +4,13 @@
       <h3 class="title">Categorias</h3>
       <div class="modulo">
         <div class="busqueda">
-            <input v-on:input="filtrarPorNombre()" v-model="busqueda" class="input" type="text" placeholder="Buscar categoria..." name="search">
+            <input @input="filtrarPorNombreInput()" v-model="busqueda" class="input" type="text" placeholder="Buscar categoria..." name="search">
             <button @click="filtrarPorNombre()" class="submit" >Buscar</button>
         </div>
         <button class="mostrarT" @click="listar()">mostrar todo</button>
-        <button class="agregar">Agregar</button>
+        <router-link class="agregar" to="/almacen/categorias/add">
+            Agregar
+        </router-link>
       </div>
       
     <table v-if="!buscando" style="width:90%">
@@ -16,6 +18,7 @@
             <th>Nombre</th>
             <th>Descripcion</th>
             <th>Estado</th>
+            <th>Opc</th>
         </tr>
         <tr v-for="categoria of categorias" :key="categoria.id">
             <td >{{categoria.nombre}}</td>
@@ -32,9 +35,17 @@
                     </span>
                 </div>
             </td>
+            <td>
+                <router-link to="">
+                    <i class="edit fas fa-edit"></i>
+                </router-link>
+                <button class="buttonDelete" @click="eliminarRegistro()">
+                    <i class="delete fas fa-trash"></i>
+                </button>
+            </td>
         </tr>
     </table>
-    <table v-else style="width:90%">
+    <table v-else-if="buscando" style="width:90%">
         <tr>
             <th>Nombre</th>
             <th>Descripcion</th>
@@ -86,24 +97,48 @@ export default {
             this.sinCoincidencias=false
             this.buscando=false
             axios.get('categoria/list').then(function (response){
-                if(!me.buscando){
+                if(me.busqueda == ''){
                     me.categorias=response.data
                 } else {
-                    me.filtrarPorNombre()
+                    console.log('realizando busqueda')
                 }
             }).catch(function(error){
                 console.log(error)
             })
         },
         filtrarPorNombre(){
-            this.resultados = [];
-            this.categorias.forEach(categoria =>{
-                if(categoria.nombre == this.busqueda){
-                    this.resultados.push(categoria)
-                }
+            console.log('inicia la funcion')
+            let me = this
+            me.resultados = []
+            let r = []
+            me.categorias.forEach(categoria =>{
+                if(categoria.nombre === me.busqueda){
+                    r.push(categoria)
+                }           
             })
-            this.resultados == [] || this.resultados == '' ? this.sinCoincidencias = true : this.sinCoincidencias = false
-            this.buscando=true
+            me.resultados=r
+            console.log(`resultados:${me.resultados}`)
+            me.resultados == [] || me.resultados == '' || me.resultados == undefined? me.sinCoincidencias = true : me.sinCoincidencias = false
+            me.buscando= true
+        },filtrarPorNombreInput(){
+            let me = this
+            me.resultados = []
+            let r = []
+            me.categorias.forEach(categoria =>{
+                console.log(!categoria.nombre.search(me.busqueda))
+                if(!categoria.nombre.search(me.busqueda)){
+                    //console.log(`eureka: ${categoria.nombre.search(me.busqueda)}`)
+                    r.push(categoria)
+                } else {
+                    me.sinCoincidencias = true
+                }           
+            })
+            me.resultados=r
+            console.log(`resultados:${me.resultados}`)
+            me.resultados == [] || me.resultados == '' || me.resultados == undefined? me.sinCoincidencias = true : me.sinCoincidencias = false
+            me.buscando= true
+        },eliminarRegistro(){
+
         }
     },
     components:{
@@ -116,8 +151,9 @@ export default {
     .Categorias
         display: flex
         justify-content: start
-        flex-wrap: wrap
+        //flex-wrap: wrap
         flex-direction: column
+        overflow: auto
         .title
             font-size: 2.1rem
             color: rgb(100, 197, 192)
@@ -167,7 +203,8 @@ export default {
                 background: rgba(33,133,233,.5)
                 color: white
                 font-weight: bold
-                transition: .5s               
+                transition: .5s     
+                text-decoration: none          
                 &:hover
                     opacity: .7
                     cursor: pointer
@@ -189,9 +226,11 @@ export default {
         border-collapse: collapse
         align-self: center
         background: rgba(220, 222, 222, .9)
+        overflow: hidden
+        margin-bottom: 2rem
 
     td, th
-        border: 3px solid rgba(10, 40, 40, .5)
+        border: 3px solid rgba(100, 140, 140, .7)
         text-align: center
         padding: 8px
         color: rgb(10, 43, 45)
@@ -204,4 +243,22 @@ export default {
         color: rgba(190, 100, 10, .9)
         font-weight: bold
 
+    .edit
+        color: rgb(105, 143, 53)
+        margin: 0 .4rem
+        font-size: 1.2rem
+        transition: 1s
+        &:hover
+            color: rgb(170, 203, 73)
+    .delete
+        color: rgb(155, 44, 93)
+        margin: 0 .4rem
+        font-size: 1.2rem
+        transition: 1s
+        &:hover
+            color: rgb(200, 74, 133)
+    .buttonDelete
+        background: rgba(0,0,0,0)
+        border: 0px solid rgba(0,0,0,0)
+        cursor: pointer
 </style>
