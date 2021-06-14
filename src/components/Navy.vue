@@ -36,11 +36,11 @@ export default {
     .navy-inner
         display: flex
         justify-content: center
-        flex-wrap: wrap
         flex-direction: column
         color: white
         margin-top: .3rem
         padding: .5rem
+        overflow: auto
         .list-element
             color: white
             display: flex

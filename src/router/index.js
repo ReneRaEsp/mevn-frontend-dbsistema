@@ -26,6 +26,11 @@ const routes = [
     component: ()=> import(/* webpackChunkName: "agregar-categorias" */'../views/subviews/AgregarCat.vue')
   },
   {
+    path: '/almacen/categorias/add:id',
+    name: 'EditarCat',
+    component: ()=> import(/* webpackChunkName: "agregar-categorias" */'../views/subviews/AgregarCat.vue')
+  },
+  {
     path: '/almacen/articulos',
     name: 'AlmacenArticulos',
     component: ()=> import(/* webpackChunkName: "almacen-categorias" */'../views/subviews/Articulos.vue')

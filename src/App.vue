@@ -52,7 +52,8 @@ export default {
       display: flex
       justify-content: start
       flex-direction: column
-      flex-wrap: wrap
+      flex-wrap: no-wrap
+      overflow: auto
       width: 20vw
       height: 100vh
       //background-image: url("assets/img/fondo.jpg")

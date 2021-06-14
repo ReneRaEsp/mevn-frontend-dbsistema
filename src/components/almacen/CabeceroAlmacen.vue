@@ -19,10 +19,11 @@ export default {
     .cabeceroAlmacen
         display: flex
         justify-content: center
-        padding: 1rem
+        padding-top: 1rem
         width: 80vw
-        height: 10vh
-        background: rgba(20, 180, 233, .1)      
+        height: auto
+        //background: rgba(20, 180, 233, .1)
+        background: rgba(10, 70, 93, .55)
         .button
             font-weight: bold
             font-size: 1.4rem

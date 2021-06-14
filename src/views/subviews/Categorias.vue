@@ -20,9 +20,9 @@
             <th>Estado</th>
             <th>Opc</th>
         </tr>
-        <tr v-for="categoria of categorias" :key="categoria.id">
+        <tr v-for="categoria of categorias" :key="categoria._id">
             <td >{{categoria.nombre}}</td>
-            <td >{{categoria.descripcion }}</td>
+            <td >{{categoria.descripcion}}</td>
             <td >
                 <div v-if="categoria.estado">
                     <span class="activo">
@@ -36,7 +36,7 @@
                 </div>
             </td>
             <td>
-                <router-link to="">
+                <router-link :to="'/almacen/categorias/add'+categoria._id">
                     <i class="edit fas fa-edit"></i>
                 </router-link>
                 <button class="buttonDelete" @click="eliminarRegistro()">
@@ -50,6 +50,7 @@
             <th>Nombre</th>
             <th>Descripcion</th>
             <th>Estado</th>
+            <th></th>
         </tr>
         <tr v-for="resultado of resultados" :key="resultado.id">
             <td >{{resultado.nombre}}</td>
@@ -65,6 +66,14 @@
                         Inactivo
                     </span>
                 </div>
+            </td>
+            <td>
+                <router-link :to="'/almacen/categorias/add'+resultado._id">
+                    <i class="edit fas fa-edit"></i>
+                </router-link>
+                <button class="buttonDelete" @click="eliminarRegistro()">
+                    <i class="delete fas fa-trash"></i>
+                </button>
             </td>
         </tr>
     </table>
@@ -138,7 +147,7 @@ export default {
             me.resultados == [] || me.resultados == '' || me.resultados == undefined? me.sinCoincidencias = true : me.sinCoincidencias = false
             me.buscando= true
         },eliminarRegistro(){
-
+            
         }
     },
     components:{
