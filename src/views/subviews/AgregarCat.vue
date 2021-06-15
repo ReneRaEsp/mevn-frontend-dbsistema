@@ -5,7 +5,10 @@
       <div class="formAgregar">
           <input v-model="nombre" class="input" placeholder="Nombre" type="text">
           <br>
-          <textarea v-model="descripcion" class="textArea" placeholder="Descripcion" name="" id="" cols="10" rows="5"></textarea>
+          <textarea v-model="descripcion" class="textArea" placeholder="Descripcion" cols="10" rows="5"></textarea>
+            <div v-for="mensaje of validarMensaje" :key="mensaje">
+                <p class="errores">* {{mensaje}} </p>
+            </div>
           <button class="guardar" @click="guardar()">
               Guardar
           </button>
@@ -26,10 +29,15 @@ export default {
             descripcion:'',
             ruta:this.$router.currentRoute.fullPath,
             editar:false,
+            validar:0,
+            validarMensaje:[]
         }
     },
     methods:{
         guardar(){
+            this.validacion()
+            if(this.validar<=0){
+
             if (!this.editar){
                 axios.post('categoria/add', {'nombre': this.nombre, 'descripcion': this.descripcion})
                 .then((response)=>{
@@ -50,6 +58,10 @@ export default {
                 })
                 this.limpiar()
                 this.$router.push({path: '/almacen/categorias/'})
+            }
+
+            }else{
+                console.log('error de validacion')
             }
         },
         opcion(){
@@ -73,9 +85,27 @@ export default {
             })
             console.log(this.$router.currentRoute.params.id)
         },
+        validacion(){
+            let nombre =  this.nombre.trim()
+            let descripcion = this.descripcion.trim() 
+            this.validar=0
+            this.validarMensaje=[]
+            if(nombre.length<1 || nombre.length>50){
+                this.validarMensaje.push('debes ingresar un nombre y este no puede exceder los 50 caracteres')
+            }
+            if(descripcion.length<1 || descripcion.length>255){
+                this.validarMensaje.push('debes ingresar una descripción y esta no puede exceder los 255 caracteres')
+            }
+            if(this.validarMensaje.length){
+                this.validar=1
+            }
+            return this.validar
+        },
         limpiar(){
             this.nombre=''
             this.descripcion=''
+            this.validar=0
+            this.validarMensaje=[]
         }
     },
     created() {
@@ -127,6 +157,11 @@ export default {
                 max-height: 35vh
                 align-self: center
                 padding: .5rem
+            .errores
+                font-size: 10px
+                font-weight: bold
+                color: rgb(200, 80, 80)
+                margin-top: 1rem    
             .input
                 align-self: center
                 width: 35vw
