@@ -26,12 +26,12 @@
             <td >
                 <div v-if="categoria.estado">
                     <span class="activo">
-                        Activo
+                        Activa
                     </span>
                 </div>
                 <div v-else>
                     <span class="inactivo">
-                        Inactivo
+                        Inactiva
                     </span>
                 </div>
             </td>
@@ -39,8 +39,11 @@
                 <router-link :to="'/almacen/categorias/add'+categoria._id">
                     <i class="edit fas fa-edit"></i>
                 </router-link>
-                <button class="buttonDelete" @click="eliminarRegistro()">
-                    <i class="delete fas fa-trash"></i>
+                <button v-if="categoria.estado == 0" class="buttonDelete" @click="activar(categoria._id)">
+                    <i class="delete fas fa-lock-open"></i>
+                </button>
+                <button v-else class="buttonDelete" @click="desactivar(categoria._id)">
+                   <i class="delete fas fa-lock"></i>
                 </button>
             </td>
         </tr>
@@ -52,18 +55,18 @@
             <th>Estado</th>
             <th></th>
         </tr>
-        <tr v-for="resultado of resultados" :key="resultado.id">
+        <tr v-for="resultado of resultados" :key="resultado._id">
             <td >{{resultado.nombre}}</td>
             <td >{{resultado.descripcion }}</td>
             <td >
                 <div v-if="resultado.estado">
                     <span class="activo">
-                        Activo
+                        Activa
                     </span>
                 </div>
                 <div v-else>
                     <span class="inactivo">
-                        Inactivo
+                        Inactiva
                     </span>
                 </div>
             </td>
@@ -71,8 +74,11 @@
                 <router-link :to="'/almacen/categorias/add'+resultado._id">
                     <i class="edit fas fa-edit"></i>
                 </router-link>
-                <button class="buttonDelete" @click="eliminarRegistro()">
-                    <i class="delete fas fa-trash"></i>
+                <button v-if="resultado.estado == 0" class="buttonDelete" @click="activar(resultado._id)">
+                    <i class="delete fas fa-lock-open"></i>
+                </button>
+                <button v-else class="buttonDelete" @click="desactivar(resultado._id)">
+                   <i class="delete fas fa-lock"></i>
                 </button>
             </td>
         </tr>
@@ -114,6 +120,7 @@ export default {
             }).catch(function(error){
                 console.log(error)
             })
+            this.limpiar()
         },
         filtrarPorNombre(){
             console.log('inicia la funcion')
@@ -146,8 +153,34 @@ export default {
             console.log(`resultados:${me.resultados}`)
             me.resultados == [] || me.resultados == '' || me.resultados == undefined? me.sinCoincidencias = true : me.sinCoincidencias = false
             me.buscando= true
-        },eliminarRegistro(){
-            
+        },activar(_id){
+            axios.put('/categoria/activate', {'_id':_id})
+            .then((response)=>{
+                console.log(response)
+                
+            }).catch((error)=>{
+                console.log(error)
+            })
+            this.limpiar()
+            this.listar()
+            this.$forceUpdate()
+        },desactivar(_id){
+            axios.put('/categoria/deactivate', {'_id':_id})
+            .then((response)=>{
+                console.log(response)
+                
+            }).catch((error)=>{
+                console.log(error)
+            })
+            this.limpiar()
+            this.listar()
+        },
+        limpiar(){
+            //this.categorias=[]
+            this.busqueda=''
+            this.buscando=false
+            this.resultados=[]
+            this.sinCoincidencias=false  
         }
     },
     components:{
@@ -180,6 +213,7 @@ export default {
         .modulo
             display: flex
             justify-content: space-around
+            flex-wrap: wrap
             padding: 1rem
             background: rgba(3, 33, 53, .7)
             border-radius: 1rem 1rem 0 0

@@ -38,6 +38,7 @@ export default {
                     console.log(error)
                     alert('no se pudo agregar el registro')
                 })
+                this.limpiar()
                 this.$router.push({path: '/almacen/categorias/'})
             } else {
                 axios.put('categoria/update', {'_id':this.$router.currentRoute.params.id, 'nombre':this.nombre, 'descripcion':this.descripcion})
@@ -47,6 +48,7 @@ export default {
                     console.log(error)
                     alert('no se pudo actualizar el registro')
                 })
+                this.limpiar()
                 this.$router.push({path: '/almacen/categorias/'})
             }
         },
@@ -70,6 +72,10 @@ export default {
                 console.log('error del query :' + error)
             })
             console.log(this.$router.currentRoute.params.id)
+        },
+        limpiar(){
+            this.nombre=''
+            this.descripcion=''
         }
     },
     created() {
