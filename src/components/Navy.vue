@@ -4,10 +4,10 @@
       <li class="list-element">
           <router-link class="button" to="/">Inicio</router-link>
       </li>
-      <li class="list-element">
+      <li v-if="!logueado" class="list-element">
           <router-link class="button" to="/login">Iniciar Sesion</router-link>
       </li>
-      <li class="list-element">
+      <li v-if="esAdministrador || esAlmacenero" class="list-element">
           <router-link class="button" to="/almacen/categorias">Almacen</router-link>
       </li>
       <li class="list-element">
@@ -25,7 +25,7 @@
       <li class="list-element">
           <router-link class="button" to="/acerca-de">Acerca de</router-link>
       </li>
-      <li class="list-element">
+      <li v-if="logueado" class="list-element">
           <button class="button" @click="salir()">
               Cerrar Sesion
           </button>
@@ -40,21 +40,19 @@ export default {
     this.$store.dispatch('autoLogin')
     },
     computed:{
-    noLogueado(){
-        return !this.$store.state.usuario
-    },
     logueado(){
+        console.log(this.$store.state.usuario.rol)
      return this.$store.state.usuario
     },
     esAdministrador(){
-      return this.$store.state.usuario && this.$store.usuario.rol == 'Administrador'
+      return this.$store.state.usuario && this.$store.state.usuario.rol == 'Administrador'
     },
     esAlmacenero(){
-      return this.$store.state.usuario && this.$store.usuario.rol == 'Almacenero'
+      return this.$store.state.usuario && this.$store.state.usuario.rol == 'Almacenero'
 
     },
     esVendedor(){
-      return this.$store.state.usuario && this.$store.usuario.rol == 'Vendedor'
+      return this.$store.state.usuario && this.$store.state.usuario.rol == 'Vendedor'
     }
   },
   methods:{
@@ -78,10 +76,10 @@ export default {
             color: white
             display: flex
             justify-content: center
-            margin-top: 1rem
+            margin-top: .3rem
             .button
                 font-weight: bold
-                font-size: 1.2rem
+                font-size: 1rem
                 width: 100%
                 height: 2.5rem
                 border: 2px solid rgba(21, 211, 211, .01)
@@ -89,6 +87,7 @@ export default {
                 background: rgba(24, 24, 24, .1)
                 cursor: pointer
                 transition: 1s
+                text-align: center
                 text-decoration: none
                 display: flex
                 justify-content: center
