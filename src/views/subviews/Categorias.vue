@@ -111,7 +111,7 @@ export default {
             let me= this;
             this.sinCoincidencias=false
             this.buscando=false
-            axios.get('categoria/list').then(function (response){
+            axios.get('categoria/list').then((response)=>{
                 if(me.busqueda == ''){
                     me.categorias=response.data
                 } else {
@@ -195,7 +195,8 @@ export default {
         justify-content: start
         //flex-wrap: wrap
         flex-direction: column
-        overflow: auto
+        overflow-y: auto
+        overflow-x: hidden
         .title
             font-size: 2.1rem
             color: rgb(100, 197, 192)

@@ -5,6 +5,9 @@
           <router-link class="button" to="/">Inicio</router-link>
       </li>
       <li class="list-element">
+          <router-link class="button" to="/login">Iniciar Sesion</router-link>
+      </li>
+      <li class="list-element">
           <router-link class="button" to="/almacen/categorias">Almacen</router-link>
       </li>
       <li class="list-element">
@@ -22,13 +25,43 @@
       <li class="list-element">
           <router-link class="button" to="/acerca-de">Acerca de</router-link>
       </li>
+      <li class="list-element">
+          <button class="button" @click="salir()">
+              Cerrar Sesion
+          </button>
+      </li>
   </ul>
   </div>
 </template>
 
 <script>
 export default {
+    created(){
+    this.$store.dispatch('autoLogin')
+    },
+    computed:{
+    noLogueado(){
+        return !this.$store.state.usuario
+    },
+    logueado(){
+     return this.$store.state.usuario
+    },
+    esAdministrador(){
+      return this.$store.state.usuario && this.$store.usuario.rol == 'Administrador'
+    },
+    esAlmacenero(){
+      return this.$store.state.usuario && this.$store.usuario.rol == 'Almacenero'
 
+    },
+    esVendedor(){
+      return this.$store.state.usuario && this.$store.usuario.rol == 'Vendedor'
+    }
+  },
+  methods:{
+      salir(){
+          this.$store.dispatch('salir')
+      }
+  }
 }
 </script>
 

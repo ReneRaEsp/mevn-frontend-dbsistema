@@ -27,6 +27,26 @@ export default {
     return{
 
     }
+  },
+  created(){
+    //this.$store.dispatch('autoLogin')
+  },
+  computed:{
+   /* logueado(){
+      return this.$store.state.usuario
+    },
+    esAdministrador(){
+      return this.$store.state.usuario && this.$store.usuario.rol == 'Administrador'
+    },
+    esAlmacenero(){
+      return this.$store.state.usuario && this.$store.usuario.rol == 'Almacenero'
+    },
+    esVendedor(){
+      return this.$store.state.usuario && this.$store.usuario.rol == 'Vendedor'
+    }*/
+  },
+  methods:{
+
   }
 }
 </script>
@@ -68,4 +88,21 @@ export default {
     width: 80%
     margin: 0 auto
 
+  ::-webkit-scrollbar
+    background: rgba(2, 28, 54, .6)
+    width: 15px
+    &:hover
+      background: rgba(2, 28, 54, .5)
+
+  ::-webkit-scrollbar-track
+    background: gba(20, 128, 154, .6)
+
+  ::-webkit-scrollbar-thumb
+    background: rgba(12, 18, 34, .6)
+    width: 1px
+    border-radius: 1rem
+    &:hover
+      background: rgba(12, 18, 34, .4)
+    &:active
+      background: rgba(12, 18, 34, .8)
 </style>
