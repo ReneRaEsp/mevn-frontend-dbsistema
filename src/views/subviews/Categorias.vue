@@ -109,9 +109,11 @@ export default {
     methods:{
         listar(){
             let me= this;
+            let header = {'Token' : this.$store.state.token}
+            let configuracion ={ headers:header }
             this.sinCoincidencias=false
             this.buscando=false
-            axios.get('categoria/list').then((response)=>{
+            axios.get('categoria/list', configuracion).then((response)=>{
                 if(me.busqueda == ''){
                     me.categorias=response.data
                 } else {
@@ -133,7 +135,6 @@ export default {
                 }           
             })
             me.resultados=r
-            console.log(`resultados:${me.resultados}`)
             me.resultados == [] || me.resultados == '' || me.resultados == undefined? me.sinCoincidencias = true : me.sinCoincidencias = false
             me.buscando= true
         },filtrarPorNombreInput(){
@@ -141,7 +142,6 @@ export default {
             me.resultados = []
             let r = []
             me.categorias.forEach(categoria =>{
-                console.log(!categoria.nombre.search(me.busqueda))
                 if(!categoria.nombre.search(me.busqueda)){
                     //console.log(`eureka: ${categoria.nombre.search(me.busqueda)}`)
                     r.push(categoria)
@@ -150,13 +150,14 @@ export default {
                 }           
             })
             me.resultados=r
-            console.log(`resultados:${me.resultados}`)
             me.resultados == [] || me.resultados == '' || me.resultados == undefined? me.sinCoincidencias = true : me.sinCoincidencias = false
             me.buscando= true
         },activar(_id){
-            axios.put('/categoria/activate', {'_id':_id})
+            let header = {'Token' : this.$store.state.token}
+            let configuracion ={ headers:header }
+            axios.put('/categoria/activate', {'_id':_id}, configuracion)
             .then((response)=>{
-                console.log(response)
+                console.log('Categoria activada: ' + response.data.nombre)
                 
             }).catch((error)=>{
                 console.log(error)
@@ -165,9 +166,11 @@ export default {
             this.listar()
             this.$forceUpdate()
         },desactivar(_id){
-            axios.put('/categoria/deactivate', {'_id':_id})
+            let header = {'Token' : this.$store.state.token}
+            let configuracion ={ headers:header }
+            axios.put('/categoria/deactivate', {'_id':_id}, configuracion)
             .then((response)=>{
-                console.log(response)
+                console.log('Categoria desactivada: ' + response.data.nombre)
                 
             }).catch((error)=>{
                 console.log(error)

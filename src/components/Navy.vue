@@ -10,16 +10,16 @@
       <li v-if="esAdministrador || esAlmacenero" class="list-element">
           <router-link class="button" to="/almacen/categorias">Almacen</router-link>
       </li>
-      <li class="list-element">
+      <li v-if="esAdministrador || esVendedor" class="list-element">
           <router-link class="button" to="/compras">Compras</router-link>
       </li>
-      <li class="list-element">
+      <li v-if="esAdministrador || esVendedor" class="list-element">
           <router-link class="button" to="/ventas">Ventas</router-link>
       </li>
-      <li class="list-element">
+      <li v-if="esAdministrador" class="list-element">
           <router-link class="button" to="/accesos">Accesos</router-link>
       </li>
-      <li class="list-element">
+      <li v-if="esAdministrador || esVendedor || esAlmacenero" class="list-element">
           <router-link class="button" to="/consultas">Consultas</router-link>
       </li>
       <li class="list-element">
@@ -41,7 +41,6 @@ export default {
     },
     computed:{
     logueado(){
-        console.log(this.$store.state.usuario.rol)
      return this.$store.state.usuario
     },
     esAdministrador(){

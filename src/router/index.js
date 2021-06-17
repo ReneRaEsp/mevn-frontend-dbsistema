@@ -23,9 +23,6 @@ const routes = [
     component: ()=> import(/* webpackChunkName: "login" */'../views/subviews/inicio/Login.vue'),
     meta:{
       libre:true,
-      administrador:true,
-      almacenero:true,
-      vendedor:true
     }
   },
   {
@@ -34,8 +31,8 @@ const routes = [
     component: ()=> import(/* webpackChunkName: "almacen" */'../views/Almacen.vue'),
     meta:{
       administrador: true,
-      almacenero: false,
-      vendedor: true
+      almacenero: true,
+      vendedor: false
     }
   },
   {
@@ -44,8 +41,8 @@ const routes = [
     component: ()=> import(/* webpackChunkName: "almacen-categorias" */'../views/subviews/Categorias.vue'),
     meta:{
       administrador: true,
-      almacenero: false,
-      vendedor: true
+      almacenero: true,
+      vendedor: false
     }
   },
   {
@@ -54,8 +51,8 @@ const routes = [
     component: ()=> import(/* webpackChunkName: "agregar-categorias" */'../views/subviews/AgregarCat.vue'),
     meta:{
       administrador: true,
-      almacenero: false,
-      vendedor: true
+      almacenero: true,
+      vendedor: false
     }
   },
   {
@@ -64,8 +61,8 @@ const routes = [
     component: ()=> import(/* webpackChunkName: "agregar-categorias" */'../views/subviews/AgregarCat.vue'),
     meta:{
       administrador: true,
-      almacenero: false,
-      vendedor: true
+      almacenero: true,
+      vendedor: false
     }
   },
   {
@@ -74,8 +71,8 @@ const routes = [
     component: ()=> import(/* webpackChunkName: "almacen-categorias" */'../views/subviews/Articulos.vue'),
     meta:{
       administrador: true,
-      almacenero: false,
-      vendedor: true
+      almacenero: true,
+      vendedor: false
     }
   },
   {
@@ -105,27 +102,25 @@ const routes = [
     meta:{
       administrador: true,
       almacenero: false,
-      vendedor: true
+      vendedor: false
     }
   },
   {
     path: '/consultas',
     name: 'Consultas',
-    component: ()=> import(/* webpackChunkName: "ingresos" */'../views/Consultas.vue'),
+    component: ()=> import(/* webpackChunkName: "consultas" */'../views/Consultas.vue'),
     meta:{
       administrador: true,
-      almacenero: false,
+      almacenero: true,
       vendedor: true
     }
   },
   {
     path: '/acerca-de',
-    name: 'AcercaD',
+    name: 'AcercaDe',
     component: ()=> import(/* webpackChunkName: "acercaDe" */'../views/AcercaDe.vue'),
     meta:{
-      administrador: true,
-      almacenero: false,
-      vendedor: true
+      libre: true
     }
   }
 ]

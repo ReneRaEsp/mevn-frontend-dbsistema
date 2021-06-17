@@ -2,7 +2,7 @@
   <section class="agregarCat">
       <CabeceroAlmacen/>
       <h3 class="title">Agregar Categoria</h3>
-      <div class="formAgregar">
+      <div @keyup.enter="guardar()" class="formAgregar">
           <input v-model="nombre" class="input" placeholder="Nombre" type="text">
           <br>
           <textarea v-model="descripcion" class="textArea" placeholder="Descripcion" cols="10" rows="5"></textarea>
@@ -39,7 +39,9 @@ export default {
             if(this.validar<=0){
 
             if (!this.editar){
-                axios.post('categoria/add', {'nombre': this.nombre, 'descripcion': this.descripcion})
+                let header = {'Token' : this.$store.state.token}
+                let configuracion ={ headers:header }
+                axios.post('categoria/add', {'nombre': this.nombre, 'descripcion': this.descripcion}, configuracion)
                 .then((response)=>{
                     console.log('documento agregado exitosamente: ' + response.data.nombre)
                 }).catch((error)=>{
@@ -49,7 +51,9 @@ export default {
                 this.limpiar()
                 this.$router.push({path: '/almacen/categorias/'})
             } else {
-                axios.put('categoria/update', {'_id':this.$router.currentRoute.params.id, 'nombre':this.nombre, 'descripcion':this.descripcion})
+                let header = {'Token' : this.$store.state.token}
+                let configuracion ={ headers:header }
+                axios.put('categoria/update', {'_id':this.$router.currentRoute.params.id, 'nombre':this.nombre, 'descripcion':this.descripcion}, configuracion)
                 .then((response)=>{
                     console.log('documento actualizado exitosamente: ' + response.data.nombre)
                 }).catch((error)=>{
@@ -75,7 +79,9 @@ export default {
             }
         },
         buscarPorId(){
-            axios.get('categoria/query?_id='+this.$router.currentRoute.params.id)
+            let header = {'Token' : this.$store.state.token}
+            let configuracion ={ headers:header }
+            axios.get('categoria/query?_id='+this.$router.currentRoute.params.id, configuracion)
             .then((response)=>{
                 console.log('respuesta' + response.data.nombre)
                 this.nombre = response.data.nombre

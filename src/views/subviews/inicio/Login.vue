@@ -1,7 +1,7 @@
 <template>
   <section class="login">
     <h2 class="title">Acceder al sistema</h2>
-    <div class="formLogin">
+    <div v-on:keyup.enter="ingresar()" class="formLogin">
       <input 
       class="input" 
       v-model="email" 
@@ -12,6 +12,9 @@
       class="input" 
       type="password"
       placeholder="Contraseña...">
+      <div class="mensajeError" v-for="mensaje of mensajes" :key="mensaje">
+        <p class="error">* {{mensaje}}</p>
+      </div>
       <button class="ingresar" @click="ingresar()">Ingresar</button>
     </div>
   </section>
@@ -23,25 +26,51 @@ export default {
   data(){
     return{
       email:'',
-      password:''
+      password:'',
+      mensajes:[],
+      errorMensaje:''
     }
   }, 
   methods:{
     ingresar(){
+      this.validar()
+      if(!this.mensajes.length){
       axios.post('/usuario/login', {'email':this.email, 'password':this.password})
       .then(response=>{
-        //console.log(response.data.user)
-        //console.log(response.data.tokenReturn)
         return response.data
       })
       .then(data=>{
-        console.log(data.tokenReturn)
         this.$store.dispatch('guardarToken', data.tokenReturn)
+        this.limpiar()
         this.$router.push({name:'Inicio'})
       })
       .catch(error=>{
         console.log(error)
+        this.errorMensaje='Usuario inexistente o contraseña incorrecta'
+        this.mensajes.push(this.errorMensaje)
       })
+      } else {
+        console.log('Debe validar los campos')
+      }
+
+    },
+    validar(){
+      this.mensajes=[]
+      let mensaje=''
+      if(this.email.length < 1){
+        mensaje ='Debes introducir un email válido'
+        this.mensajes.push(mensaje)
+      }
+      if(this.password.length < 1){
+        mensaje='Debes introducir una contraseña válida'
+        this.mensajes.push(mensaje)
+      }
+    },
+    limpiar(){
+      this.mensajes=[],
+      this.errorMensaje='',
+      this.email='',
+      this.password=''
     }
   }
 }
@@ -102,7 +131,15 @@ export default {
         margin-top: 1rem  
         &:hover
           opacity: .7
-          cursor: pointer   
+          cursor: pointer
+      .mensajeError
+        min-height: 5vh
+        .error
+          font-weight: bold
+          margin-top: 20px
+          color: rgb(130, 50, 70)
+
+           
 
     
 
