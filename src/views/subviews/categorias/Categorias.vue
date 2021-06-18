@@ -1,5 +1,5 @@
 <template>
-  <section class="Categorias">
+  <section class="categorias">
       <CabeceroAlmacen/>
       <h3 class="title">Categorias</h3>
       <div class="modulo">
@@ -92,7 +92,7 @@
 
 <script>
 import axios from 'axios'
-import CabeceroAlmacen from '../../components/almacen/CabeceroAlmacen.vue'
+import CabeceroAlmacen from '../../../components/almacen/CabeceroAlmacen.vue'
 export default {
     data(){
         return {
@@ -113,11 +113,12 @@ export default {
             let configuracion ={ headers:header }
             this.sinCoincidencias=false
             this.buscando=false
-            axios.get('categoria/list', configuracion).then((response)=>{
+            axios.get('categoria/list', configuracion)
+            .then((response)=>{
                 if(me.busqueda == ''){
                     me.categorias=response.data
                 } else {
-                    console.log('realizando busqueda')
+                    console.log('Realizando busqueda')
                 }
             }).catch(function(error){
                 console.log(error)
@@ -193,7 +194,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
-    .Categorias
+    .categorias
         display: flex
         justify-content: start
         //flex-wrap: wrap

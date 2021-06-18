@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import CabeceroAlmacen from '../../components/almacen/CabeceroAlmacen.vue'
+import CabeceroAlmacen from '../../../components/almacen/CabeceroAlmacen.vue'
 import axios from 'axios'
 export default {
     data(){
@@ -43,7 +43,7 @@ export default {
                 let configuracion ={ headers:header }
                 axios.post('categoria/add', {'nombre': this.nombre, 'descripcion': this.descripcion}, configuracion)
                 .then((response)=>{
-                    console.log('documento agregado exitosamente: ' + response.data.nombre)
+                    console.log('Categoria agregada exitosamente: ' + response.data.nombre)
                 }).catch((error)=>{
                     console.log(error)
                     alert('no se pudo agregar el registro')
@@ -55,7 +55,7 @@ export default {
                 let configuracion ={ headers:header }
                 axios.put('categoria/update', {'_id':this.$router.currentRoute.params.id, 'nombre':this.nombre, 'descripcion':this.descripcion}, configuracion)
                 .then((response)=>{
-                    console.log('documento actualizado exitosamente: ' + response.data.nombre)
+                    console.log('Categoria actualizada exitosamente: ' + response.data.nombre)
                 }).catch((error)=>{
                     console.log(error)
                     alert('no se pudo actualizar el registro')

@@ -1,5 +1,5 @@
 <template>
-  <section class="AcercaDe">
+  <section class="acercaDe">
       <h1 class="title">Acerca De</h1>
   </section>
 </template>
@@ -10,8 +10,8 @@ export default {
 }
 </script>
 
-<style scope lang="sass">
-    .AcercaDe
+<style scoped lang="sass">
+    .acercaDe
         display: flex
         justify-content: center
         .title

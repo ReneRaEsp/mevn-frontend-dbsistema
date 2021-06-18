@@ -38,7 +38,7 @@ const routes = [
   {
     path: '/almacen/categorias',
     name: 'AlmacenCategorias',
-    component: ()=> import(/* webpackChunkName: "almacen-categorias" */'../views/subviews/Categorias.vue'),
+    component: ()=> import(/* webpackChunkName: "almacen-categorias" */'../views/subviews/categorias/Categorias.vue'),
     meta:{
       administrador: true,
       almacenero: true,
@@ -48,7 +48,7 @@ const routes = [
   {
     path: '/almacen/categorias/add',
     name: 'AgregarCat',
-    component: ()=> import(/* webpackChunkName: "agregar-categorias" */'../views/subviews/AgregarCat.vue'),
+    component: ()=> import(/* webpackChunkName: "agregar-categorias" */'../views/subviews/categorias/AgregarCat.vue'),
     meta:{
       administrador: true,
       almacenero: true,
@@ -58,7 +58,7 @@ const routes = [
   {
     path: '/almacen/categorias/add:id',
     name: 'EditarCat',
-    component: ()=> import(/* webpackChunkName: "agregar-categorias" */'../views/subviews/AgregarCat.vue'),
+    component: ()=> import(/* webpackChunkName: "agregar-categorias" */'../views/subviews/categorias/AgregarCat.vue'),
     meta:{
       administrador: true,
       almacenero: true,
@@ -68,7 +68,7 @@ const routes = [
   {
     path: '/almacen/articulos',
     name: 'AlmacenArticulos',
-    component: ()=> import(/* webpackChunkName: "almacen-categorias" */'../views/subviews/Articulos.vue'),
+    component: ()=> import(/* webpackChunkName: "almacen-categorias" */'../views/subviews/articulos/Articulos.vue'),
     meta:{
       administrador: true,
       almacenero: true,
@@ -96,9 +96,29 @@ const routes = [
     }
   },
   {
-    path: '/accesos',
-    name: 'Accesos',
-    component: ()=> import(/* webpackChunkName: "accesos" */'../views/Accesos.vue'),
+    path: '/accesos/usuarios',
+    name: 'Usuarios',
+    component: ()=> import(/* webpackChunkName: "accesos" */'../views/subviews/usuarios/Usuarios.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: false
+    }
+  },
+  {
+    path: '/accesos/add-user',
+    name: 'AgregarUsuario',
+    component: ()=> import(/* webpackChunkName: "agregar usuarios" */'../views/subviews/usuarios/AgregarUsr.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: false
+    }
+  },
+  {
+    path: '/accesos/add-user:id',
+    name: 'EditarUsuario',
+    component: ()=> import(/* webpackChunkName: "editar usuario" */'../views/subviews/usuarios/AgregarUsr.vue'),
     meta:{
       administrador: true,
       almacenero: false,

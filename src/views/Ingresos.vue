@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style scope lang="sass">
+<style scoped lang="sass">
     .Ingresos
         display: flex
         justify-content: center

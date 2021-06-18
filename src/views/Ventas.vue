@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style scope lang="sass">
+<style scoped lang="sass">
     .Ventas
         display: flex
         justify-content: center

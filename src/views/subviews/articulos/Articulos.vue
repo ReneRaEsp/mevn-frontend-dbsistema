@@ -1,5 +1,5 @@
 <template>
-  <section class="Articulos">
+  <section class="articulos">
       <CabeceroAlmacen/>
       <h3 class="title">Articulos</h3>
       <div class="modulo">
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import CabeceroAlmacen from '../../components/almacen/CabeceroAlmacen.vue'
+import CabeceroAlmacen from '../../../components/almacen/CabeceroAlmacen.vue'
 export default {
     components:{
         CabeceroAlmacen
@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
-    .Articulos
+    .articulos
         display: flex
         justify-content: start
         flex-wrap: wrap

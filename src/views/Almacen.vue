@@ -1,5 +1,5 @@
 <template>
-  <section class="Almacen">
+  <section class="almacen">
       <CabeceroAlmacen/>
       <CuerpoAlmacen/>
   </section>
@@ -16,8 +16,8 @@ export default {
 }
 </script>
 
-<style scope lang="sass">
-    .Almacen
+<style scoped lang="sass">
+    .almacen
         display: flex
         justify-content: center
         flex-direction: column

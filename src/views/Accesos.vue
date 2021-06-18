@@ -1,15 +1,20 @@
 <template>
   <section class="accesos">
-      <h2>Accesos works!</h2>
+    <router-view />
   </section>
 </template>
 
 <script>
 export default {
-
-}
+  components: {},
+};
 </script>
 
-<style>
-
+<style scoped lang="sass">
+.accesos
+	display: flex
+  justify-content: center
+  width: 80vw
+  flex-direction: column
+  //flex-wrap: wrap
 </style>
