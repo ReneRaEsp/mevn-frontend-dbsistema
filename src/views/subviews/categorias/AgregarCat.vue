@@ -65,7 +65,7 @@ export default {
             }
 
             }else{
-                console.log('error de validacion')
+                console.log('Error de validacion')
             }
         },
         opcion(){

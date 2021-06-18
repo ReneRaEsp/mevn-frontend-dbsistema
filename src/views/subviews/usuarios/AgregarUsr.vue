@@ -21,7 +21,7 @@
 			<div class="duo">
 				<label for="numDoc" class="label">Documento</label>
 				<br>
-				<input v-model.number="documento" class="input" name="numDoc"
+				<input v-model="documento" class="input" name="numDoc"
 				placeholder="Numero de documento" type="number" >
 			</div>
 			<div class="duo">
@@ -49,7 +49,7 @@
 			<div class="duo">
 				<label class="label" for="telefono">Telefono</label>
 				<br>
-				<input v-model.number="telefono" class="input" name="telefono"
+				<input v-model="telefono" class="input" name="telefono"
 				placeholder="Telefono" type="number">
 			</div>
 			<div class="duo">
@@ -69,9 +69,9 @@
 				</button>
 			</div>
 		</div>
-        <!--<div v-for="mensaje of validarMensaje" :key="mensaje">
+        <div v-for="mensaje of validarMensaje" :key="mensaje">
             <p class="errores">* {{mensaje}} </p>
-        </div>-->
+        </div>
 		<br>
         
     </div>
@@ -85,18 +85,23 @@ export default {
 		return{
 			email:'',
 			nombre:'',
-			documento:0,
+			documento:'',
 			rol:'',
 			password:'',
 			confirmar:'',
 			direccion:'',
-			telefono:0,
+			telefono:'',
 			ruta:this.$router.currentRoute.fullPath,
-			editar:false
+			editar:false,
+			validar:0,
+			validarMensaje:[]
 		}
 	},
 	methods:{
 		guardar(){
+			this.validacion()
+			if(this.validar<=0){
+
 			if(!this.editar){
 				let header = {'Token':this.$store.state.token}
 				let configuracion = {headers:header}
@@ -105,7 +110,6 @@ export default {
 				'telefono':this.telefono, 'direccion':this.direccion}, configuracion)
 				.then((response)=>{
 					console.log('Usuario agregado exitosamente: ' + response.data.nombre + ' email: ' + response.data.email)
-					
 				}).catch((error)=>{
 					console.log(error)
 					alert('no se pudo agregar el usuario')
@@ -124,6 +128,10 @@ export default {
 				})
 				this.limpiar()
 				this.$router.push({path:'/accesos/usuarios'})
+			}
+
+			}else{
+				console.log('Error en la validacion')
 			}
 		},
 		opcion(){
@@ -149,6 +157,56 @@ export default {
 			}).catch((error)=>{
 				console.log('error del query: ' + error)
 			})
+		},
+		doTrim(){
+			this.nombre = this.nombre.trim()
+			this.email =  this.email.trim()
+			this.documento = this.documento.trim()
+			this.rol = this.rol.trim()
+			this.direccion = this.direccion.trim()
+			this.password = this.password.trim()
+			this.confirmar = this.confirmar.trim()
+		},
+		validacion(){
+			this.validar=0
+			this.validarMensaje=[]
+			this.doTrim()
+			let nombre = this.nombre
+			let email =  this.email
+			let documento = this.documento
+			let rol = this.rol
+			let direccion = this.direccion
+			let password = this.password
+			let confirmar = this.confirmar
+			if(nombre.length < 1 || nombre.length > 50){
+				this.validarMensaje.push('Debes ingresar un nombre y este no debe exceder los 50 caracteres')
+			}
+			if(email.length < 1 || email.length > 50){
+				this.validarMensaje.push('Debes ingresar un email y este no debe exceder los 50 caracteres')
+			}
+			if(documento.length < 1 || documento.length > 20){
+				this.validarMensaje.push('Debes ingresar un documento y este no debe exceder los 20 caracteres')
+			}
+			if(rol != 'Administrador'){
+				if(rol != 'Almacenero'){
+					if(rol != 'Vendedor'){
+						this.validarMensaje.push('Los unicos roles validos son "Administrador", "Almacenero" y "Vendedor"')
+					}
+				}
+			}
+			if(direccion.length < 1 || direccion.length > 70){
+				this.validarMensaje.push('Debes ingresar un direccion y este no debe exceder los 50 caracteres')
+			}
+			if(password.length < 1 || password.length > 64){
+				this.validarMensaje.push('Debes introducir un password y este debe ser menos a 64 caracteres')
+			}
+			if(password !== confirmar){
+				this.validarMensaje.push('Los password que has ingresado no coinciden')
+			}
+			if(this.validarMensaje.length){
+				this.validar=1
+			}
+			return this.validar
 		},
 		limpiar(){
 			this.email = ''
@@ -177,7 +235,6 @@ export default {
 	height: 100vh
 	flex-wrap: wrap
 	flex-direction: column
-	overflow: auto
 	.title
 		font-size: 1.5rem
 		color: white
@@ -199,7 +256,8 @@ export default {
 		padding: 3rem
 		background: rgba(3, 33, 53, .9)
 		border-radius: .7rem
-		overflow: auto
+		overflow-y: auto
+		overflow-x: hidden
 		.textArea
 			min-width: 20vw
 			min-height: 20vh
