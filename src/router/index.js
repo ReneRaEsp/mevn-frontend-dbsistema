@@ -68,7 +68,7 @@ const routes = [
   {
     path: '/almacen/articulos',
     name: 'AlmacenArticulos',
-    component: ()=> import(/* webpackChunkName: "almacen-categorias" */'../views/subviews/articulos/Articulos.vue'),
+    component: ()=> import(/* webpackChunkName: "almacen-articulos" */'../views/subviews/articulos/Articulos.vue'),
     meta:{
       administrador: true,
       almacenero: true,
@@ -86,9 +86,79 @@ const routes = [
     }
   },
   {
+    path: '/compras/ingresos',
+    name: 'Ingresos',
+    component: ()=> import(/* webpackChunkName: "ingresos" */ '../views/subviews/ingresos/Ingresos.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: true
+    }
+  },
+  {
+    path: '/compras/ingresos/add',
+    name: 'AgregarIng',
+    component: ()=> import(/* webpackChunkName: "agregar-ingresos" */ '../views/subviews/ingresos/AgregarIng.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: true
+    }
+  },
+  {
+    path: '/compras/ingresos/add:id',
+    name: 'EditarIng',
+    component: ()=> import(/* webpackChunkName: "editar-ingresos" */ '../views/subviews/ingresos/AgregarIng.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: true
+    }
+  },
+  {
+    path: '/compras/proveedores',
+    name: 'Proveedores',
+    component: ()=> import(/* webpackChunkName: "proveedores" */ '../views/subviews/proveedores/Proveedores.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: true
+    }
+  },
+  {
+    path: '/compras/proveedores/add',
+    name: 'AgregarProv',
+    component: ()=> import(/* webpackChunkName: "agregar-proveedores" */ '../views/subviews/proveedores/AgregarProv.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: true
+    }
+  },
+  {
+    path: '/compras/proveedores/add:id',
+    name: 'EditarProv',
+    component: ()=> import(/* webpackChunkName: "editar-proveedores" */ '../views/subviews/proveedores/AgregarProv.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: true
+    }
+  },
+  {
     path: '/ventas',
     name: 'Ventas',
-    component: ()=> import(/* webpackChunkName: "ventas" */'../views/Ventas.vue'),
+    component: ()=> import(/* webpackChunkName: "ventas" */'../views/subviews/ventas/VentasVista.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: true
+    }
+  },
+  {
+    path: '/ventas/clientes',
+    name: 'Clientes',
+    component: ()=> import (/* webpackChunkName: "clientes" */'../views/subviews/clientes/Clientes.vue'),
     meta:{
       administrador: true,
       almacenero: false,
@@ -108,7 +178,7 @@ const routes = [
   {
     path: '/accesos/add-user',
     name: 'AgregarUsuario',
-    component: ()=> import(/* webpackChunkName: "agregar usuarios" */'../views/subviews/usuarios/AgregarUsr.vue'),
+    component: ()=> import(/* webpackChunkName: "agregar-usuarios" */'../views/subviews/usuarios/AgregarUsr.vue'),
     meta:{
       administrador: true,
       almacenero: false,
@@ -118,7 +188,7 @@ const routes = [
   {
     path: '/accesos/add-user:id',
     name: 'EditarUsuario',
-    component: ()=> import(/* webpackChunkName: "editar usuario" */'../views/subviews/usuarios/AgregarUsr.vue'),
+    component: ()=> import(/* webpackChunkName: "editar-usuario" */'../views/subviews/usuarios/AgregarUsr.vue'),
     meta:{
       administrador: true,
       almacenero: false,
@@ -126,9 +196,19 @@ const routes = [
     }
   },
   {
-    path: '/consultas',
-    name: 'Consultas',
-    component: ()=> import(/* webpackChunkName: "consultas" */'../views/Consultas.vue'),
+    path: '/consultas/compras',
+    name: 'ConsultasCompras',
+    component: ()=> import(/* webpackChunkName: "consultas-compras" */'../views/subviews/consultasCompras/ConsultasComp.vue'),
+    meta:{
+      administrador: true,
+      almacenero: true,
+      vendedor: true
+    }
+  },
+  {
+    path: '/consultas/ventas',
+    name: 'ConsultasVentas',
+    component: ()=> import(/* webpackChunkName: "consultas-ventas" */'../views/subviews/consultasVentas/ConsultasVent.vue'),
     meta:{
       administrador: true,
       almacenero: true,

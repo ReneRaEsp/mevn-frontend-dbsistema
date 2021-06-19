@@ -21,7 +21,5 @@ export default {
         display: flex
         justify-content: center
         flex-direction: column
-        flex-wrap: wrap
-        .title
-            color: white                    
+        flex-wrap: wrap                 
 </style>

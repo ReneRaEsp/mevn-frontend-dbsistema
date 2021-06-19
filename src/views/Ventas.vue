@@ -1,20 +1,26 @@
 <template>
-  <section class="Ventas">
-      <h1 class="title">Ventas</h1>
+  <section class="ventas">
+      <h2>Ventas</h2>
+      <CabeceroVentas/>
+      <CuerpoVentas/>
   </section>
 </template>
 
 <script>
+import CabeceroVentas from '../components/ventas/CabeceroVentas.vue'
+import CuerpoVentas from '../components/ventas/CuerpoVentas.vue'
 export default {
-
+    components:{
+        CabeceroVentas,
+        CuerpoVentas
+    }
 }
 </script>
 
 <style scoped lang="sass">
-    .Ventas
+    .ventas
         display: flex
         justify-content: center
-        width: 100%
-        .title
-            color: white                    
+        flex-direction: column
+        flex-wrap: wrap               
 </style>

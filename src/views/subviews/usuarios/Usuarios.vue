@@ -173,7 +173,7 @@ export default {
           let configuracion ={headers:header}
           axios.put('/usuario/activate', {'_id':_id}, configuracion)
           .then((response)=>{
-            console.log('Categoria activada: ' + response.data.nombre)
+            console.log('Usuario activado: ' + response.data.nombre)
         }).catch((error)=>{
 			console.log(error)		
 		})
@@ -185,7 +185,7 @@ export default {
 			let configuracion ={headers:header}
 			axios.put('/usuario/deactivate', {'_id':_id}, configuracion)
 			.then((response)=>{
-				console.log('Categoria desactivada: ' + response.data.nombre)
+				console.log('Usuario desactivado: ' + response.data.nombre)
 			}).catch((error)=>{
 				console.log(error)
 			})

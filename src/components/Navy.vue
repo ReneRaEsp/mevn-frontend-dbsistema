@@ -13,7 +13,7 @@
         >
       </li>
       <li v-if="esAdministrador || esVendedor" class="list-element">
-        <router-link class="button" to="/compras">Compras</router-link>
+        <router-link class="button" to="/compras/ingresos">Compras</router-link>
       </li>
       <li v-if="esAdministrador || esVendedor" class="list-element">
         <router-link class="button" to="/ventas">Ventas</router-link>
@@ -25,7 +25,7 @@
         v-if="esAdministrador || esVendedor || esAlmacenero"
         class="list-element"
       >
-        <router-link class="button" to="/consultas">Consultas</router-link>
+        <router-link class="button" to="/consultas/compras">Consultas</router-link>
       </li>
       <li class="list-element">
         <router-link class="button" to="/acerca-de">Acerca de</router-link>
@@ -85,7 +85,7 @@ export default {
         color: white
         display: flex
         justify-content: center
-        margin-top: .3rem
+        margin-top: .7rem
         .button
             font-weight: bold
             font-size: 1rem

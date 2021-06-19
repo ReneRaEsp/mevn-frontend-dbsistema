@@ -69,7 +69,7 @@
 				</button>
 			</div>
 		</div>
-        <div v-for="mensaje of validarMensaje" :key="mensaje">
+        <div class="divErrores" v-for="mensaje of validarMensaje" :key="mensaje">
             <p class="errores">* {{mensaje}} </p>
         </div>
 		<br>
@@ -235,6 +235,7 @@ export default {
 	height: 100vh
 	flex-wrap: wrap
 	flex-direction: column
+	overflow: auto
 	.title
 		font-size: 1.5rem
 		color: white
@@ -267,11 +268,16 @@ export default {
 			max-height: 35vh
 			align-self: center
 			padding: .5rem
-		.errores
-			font-size: 10px
-			font-weight: bold
-			color: rgb(200, 80, 80)
-			margin-top: 1rem
+		.divErrores	
+			display: flex
+			justify-content: center
+			flex-direction: row
+			flex-wrap: wrap
+			.errores
+				font-size: 12px
+				font-weight: bold
+				color: rgb(200, 80, 80)
+				margin-top: 1rem
 
 	.grupo
 		display: flex
