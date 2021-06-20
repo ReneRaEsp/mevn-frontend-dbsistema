@@ -126,7 +126,7 @@ export default {
 <style scoped lang="sass">
     .agregarCat
         display: flex
-        justify-content: start
+        justify-content: flex-start
         //flex-wrap: wrap
         flex-direction: column
         overflow: auto

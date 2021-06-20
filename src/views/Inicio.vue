@@ -14,7 +14,7 @@ export default {
 <style scoped lang="sass">
 	.inicio
 		display: flex
-		justify-content: start
+		justify-content: flex-start
 		//flex-wrap: wrap
 		flex-direction: column
 		overflow-y: auto

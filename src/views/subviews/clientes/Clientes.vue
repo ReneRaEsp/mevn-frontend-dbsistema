@@ -17,7 +17,7 @@ export default {
 <style scoped lang="sass">
 	.clientes
 		display: flex
-		justify-content: start
+		justify-content: flex-start
 		flex-direction: column
 		flex-wrap: wrap               
 </style>

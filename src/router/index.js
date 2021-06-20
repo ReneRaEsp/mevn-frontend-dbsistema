@@ -26,16 +26,6 @@ const routes = [
     }
   },
   {
-    path: '/almacen',
-    name: 'Almacen',
-    component: ()=> import(/* webpackChunkName: "almacen" */'../views/Almacen.vue'),
-    meta:{
-      administrador: true,
-      almacenero: true,
-      vendedor: false
-    }
-  },
-  {
     path: '/almacen/categorias',
     name: 'AlmacenCategorias',
     component: ()=> import(/* webpackChunkName: "almacen-categorias" */'../views/subviews/categorias/Categorias.vue'),
@@ -76,15 +66,25 @@ const routes = [
     }
   },
   {
-    path: '/compras',
-    name: 'Compras',
-    component: ()=> import(/* webpackChunkName: "compras" */'../views/Compras.vue'),
+    path: '/almacen/articulos/add',
+    name: 'AgregarArt',
+    component: ()=> import(/* webpackChunkName: "agregar-articulos" */'../views/subviews/articulos/AgregarArt.vue'),
     meta:{
       administrador: true,
-      almacenero: false,
-      vendedor: true
+      almacenero: true,
+      vendedor: false
     }
-  },
+  },  
+  {
+    path: '/almacen/articulos/add:id',
+    name: 'EditarArt',
+    component: ()=> import(/* webpackChunkName: "editar-articulos" */'../views/subviews/articulos/AgregarArt.vue'),
+    meta:{
+      administrador: true,
+      almacenero: true,
+      vendedor: false
+    }
+  },  
   {
     path: '/compras/ingresos',
     name: 'Ingresos',

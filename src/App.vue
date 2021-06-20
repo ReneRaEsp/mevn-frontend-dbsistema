@@ -70,7 +70,7 @@ export default {
     display: flex
     .navy
       display: flex
-      justify-content: start
+      justify-content: flex-start
       flex-direction: column
       flex-wrap: no-wrap
       overflow: auto

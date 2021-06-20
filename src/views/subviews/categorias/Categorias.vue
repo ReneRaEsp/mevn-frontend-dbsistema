@@ -165,7 +165,6 @@ export default {
             })
             this.limpiar()
             this.listar()
-            this.$forceUpdate()
         },desactivar(_id){
             let header = {'Token' : this.$store.state.token}
             let configuracion ={ headers:header }
@@ -196,7 +195,7 @@ export default {
 <style scoped lang="sass">
     .categorias
         display: flex
-        justify-content: start
+        justify-content: flex-start
         //flex-wrap: wrap
         flex-direction: column
         overflow-y: auto

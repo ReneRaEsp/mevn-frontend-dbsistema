@@ -1,7 +1,7 @@
 <template>
   <section class="consultasCompras">
 	<CabeceroConsultas/>
-	<h2>Consultas Compras works!</h2>
+	<h2 class="title">Consultas Compras works!</h2>
   </section>
 </template>
 
@@ -14,6 +14,17 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped lang="sass">
+	.consultasCompras
+		display: flex
+		justify-content: flex-start
+		flex-direction: column
+		flex-wrap: wrap
+		.title
+			font-size: 2.1rem
+			color: rgb(100, 197, 192)
+			align-self: center
+			margin-top: 1.5rem
+			margin-bottom: 1.5rem
+			text-align: center
 </style>
