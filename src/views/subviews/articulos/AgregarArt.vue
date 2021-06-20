@@ -1,214 +1,313 @@
 <template>
-  <section class="agregarCat">
-      <CabeceroAlmacen/>
-      <h3 class="title">Agregar Categoria</h3>
-      <div @keyup.enter="guardar()" class="formAgregar">
-          <input v-model="nombre" class="input" placeholder="Nombre" type="text">
-          <br>
-          <textarea v-model="descripcion" class="textArea" placeholder="Descripcion" cols="10" rows="5"></textarea>
-            <div v-for="mensaje of validarMensaje" :key="mensaje">
-                <p class="errores">* {{mensaje}} </p>
-            </div>
-          <button class="guardar" @click="guardar()">
-              Guardar
-          </button>
-      </div>
-      <router-link class="volver" to="/almacen/categorias">
-          Volver sin guardar
-      </router-link>
+  <section class="agregarArt">
+    <h3 class="title">Agregar Artículo</h3>
+	<br>
+	<div @keyup.enter="guardar()" class="formAgregar">
+		<div class="grupo">
+			<div class="duo">
+				<label class="label" for="codigo">Código</label>
+				<br>
+				<input v-model="codigo" class="input" name="codigo"
+				placeholder="Código" type="text">
+			</div>
+			<div class="duo">
+				<label class="label" for="">Nombre</label>
+				<br>
+				<input v-model="nombre" class="input" name="nombre"
+				placeholder="Nombre..." type="text">
+			</div>			
+		</div>
+		<div class="grupo">
+			<div class="duo">
+				<label for="descripcion" class="label">Descripción</label>
+				<br>
+				<input v-model="descripcion" class="input" name="descripcion"
+				placeholder="Descripcion..." type="text" >
+			</div>
+			<div class="duo">
+				<label class="label" for="rol">Categoria</label>
+				<br>
+				<input v-model="categoria" class="input" name="categoria"
+				placeholder="Categoria" type="text">
+			</div>
+		</div>
+		<div class="grupo">
+			<div class="duo">
+				<label class="label" for="pVenta">Precio Venta</label>
+				<br>
+				<input v-model.number="pVenta" class="input" name="pVenta"
+				placeholder="Precio Venta..." type="number">
+			</div>
+			<div class="duo">
+				<label for="stock" class="label">Stock</label>
+				<br>
+				<input v-model.number="stock" class="input" name="stock"
+			placeholder="stock" type="number">
+			</div>			
+		</div>
+		<div class="grupo">
+			<div class="duo">
+				<router-link class="volver" to="/accesos/usuarios">
+					Volver sin guardar
+				</router-link>
+				<button class="guardar" @click="guardar()">
+					Guardar
+				</button>
+			</div>
+		</div>
+        <div class="divErrores" v-for="mensaje of validarMensaje" :key="mensaje">
+            <p class="errores">* {{mensaje}} </p>
+        </div>
+		<br>
+        
+    </div>
   </section>
 </template>
 
 <script>
-import CabeceroAlmacen from '../../../components/almacen/CabeceroAlmacen.vue'
 import axios from 'axios'
 export default {
-    data(){
-        return{
-            nombre:'',
-            descripcion:'',
-            ruta:this.$router.currentRoute.fullPath,
-            editar:false,
-            validar:0,
-            validarMensaje:[]
-        }
-    },
-    methods:{
-        guardar(){
-            this.validacion()
-            if(this.validar<=0){
+	data(){
+		return{
+			codigo:'',
+			nombre:'',
+			descripcion:'',
+			categoria:'',
+			pVenta:0,
+			stock:0,
+			ruta:this.$router.currentRoute.fullPath,
+			editar:false,
+			validar:0,
+			validarMensaje:[]
+		}
+	},
+	methods:{
+		guardar(){
+			this.validacion()
+			if(this.validar<=0){
 
-            if (!this.editar){
-                let header = {'Token' : this.$store.state.token}
-                let configuracion ={ headers:header }
-                axios.post('categoria/add', {'nombre': this.nombre, 'descripcion': this.descripcion}, configuracion)
-                .then((response)=>{
-                    console.log('Categoria agregada exitosamente: ' + response.data.nombre)
-                }).catch((error)=>{
-                    console.log(error)
-                    alert('no se pudo agregar el registro')
-                })
-                this.limpiar()
-                this.$router.push({path: '/almacen/categorias/'})
-            } else {
-                let header = {'Token' : this.$store.state.token}
-                let configuracion ={ headers:header }
-                axios.put('categoria/update', {'_id':this.$router.currentRoute.params.id, 'nombre':this.nombre, 'descripcion':this.descripcion}, configuracion)
-                .then((response)=>{
-                    console.log('Categoria actualizada exitosamente: ' + response.data.nombre)
-                }).catch((error)=>{
-                    console.log(error)
-                    alert('no se pudo actualizar el registro')
-                })
-                this.limpiar()
-                this.$router.push({path: '/almacen/categorias/'})
-            }
+			if(!this.editar){
+				let header = {'Token':this.$store.state.token}
+				let configuracion = {headers:header}
+				axios.post('articulo/add', {'categoria':this.categoria, 'codigo':this.codigo,
+                'nombre':this.nombre, 'descripcion':this.descripcion,
+				'precio_venta':this.pVenta, 'stock':this.stock}, configuracion)
+				.then((response)=>{
+					console.log('Articulo agregado exitosamente: ' + response.data.nombre)
+				}).catch((error)=>{
+					console.log(error)
+					alert('no se pudo agregar el articulo')
+				})
+				this.limpiar()
+				this.$router.push({path:'/almacen/articulos'})
+			} else {
+				let header = {'Token':this.$store.state.token}
+				let configuracion = {headers:header}
+				axios.put('usuario/update', {'_id':this.$router.currentRoute.params.id, 
+                'categoria':this.categoria, 'codigo':this.codigo,
+                'nombre':this.nombre, 'descripcion':this.descripcion,
+				'precio_venta':this.pVenta, 'stock':this.stock 
+                }, configuracion)
+				.then((response)=>{
+					console.log('Usuario actualizado exitosamente: ' + response.data.nombre)
+				}).catch((error)=>{
+					console.log(error)
+					alert('No se pudo actualizar el usuario')
+				})
+				this.limpiar()
+				this.$router.push({path:'/almacen/articulos'})
+			}
 
-            }else{
-                console.log('Error de validacion')
+			}else{
+				console.log('Error en la validacion')
+			}
+		},
+		opcion(){
+			if(this.ruta == '/almacen/articulos/add'){
+				this.editar=false
+			} else {
+				this.buscarPorId()
+				this.editar=true
+			}
+		},
+		buscarPorId(){
+			let header = {'Token': this.$store.state.token}
+			let configuracion = {headers:header}
+			axios.get('articulo/query?_id='+this.$router.currentRoute.params.id, configuracion)
+			.then((response)=>{
+				this.codigo = response.data.codigo
+				this.nombre = response.data.nombre
+				this.categoria = response.data.categoria
+				this.descripcion = response.data.descripcion
+				this.pVenta = response.data.precio_venta
+				this.stock = response.data.stock
+			}).catch((error)=>{
+				console.log('error del query: ' + error)
+			})
+		},
+		doTrim(){
+            this.codigo = this.codigo.trim()
+			this.nombre = this.nombre.trim()
+			this.categoria =  this.categoria.trim()
+			this.descripcion = this.descripcion.trim()
+		},
+		validacion(){
+			this.validar=0
+			this.validarMensaje=[]
+			this.doTrim()
+            let codigo = this.codigo
+			let nombre = this.nombre
+			let descripcion = this.descripcion
+			let pVenta = this.pVenta
+			let stock = this.stock
+
+			if(nombre.length < 1 || nombre.length > 50){
+				this.validarMensaje.push('Debes ingresar un nombre y este no debe exceder los 50 caracteres')
+			}
+			if(codigo.length < 1 || codigo.length > 64){
+				this.validarMensaje.push('Debes ingresar un codigo y este no debe exceder los 64 caracteres')
+			}
+			if(descripcion.length < 1 || descripcion.length > 255){
+				this.validarMensaje.push('Debes ingresar un descripcion y este no debe exceder los 255 caracteres')
+			}
+			if(pVenta.length < 1 || pVenta.length > 20){
+				this.validarMensaje.push('Debes introducir un el precio de venta y este debe ser menor a 20 caracteres')
+			}
+            if (stock == null || stock == undefined){
+                this.validarMensaje.push('Debes ingresar el stock')
             }
-        },
-        opcion(){
-            if(this.ruta === '/almacen/categorias/add'){
-                console.log('agregar')
-                this.editar=false
-            }else{
-                console.log('editar')
-                this.buscarPorId()
-                this.editar=true
-            }
-        },
-        buscarPorId(){
-            let header = {'Token' : this.$store.state.token}
-            let configuracion ={ headers:header }
-            axios.get('categoria/query?_id='+this.$router.currentRoute.params.id, configuracion)
-            .then((response)=>{
-                console.log('respuesta' + response.data.nombre)
-                this.nombre = response.data.nombre
-                this.descripcion = response.data.descripcion
-            }).catch((error)=>{
-                console.log('error del query :' + error)
-            })
-            console.log(this.$router.currentRoute.params.id)
-        },
-        validacion(){
-            let nombre =  this.nombre.trim()
-            let descripcion = this.descripcion.trim() 
-            this.validar=0
-            this.validarMensaje=[]
-            if(nombre.length<1 || nombre.length>50){
-                this.validarMensaje.push('debes ingresar un nombre y este no puede exceder los 50 caracteres')
-            }
-            if(descripcion.length<1 || descripcion.length>255){
-                this.validarMensaje.push('debes ingresar una descripción y esta no puede exceder los 255 caracteres')
-            }
-            if(this.validarMensaje.length){
-                this.validar=1
-            }
-            return this.validar
-        },
-        limpiar(){
-            this.nombre=''
-            this.descripcion=''
-            this.validar=0
-            this.validarMensaje=[]
-        }
-    },
-    created() {
-        this.opcion()
-    },
-    components:{
-        CabeceroAlmacen
-    }
+			if(this.validarMensaje.length){
+				this.validar=1
+			}
+			return this.validar
+		},
+		limpiar(){
+			this.categoria = ''
+			this.nombre = ''
+			this.codigo = ''
+			this.descripcion = ''
+			this.pVenta = 0
+			this.stock = 0
+			this.editar=false
+			this.ruta=''
+		}
+	},
+	created(){
+		this.opcion()
+	}
 }
 </script>
-
 <style scoped lang="sass">
-    .agregarCat
-        display: flex
-        justify-content: flex-start
-        //flex-wrap: wrap
-        flex-direction: column
-        overflow: auto
-        .title
-            font-size: 1.5rem
-            color: white
-            background: rgba(3, 33, 53, .86)
-            padding: .7rem
-            border-radius: 1rem
-            align-self: center
-            margin-top: 1.5rem
-            margin-bottom: 1.5rem
-            text-align: center
-        .formAgregar
-            align-self: center
-            display: flex
-            justify-content: center
-            flex-wrap: no-wrap       
-            flex-direction: column   
-            max-width: auto
-            width: auto
-            max-height: auto
-            height: auto
-            padding: 3rem
-            background: rgba(3, 33, 53, .9)
-            border-radius: .7rem
-            overflow: auto
-            .textArea
-                min-width: 20vw
-                min-height: 20vh
-                width: 35vw
-                height: 20vh
-                max-width: 35vw
-                max-height: 35vh
-                align-self: center
-                padding: .5rem
-            .errores
-                font-size: 10px
-                font-weight: bold
-                color: rgb(200, 80, 80)
-                margin-top: 1rem    
-            .input
-                align-self: center
-                width: 35vw
-                min-width: auto
-                height: 5vh
-                padding: .5rem
-                margin-top: 1rem
-            .guardar
-                width: 7rem
-                padding: .3rem
-                min-width: auto
-                border-radius: .7rem .7rem .7rem .7rem
-                border: 3px solid rgba(10, 40, 40, .0)
-                background: rgba(33,133,233,.5)
-                color: white
-                font-weight: bold
-                transition: .5s     
-                text-decoration: none   
-                align-self: center
-                margin-top: 1rem
-                transform: translateX(9rem)       
-                &:hover
-                    opacity: .7
-                    cursor: pointer   
-        .volver
-            width: 7rem
-            padding: .3rem
-            border-radius: .7rem .7rem .7rem .7rem
-            border: 3px solid rgba(10, 40, 40, .0)
-            background: rgba(33,43,43,1)
-            color: white
-            font-weight: bold
-            transition: .5s     
-            text-decoration: none
-            text-align: center
-            align-self: center
-            margin-top: 1rem
-            transform: translateX(-15rem)       
-            &:hover
-                opacity: .7
-                cursor: pointer   
-             
+.agregarArt
+	display: flex
+	justify-content: center
+	align-self: center
+	width: 80vw
+	height: 100vh
+	flex-wrap: wrap
+	flex-direction: column
+	overflow: auto
+	.title
+		font-size: 1.5rem
+		color: white
+		background: rgba(3, 33, 53, .86)
+		padding: .7rem
+		border-radius: 1rem
+		align-self: center
+		margin-top: .2rem
+		margin-bottom: .2rem
+		text-align: center
+	.formAgregar
+		align-self: center
+		display: flex
+		justify-content: center
+		flex-wrap: wrap
+		flex-direction: row
+		width: 75%
+		height: 80%
+		padding: 3rem
+		background: rgba(3, 33, 53, .9)
+		border-radius: .7rem
+		overflow-y: auto
+		overflow-x: hidden
+		.textArea
+			min-width: 20vw
+			min-height: 20vh
+			width: 35vw
+			height: 20vh
+			max-width: 35vw
+			max-height: 35vh
+			align-self: center
+			padding: .5rem
+		.divErrores	
+			display: flex
+			justify-content: center
+			flex-direction: row
+			flex-wrap: wrap
+			.errores
+				font-size: 12px
+				font-weight: bold
+				color: rgb(200, 80, 80)
+				margin-top: 1rem
 
+	.grupo
+		display: flex
+		justify-content: space-evenly
+		flex-direction: row
+		.duo
+			margin-left: 2rem
+			margin-right: 2rem
+			.input
+				align-self: flex-start
+				width: 20vw
+				min-width: auto
+				height: 5vh
+				padding: .5rem
+				margin-top: 1rem
+			.label
+				color: white
+				font-weight: bold
+				margin-left: 20px
+
+
+			.guardar
+				width: 7rem
+				padding: .3rem
+				margin-left: 3rem
+				font-weight: bold
+				min-width: auto
+				border-radius: .7rem .7rem .7rem .7rem
+				border: 3px solid rgba(10, 40, 40, .0)
+				background: rgba(33,133,233,.5)
+				color: white
+				font-weight: bold
+				transition: .5s
+				text-decoration: none
+				align-self: center
+				margin-top: 1rem
+				//transform: translateX(9rem)
+				&:hover
+					opacity: 0.7
+					cursor: pointer
+
+			.volver
+				width: 7rem
+				padding: .3rem
+				margin-right: 3rem
+				min-width: auto
+				border-radius: .7rem .7rem .7rem .7rem
+				border: 3px solid rgba(10, 40, 40, .0)
+				background: rgba(73,73,83,.79)
+				color: white
+				font-weight: bold
+				transition: .5s
+				text-decoration: none
+				align-self: center
+				margin-top: 1rem
+				//transform: translateX(9rem)
+				&:hover
+					opacity: 0.7
+					cursor: pointer
+			
+	
 </style>
