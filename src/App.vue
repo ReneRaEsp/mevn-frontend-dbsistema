@@ -29,21 +29,10 @@ export default {
     }
   },
   created(){
-    //this.$store.dispatch('autoLogin')
+
   },
   computed:{
-   /* logueado(){
-      return this.$store.state.usuario
-    },
-    esAdministrador(){
-      return this.$store.state.usuario && this.$store.usuario.rol == 'Administrador'
-    },
-    esAlmacenero(){
-      return this.$store.state.usuario && this.$store.usuario.rol == 'Almacenero'
-    },
-    esVendedor(){
-      return this.$store.state.usuario && this.$store.usuario.rol == 'Vendedor'
-    }*/
+
   },
   methods:{
 

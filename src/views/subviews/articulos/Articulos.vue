@@ -25,13 +25,13 @@
             <th>Opc</th>
         </tr>
         <tr v-for="articulo of articulos" :key="articulo._id">
-            <td >{{articulo.nombre}}</td>
+            <td>{{articulo.nombre}}</td>
             <td>{{articulo.codigo}}</td>
-            <td >{{articulo.descripcion}}</td>
+            <td>{{articulo.descripcion}}</td>
             <td>{{articulo.categoria.nombre}}</td>
             <td>{{articulo.precio_venta}}</td>
             <td>{{articulo.stock}}</td>
-            <td >
+            <td>
                 <div v-if="articulo.estado">
                     <span class="activo">
                         Activa
@@ -68,13 +68,13 @@
             <th>Opc</th>
         </tr>
         <tr v-for="resultado of resultados" :key="resultado._id">
-            <td >{{resultado.nombre}}</td>
+            <td>{{resultado.nombre}}</td>
             <td>{{resultado.codigo}}</td>
-            <td >{{resultado.descripcion}}</td>
+            <td>{{resultado.descripcion}}</td>
             <td>{{resultado.categoria}}</td>
             <td>{{resultado.precio_venta}}</td>
             <td>{{resultado.stock}}</td>
-            <td >
+            <td>
                 <div v-if="resultado.estado">
                     <span class="activo">
                         Activa
@@ -141,6 +141,32 @@ export default {
             this.buscando=false
             this.resultados=[]
             this.sinCoincidencias=false
+        },
+        activar(_id){
+            let header = {'Token' : this.$store.state.token}
+            let configuracion ={ headers:header }
+            axios.put('/articulo/activate', {'_id':_id}, configuracion)
+            .then((response)=>{
+                console.log('Articulo activado: ' + response.data.nombre)
+                
+            }).catch((error)=>{
+                console.log(error)
+            })
+            this.limpiar()
+            this.listar()
+        },
+        desactivar(_id){
+            let header = {'Token' : this.$store.state.token}
+            let configuracion ={ headers:header }
+            axios.put('/articulo/deactivate', {'_id':_id}, configuracion)
+            .then((response)=>{
+                console.log('Articulo desactivado: ' + response.data.nombre)
+                
+            }).catch((error)=>{
+                console.log(error)
+            })
+            this.limpiar()
+            this.listar()
         }
     },
     components:{

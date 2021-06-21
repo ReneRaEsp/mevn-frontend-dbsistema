@@ -24,11 +24,13 @@
 				<input v-model="descripcion" class="input" name="descripcion"
 				placeholder="Descripcion..." type="text" >
 			</div>
-			<div class="duo">
-				<label class="label" for="rol">Categoria</label>
-				<br>
-				<input v-model="categoria" class="input" name="categoria"
-				placeholder="Categoria" type="text">
+			<div v-if="!editar" class="duo">
+				<label class="label" for="categoria">Seleccionar Categoria</label>
+				<select v-model="categoria" class="input cat" name="categoria">
+					<option value="Seleccione una categoria" class="opcion" selected>Seleccione una categoria</option>
+					<hr>
+					<option class="opcion" v-for="opcion of opciones" :key="opcion._id" :value="opcion._id">{{opcion.nombre}}</option>					
+				</select>
 			</div>
 		</div>
 		<div class="grupo">
@@ -47,7 +49,7 @@
 		</div>
 		<div class="grupo">
 			<div class="duo">
-				<router-link class="volver" to="/accesos/usuarios">
+				<router-link class="volver" to="/almacen/articulos">
 					Volver sin guardar
 				</router-link>
 				<button class="guardar" @click="guardar()">
@@ -72,13 +74,14 @@ export default {
 			codigo:'',
 			nombre:'',
 			descripcion:'',
-			categoria:'',
+			categoria:'Seleccione una categoria',
 			pVenta:0,
 			stock:0,
 			ruta:this.$router.currentRoute.fullPath,
 			editar:false,
 			validar:0,
-			validarMensaje:[]
+			validarMensaje:[],
+			opciones:[]
 		}
 	},
 	methods:{
@@ -148,18 +151,19 @@ export default {
 		doTrim(){
             this.codigo = this.codigo.trim()
 			this.nombre = this.nombre.trim()
-			this.categoria =  this.categoria.trim()
 			this.descripcion = this.descripcion.trim()
 		},
 		validacion(){
 			this.validar=0
 			this.validarMensaje=[]
 			this.doTrim()
+			this.encontrarCategoriaInput()
             let codigo = this.codigo
 			let nombre = this.nombre
 			let descripcion = this.descripcion
 			let pVenta = this.pVenta
 			let stock = this.stock
+			let categoria = this.categoria
 
 			if(nombre.length < 1 || nombre.length > 50){
 				this.validarMensaje.push('Debes ingresar un nombre y este no debe exceder los 50 caracteres')
@@ -168,10 +172,13 @@ export default {
 				this.validarMensaje.push('Debes ingresar un codigo y este no debe exceder los 64 caracteres')
 			}
 			if(descripcion.length < 1 || descripcion.length > 255){
-				this.validarMensaje.push('Debes ingresar un descripcion y este no debe exceder los 255 caracteres')
+				this.validarMensaje.push('Debes ingresar una descripcion y este no debe exceder los 255 caracteres')
 			}
-			if(pVenta.length < 1 || pVenta.length > 20){
-				this.validarMensaje.push('Debes introducir un el precio de venta y este debe ser menor a 20 caracteres')
+			if(pVenta == 0 ){
+				this.validarMensaje.push('Debes introducir un precio de venta')
+			}
+			if(categoria == 'Seleccione una categoria'){
+				this.validarMensaje.push('Debes seleccionar una categoria')
 			}
             if (stock == null || stock == undefined){
                 this.validarMensaje.push('Debes ingresar el stock')
@@ -181,19 +188,40 @@ export default {
 			}
 			return this.validar
 		},
+		listarCategorias(){
+			let header = {'Token':this.$store.state.token}
+			let configuracion = {headers:header}
+			axios.get('categoria/list', configuracion)
+			.then((res)=>{
+				this.opciones = res.data
+			}).catch((error)=>{
+				console.log(error)
+			})
+		},
+		encontrarCategoriaInput(){
+			let busqueda = this.categoria
+			this.opciones.forEach(cat=>{
+				if(busqueda == cat._id){
+					this.categoria = cat
+				} else {
+					null
+				}
+			})
+		},
 		limpiar(){
-			this.categoria = ''
-			this.nombre = ''
-			this.codigo = ''
-			this.descripcion = ''
-			this.pVenta = 0
-			this.stock = 0
+			this.categoria=''
+			this.nombre=''
+			this.codigo=''
+			this.descripcion=''
+			this.pVenta=0
+			this.stock=0
 			this.editar=false
 			this.ruta=''
 		}
 	},
 	created(){
 		this.opcion()
+		this.listarCategorias()
 	}
 }
 </script>
@@ -223,8 +251,8 @@ export default {
 		justify-content: center
 		flex-wrap: wrap
 		flex-direction: row
-		width: 75%
-		height: 80%
+		width: 65%
+		height: 70%
 		padding: 3rem
 		background: rgba(3, 33, 53, .9)
 		border-radius: .7rem
@@ -261,7 +289,7 @@ export default {
 				align-self: flex-start
 				width: 20vw
 				min-width: auto
-				height: 5vh
+				height: 6vh
 				padding: .5rem
 				margin-top: 1rem
 			.label
@@ -308,6 +336,10 @@ export default {
 				&:hover
 					opacity: 0.7
 					cursor: pointer
+
+.opcion, .cat
+	color: rgba(20,120,130,.9)
+	font-weight: bold
 			
 	
 </style>
