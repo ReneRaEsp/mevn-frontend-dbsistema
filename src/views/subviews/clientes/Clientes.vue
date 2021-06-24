@@ -8,7 +8,7 @@
             <button @click="filtrarPorNombre()" class="submit" >Buscar</button>
         </div>
         <button class="mostrarT" @click="listar()">mostrar todo</button>
-        <router-link class="agregar" to="/almacen/articulos/add">
+        <router-link class="agregar" to="/ventas/clientes/add">
             Agregar
         </router-link>
       </div>
@@ -145,9 +145,9 @@ export default {
         activar(_id){
             let header = {'Token' : this.$store.state.token}
             let configuracion ={ headers:header }
-            axios.put('/articulo/activate', {'_id':_id}, configuracion)
+            axios.put('/persona/activate', {'_id':_id}, configuracion)
             .then((response)=>{
-                console.log('Articulo activado: ' + response.data.nombre)
+                console.log('Persona activada: ' + response.data.nombre)
                 
             }).catch((error)=>{
                 console.log(error)
@@ -158,9 +158,9 @@ export default {
         desactivar(_id){
             let header = {'Token' : this.$store.state.token}
             let configuracion ={ headers:header }
-            axios.put('/articulo/deactivate', {'_id':_id}, configuracion)
+            axios.put('/persona/deactivate', {'_id':_id}, configuracion)
             .then((response)=>{
-                console.log('Articulo desactivado: ' + response.data.nombre)
+                console.log('Persona desactivada: ' + response.data.nombre)
                 
             }).catch((error)=>{
                 console.log(error)

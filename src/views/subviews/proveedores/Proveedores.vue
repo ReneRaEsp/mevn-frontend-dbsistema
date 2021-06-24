@@ -8,7 +8,7 @@
             <button @click="filtrarPorNombre()" class="submit" >Buscar</button>
         </div>
         <button class="mostrarT" @click="listar()">mostrar todo</button>
-        <router-link class="agregar" to="/almacen/articulos/add">
+        <router-link class="agregar" to="/compras/proveedores/add">
             Agregar
         </router-link>
       </div>
@@ -44,7 +44,7 @@
                 </div>
             </td>
             <td v-if="proveedor.tipo_persona == 'Proveedor'">
-                <router-link :to="'/compras/proveedor/add'+proveedor._id">
+                <router-link :to="'/compras/proveedores/add'+proveedor._id">
                     <i class="edit fas fa-edit"></i>
                 </router-link>
                 <button v-if="proveedor.estado == 0" class="buttonDelete" @click="activar(proveedor._id)">
@@ -59,22 +59,22 @@
     <table v-else-if="buscando" style="width:90%">
         <tr>
             <th>Nombre</th>
-            <th>Codigo</th>
-            <th>Descripcion</th>
-            <th>Categoria</th>
-            <th>Precio Venta</th>
-            <th>Stock</th>
+            <th>Documento Nro</th>
+            <th>Dirección</th>
+            <th>Telefono</th>
+            <th>Email</th>
+            <th>Tipo</th>
             <th>Estado</th>
             <th>Opc</th>
         </tr>
         <tr v-for="resultado of resultados" :key="resultado._id">
-            <td>{{resultado.nombre}}</td>
-            <td>{{resultado.codigo}}</td>
-            <td>{{resultado.descripcion}}</td>
-            <td>{{resultado.categoria}}</td>
-            <td>{{resultado.precio_venta}}</td>
-            <td>{{resultado.stock}}</td>
-            <td>
+            <td v-if="resultado.tipo_persona == 'Proveedor'">{{resultado.nombre}}</td>
+            <td v-if="resultado.tipo_persona == 'Proveedor'">{{resultado.num_documento}}</td>
+            <td v-if="resultado.tipo_persona == 'Proveedor'">{{resultado.direccion}}</td>
+            <td v-if="resultado.tipo_persona == 'Proveedor'">{{resultado.telefono}}</td>
+            <td v-if="resultado.tipo_persona == 'Proveedor'">{{resultado.email}}</td>
+            <td v-if="resultado.tipo_persona == 'Proveedor'">{{resultado.tipo_persona}}</td>
+            <td v-if="resultado.tipo_persona == 'Proveedor'">
                 <div v-if="resultado.estado">
                     <span class="activo">
                         Activa
@@ -86,14 +86,14 @@
                     </span>
                 </div>
             </td>
-            <td>
-                <router-link :to="'/almacen/articulos/add'+categoria._id">
+            <td v-if="proveedor.tipo_persona == 'Proveedor'">
+                <router-link :to="'/compras/proveedor/add'+proveedor._id">
                     <i class="edit fas fa-edit"></i>
                 </router-link>
-                <button v-if="categoria.estado == 0" class="buttonDelete" @click="activar(categoria._id)">
+                <button v-if="proveedor.estado == 0" class="buttonDelete" @click="activar(proveedor._id)">
                     <i class="delete fas fa-lock-open"></i>
                 </button>
-                <button v-else class="buttonDelete" @click="desactivar(categoria._id)">
+                <button v-else class="buttonDelete" @click="desactivar(proveedor._id)">
                    <i class="delete fas fa-lock"></i>
                 </button>
             </td>
@@ -124,7 +124,7 @@ export default {
             let configuracion = {headers:header}
             this.sinCoincidencias = false
             this.buscando = false
-            axios.get('persona/list', configuracion)
+            axios.get('persona/listProveedores', configuracion)
             .then((response)=>{
                 if (this.busqueda == ''){
                     this.proveedores=response.data
@@ -145,9 +145,9 @@ export default {
         activar(_id){
             let header = {'Token' : this.$store.state.token}
             let configuracion ={ headers:header }
-            axios.put('/articulo/activate', {'_id':_id}, configuracion)
+            axios.put('/persona/activate', {'_id':_id}, configuracion)
             .then((response)=>{
-                console.log('Articulo activado: ' + response.data.nombre)
+                console.log('Persona activada: ' + response.data.nombre)
                 
             }).catch((error)=>{
                 console.log(error)
@@ -158,9 +158,9 @@ export default {
         desactivar(_id){
             let header = {'Token' : this.$store.state.token}
             let configuracion ={ headers:header }
-            axios.put('/articulo/deactivate', {'_id':_id}, configuracion)
+            axios.put('/persona/deactivate', {'_id':_id}, configuracion)
             .then((response)=>{
-                console.log('Articulo desactivado: ' + response.data.nombre)
+                console.log('Persona desactivada: ' + response.data.nombre)
                 
             }).catch((error)=>{
                 console.log(error)
@@ -284,92 +284,3 @@ export default {
         cursor: pointer
 
 </style>
-<!--
-<template>
-  <section class="ingresos">
-    <CabeceroCompras/>
-    <h2 class="title">Ingresos</h2>
-  </section>
-</template>
-
-<script>
-import CabeceroCompras from '../../../components/compras/CabeceroCompras.vue'
-export default {
-    components:{
-        CabeceroCompras
-    }
-    
-}
-</script>
-
-<style scoped lang="sass">
-    .ingresos
-        display: flex
-        justify-content: flex-start
-        //flex-wrap: wrap
-        flex-direction: column
-        overflow-y: auto
-        overflow-x: hidden
-        .title
-            font-size: 2.1rem
-            color: rgb(100, 197, 192)
-            align-self: center
-            margin-top: 1.5rem
-            margin-bottom: 1.5rem
-            text-align: center                  
-</style>--><!--<template>
-  <section class="clientes">
-      <CabeceroVentas/>
-      <h2>Clientes</h2>
-  </section>
-</template>
-
-<script>
-import CabeceroVentas from '../../../components/ventas/CabeceroVentas.vue'
-export default {
-    components:{
-        CabeceroVentas
-    }
-}
-</script>
-
-<style scoped lang="sass">
-	.clientes
-		display: flex
-		justify-content: flex-start
-		flex-direction: column
-		flex-wrap: wrap               
-</style>-->
-<!--<template>
-  <section class="proveedores">
-      <CabeceroCompras/>
-      <h2 class="title">Proveedores</h2>
-  </section>
-</template>
-
-<script>
-import CabeceroCompras from '../../../components/compras/CabeceroCompras.vue'
-export default {
-    components:{
-        CabeceroCompras
-    }
-    
-}
-</script>
-
-<style scoped lang="sass">
-    .proveedores
-        display: flex
-        justify-content: flex-start
-        //flex-wrap: wrap
-        flex-direction: column
-        overflow-y: auto
-        overflow-x: hidden
-        .title
-            font-size: 2.1rem
-            color: rgb(100, 197, 192)
-            align-self: center
-            margin-top: 1.5rem
-            margin-bottom: 1.5rem
-            text-align: center 
-</style>-->

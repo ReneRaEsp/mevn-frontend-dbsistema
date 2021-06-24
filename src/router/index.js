@@ -166,6 +166,26 @@ const routes = [
     }
   },
   {
+    path: '/ventas/clientes/add',
+    name: 'AgregarCli',
+    component: ()=> import (/* webpackChunkName: "agregar-clientes" */'../views/subviews/clientes/AgregarCli.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: true
+    }
+  },
+  {
+    path: '/ventas/clientes/add:id',
+    name: 'EditarCli',
+    component: ()=> import (/* webpackChunkName: "editar-clientes" */'../views/subviews/clientes/AgregarCli.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: true
+    }
+  },
+  {
     path: '/accesos/usuarios',
     name: 'Usuarios',
     component: ()=> import(/* webpackChunkName: "accesos" */'../views/subviews/usuarios/Usuarios.vue'),
