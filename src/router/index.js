@@ -116,6 +116,16 @@ const routes = [
     }
   },
   {
+    path: '/compras/ingresos/detalles:id',
+    name: 'DetallesIng',
+    component: ()=> import(/* webpackChunkName: "detalles-ingresos" */ '../views/subviews/ingresos/DetallesIng.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: true
+    }
+  },
+  {
     path: '/compras/proveedores',
     name: 'Proveedores',
     component: ()=> import(/* webpackChunkName: "proveedores" */ '../views/subviews/proveedores/Proveedores.vue'),

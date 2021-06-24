@@ -124,7 +124,7 @@ export default {
             let configuracion = {headers:header}
             this.sinCoincidencias = false
             this.buscando = false
-            axios.get('persona/listProveedores', configuracion)
+            axios.get('persona/list-proveedores', configuracion)
             .then((response)=>{
                 if (this.busqueda == ''){
                     this.proveedores=response.data
