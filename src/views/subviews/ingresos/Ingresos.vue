@@ -68,7 +68,7 @@
             <i class="delete fas fa-lock"></i>
           </button>
           <router-link :to="'/compras/ingresos/detalles' + ingreso._id">
-            <i class="edit far fa-list-alt"><span class="detalles">Detalles</span></i>
+            <i class="detallesIco far fa-list-alt"><span class="detalles">Detalles</span></i>
           </router-link>
         </td>
       </tr>
@@ -183,9 +183,9 @@ export default {
         },activar(_id){
           let header = {'Token':this.$store.state.token}
           let configuracion ={headers:header}
-          axios.put('/usuario/activate', {'_id':_id}, configuracion)
+          axios.put('/ingreso/activate', {'_id':_id}, configuracion)
           .then((response)=>{
-            console.log('Usuario activado: ' + response.data.nombre)
+            console.log('Ingreso activado: ' + response.data.nombre)
         }).catch((error)=>{
 			console.log(error)		
 		})
@@ -195,7 +195,7 @@ export default {
 		desactivar(_id){
 			let header = {'Token':this.$store.state.token}
 			let configuracion ={headers:header}
-			axios.put('/usuario/deactivate', {'_id':_id}, configuracion)
+			axios.put('/ingreso/deactivate', {'_id':_id}, configuracion)
 			.then((response)=>{
 				console.log('Usuario desactivado: ' + response.data.nombre)
 			}).catch((error)=>{
@@ -330,6 +330,14 @@ export default {
 		&:hover
 			color: rgb(200, 74, 133)
 
+	.detallesIco
+		color: rgb(15, 144, 243)
+		margin: 0 .4rem
+		font-size: 1.2rem
+		transition: 1s
+		&:hover
+			color: rgb(200, 74, 133)
+
 	.buttonDelete
 		background: rgba(0,0,0,0)
 		border: 0px solid rgba(0,0,0,0)
@@ -341,7 +349,7 @@ export default {
 		font-weight: bold
 		padding: .2rem
 		color: rgba(3, 50, 31, .8)
-		background: rgba(23, 150, 131, .2)
+		background: rgba(23, 150, 131, .7)
 		border-radius: 1rem
 		transform: translateX(-3rem)
 		opacity: .0

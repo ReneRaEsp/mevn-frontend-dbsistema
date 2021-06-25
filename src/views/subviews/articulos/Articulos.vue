@@ -5,7 +5,7 @@
       <div class="modulo">
         <div class="busqueda">
             <input @input="filtrarPorNombreInput()" v-model="busqueda" class="input" type="text" placeholder="Buscar categoria..." name="search">
-            <button @click="filtrarPorNombre()" class="submit" >Buscar</button>
+            <button @click="filtrarPorNombreInput()" class="submit" >Buscar</button>
         </div>
         <button class="mostrarT" @click="listar()">mostrar todo</button>
         <router-link class="agregar" to="/almacen/articulos/add">
@@ -71,7 +71,7 @@
             <td>{{resultado.nombre}}</td>
             <td>{{resultado.codigo}}</td>
             <td>{{resultado.descripcion}}</td>
-            <td>{{resultado.categoria}}</td>
+            <td>{{resultado.categoria.nombre}}</td>
             <td>{{resultado.precio_venta}}</td>
             <td>{{resultado.stock}}</td>
             <td>
@@ -87,13 +87,13 @@
                 </div>
             </td>
             <td>
-                <router-link :to="'/almacen/articulos/add'+categoria._id">
+                <router-link :to="'/almacen/articulos/add'+resultado._id">
                     <i class="edit fas fa-edit"></i>
                 </router-link>
-                <button v-if="categoria.estado == 0" class="buttonDelete" @click="activar(categoria._id)">
+                <button v-if="resultado.estado == 0" class="buttonDelete" @click="activar(resultado._id)">
                     <i class="delete fas fa-lock-open"></i>
                 </button>
-                <button v-else class="buttonDelete" @click="desactivar(categoria._id)">
+                <button v-else class="buttonDelete" @click="desactivar(resultado._id)">
                    <i class="delete fas fa-lock"></i>
                 </button>
             </td>
@@ -135,6 +135,20 @@ export default {
                 console.log(error)
             })
             this.limpiar()
+        },
+        filtrarPorNombreInput(){
+            this.resultados = []
+            let r = []
+            this.articulos.forEach(articulo =>{
+                if(!articulo.nombre.search(this.busqueda)){
+                    r.push(articulo)
+                } else {
+                    this.sinCoincidencias = true
+                }
+            })
+            this.resultados=r
+            this.resultados==[]||this.resultados==''||this.resultados==undefined?this.sinCoincidencias=true:this.sinCoincidencias=false
+            this.buscando=true
         },
         limpiar(){
             this.busqueda=''

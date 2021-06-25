@@ -80,6 +80,7 @@ export default {
   ::-webkit-scrollbar
     background: rgba(2, 28, 54, .6)
     width: 15px
+    border-radius: 1rem
     &:hover
       background: rgba(2, 28, 54, .5)
 
