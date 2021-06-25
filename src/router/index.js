@@ -9,7 +9,7 @@ const routes = [
   {
     path: '/',
     name: 'Inicio',
-    component: ()=> import(/* webpackChunkName: "inicio" */'../views/subviews/ingresos/Ingresos'),
+    component: ()=> import(/* webpackChunkName: "inicio" */'../views/subviews/ingresos/AgregarIng'),
     meta:{
       libre: true,
       administrador: true,

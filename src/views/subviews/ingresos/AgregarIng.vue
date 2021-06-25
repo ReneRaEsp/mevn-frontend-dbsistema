@@ -1,49 +1,75 @@
 <template>
   <section class="agregarProv">
-    <h3 class="title">Agregar Ingresos</h3>
+    <h3 class="title">Agregar Ingreso</h3>
 	<br>
 	<div @keyup.enter="guardar()" class="formAgregar">
 		<div class="grupo">
 			<div class="duo">
-				<label class="label" for="nombre">Nombre</label>
-				<br>
-				<input v-model="nombre" class="input" name="nombre"
-				placeholder="Nombre" type="text">
+				<label class="label" for="categoria">Usuario&nbsp;</label>
+				
+				<select v-model="usuario" class="input cat" name="usuarios">
+					<option value="Seleccione una categoria" class="opcion" selected>Seleccione una usuario</option>
+					<hr>
+					<option class="opcion" v-for="usuario of usuarios" :key="usuario._id" :value="usuario._id">{{usuario.nombre}}</option>					
+				</select>
 			</div>
 			<div class="duo">
-				<label class="label" for="tipoDocumento">Tipo de documento</label>
+				<label class="label" for="categoria">Proveedor&nbsp;</label>
+				<select v-model="proveedor" class="input cat" name="usuarios">
+					<option value="Seleccione una categoria" class="opcion" selected>Seleccione una proveedor</option>
+					<hr>
+					<option class="opcion" v-for="proveedor of proveedores" :key="proveedor._id" :value="proveedor._id">{{proveedor.nombre}}</option>					
+				</select>
+			</div>		
+			<div class="duo">
+				<label for="tipoComprobante" class="label">Tipo Comprobante</label>
 				<br>
-				<input v-model="tipoDocumento" class="input" name="tipoDocumento"
-				placeholder="Tipo de documento..." type="text">
-			</div>			
+				<input v-model="tipoComprobante" class="input" name="tipoComprobante"
+				placeholder="Tipo de comprobante..." type="text" >
+			</div>
+			
 		</div>
 		<div class="grupo">
 			<div class="duo">
-				<label for="numDocumento" class="label">Número de documento</label>
+				<label for="serieComprobante" class="label">Serie Comprobante</label>
 				<br>
-				<input v-model="numDocumento" class="input" name="numDocumento"
-				placeholder="Número de doumento..." type="text" >
+				<input v-model="serieComprobante" class="input" name="serieComprobante"
+				placeholder="Serie de comprobante..." type="number" >
 			</div>
 			<div class="duo">
-				<label class="label" for="direccion">Dirección</label>
+				<label for="numComprobante" class="label">Número Comprobante</label>
 				<br>
-				<input v-model="direccion" type="text" class="input" name="direccion"
-				placeholder="Dirección...">
+				<input v-model="numComprobante" class="input" name="numComprobante"
+				placeholder="Numero de comprobante..." type="number" >
 			</div>
+			<div class="duo">
+				<label for="impuesto" class="label">Impuesto</label>
+				<br>
+				<input v-model="impuesto" class="input" name="impuesto"
+				placeholder="Impuesto..." type="number" >
+			</div>
+			
 		</div>
 		<div class="grupo">
 			<div class="duo">
-				<label class="label" for="pVenta">Teléfono</label>
+				<label for="total" class="label">Total</label>
 				<br>
-				<input v-model="telefono" class="input" name="telefono"
-				placeholder="Teléfono..." type="text">
+				<input v-model="total" class="input" name="total"
+				placeholder="Total..." type="number" >
 			</div>
 			<div class="duo">
-				<label for="email" class="label">Email</label>
+				<label for="codigo" class="label">Articulo</label>
 				<br>
-				<input v-model="email" class="input" name="email"
-			placeholder="email" type="email">
-			</div>			
+				<input v-model="codigo" class="input" name="codigo"
+				type="text" placeholder="Codigo de articulo">
+				<button class="guardar" @click="agregarArticulo()">
+					Agregar articulo
+				</button>
+			</div>
+		</div>
+		<h3 class="tituloAgregados">Articulos agregados</h3>
+		<div class="grupo articulosAgregados">
+			
 		</div>
 		<div class="grupo">
 			<div class="duo">
@@ -69,18 +95,24 @@ import axios from 'axios'
 export default {
 	data(){
 		return{
-      tipoPersona:'Cliente',
-			nombre:'',
-			tipoDocumento:'',
-			numDocumento:'',
-			direccion:'',
-			email:'',
-			telefono:'',
+			tipoPersona:'Cliente',
+			usuario:'',
+			persona:'',
+			proveedor:'',
+			tipoComprobante:'',
+			serieComprobante:'',
+			numComprobante:'',
+			impuesto:'',
+			total:'',
+			detalles:'',
 			ruta:this.$router.currentRoute.fullPath,
 			editar:false,
 			validar:0,
 			validarMensaje:[],
-			opciones:[]
+			opciones:[],
+			usuarios:[],
+			proveedores:[],
+			articulos:[]
 		}
 	},
 	methods:{
@@ -91,15 +123,15 @@ export default {
 			if(!this.editar){
 				let header = {'Token':this.$store.state.token}
 				let configuracion = {headers:header}
-				axios.post('persona/add', {
-        'tipo_persona':this.tipoPersona, 
-        'nombre':this.nombre, 
-				'tipo_documento':this.tipoDocumento,
-        'num_documento':this.numDocumento, 
-        'direccion':this.direccion,
-				'telefono':this.telefono,
-        'email':this.email
-        }, configuracion)
+				axios.post('ingreso/add', {
+							'tipo_persona':this.tipoPersona, 
+							'nombre':this.nombre, 
+							'tipo_documento':this.tipoDocumento,
+							'num_documento':this.numDocumento, 
+							'direccion':this.direccion,
+							'telefono':this.telefono,
+							'email':this.email
+							}, configuracion)
 				.then((response)=>{
 					console.log('Persona agregada exitosamente: ' + response.data.nombre)
 				}).catch((error)=>{
@@ -107,19 +139,20 @@ export default {
 					alert('no se pudo agregar el articulo')
 				})
 				this.limpiar()
-				this.$router.push({path:'/ventas/clientes'})
+				this.$router.push({path:'/compras/ingresos'})
 			} else {
 				let header = {'Token':this.$store.state.token}
 				let configuracion = {headers:header}
 				axios.put('persona/update', {
-        '_id':this.$router.currentRoute.params.id, 
-        'tipo_persona':this.tipoPersona,
-        'nombre':this.nombre, 
-				'tipo_documento':this.tipoDocumento,
-        'num_documento':this.numDocumento, 
-        'direccion':this.direccion,
-				'telefono':this.telefono,
-        'email':this.email}, configuracion)
+							'_id':this.$router.currentRoute.params.id, 
+							'tipo_persona':this.tipoPersona,
+							'nombre':this.nombre, 
+							'tipo_documento':this.tipoDocumento,
+							'num_documento':this.numDocumento, 
+							'direccion':this.direccion,
+							'telefono':this.telefono,
+							'email':this.email
+							}, configuracion)
 				.then((response)=>{
 					console.log('Persona actualizada exitosamente: ' + response.data.nombre)
 				}).catch((error)=>{
@@ -127,7 +160,7 @@ export default {
 					alert('No se pudo actualizar el usuario')
 				})
 				this.limpiar()
-				this.$router.push({path:'/ventas/clientes'})
+				this.$router.push({path:'/compras/ingresos'})
 			}
 
 			}else{
@@ -135,7 +168,7 @@ export default {
 			}
 		},
 		opcion(){
-			if(this.ruta == '/ventas/clientes/add'){
+			if(this.ruta == '/compras/ingresos/add' || this.ruta == '/'){
 				this.editar=false
 			} else {
 				this.buscarPorId()
@@ -169,7 +202,7 @@ export default {
 			this.validar=0
 			this.validarMensaje=[]
 			this.doTrim()
-      let tipoDocumento = this.tipoDocumento
+			let tipoDocumento = this.tipoDocumento
 			let nombre = this.nombre
 			let numDocumento = this.numDocumento
 			let direccion = this.direccion
@@ -199,6 +232,28 @@ export default {
 			}
 			return this.validar
 		},
+		listarUsuarios(){
+			let header = {'Token': this.$store.state.token}
+			let configuracion = {headers:header}
+			axios.get('usuario/list', configuracion)
+			.then((res)=>{
+				this.usuarios = res.data
+			})
+			.catch((error)=>{
+				console.log(error)
+			})
+		},
+		listarProveedores(){
+			let header = {'Token': this.$store.state.token}
+			let configuracion = {headers:header}
+			axios.get('persona/list-proveedores', configuracion)
+			.then((res)=>{
+				this.proveedores = res.data
+			})
+			.catch((error)=>{
+				console.log(error)
+			})
+		},
 		limpiar(){
 			this.nombre=''
 			this.tipoDocumento=''
@@ -212,6 +267,8 @@ export default {
 	},
 	created(){
 		this.opcion()
+		this.listarUsuarios()
+		this.listarProveedores()
 	}
 }
 </script>
@@ -241,51 +298,41 @@ export default {
 		justify-content: center
 		flex-wrap: wrap
 		flex-direction: row
-		width: 65%
-		height: 70%
+		width: 95%
+		height: 85%
 		padding: 3rem
 		background: rgba(3, 33, 53, .9)
 		border-radius: .7rem
 		overflow-y: auto
 		overflow-x: hidden
-		.textArea
-			min-width: 20vw
-			min-height: 20vh
-			width: 35vw
-			height: 20vh
-			max-width: 35vw
-			max-height: 35vh
-			align-self: center
-			padding: .5rem
-		.divErrores	
-			display: flex
-			justify-content: center
-			flex-direction: row
-			flex-wrap: wrap
-			.errores
-				font-size: 12px
-				font-weight: bold
-				color: rgb(200, 80, 80)
-				margin-top: 1rem
-
+		.tituloAgregados
+			margin-bottom: 1rem
+			color: rgb(93, 235, 235)
+			font-size: 1.5rem
+	
+	
+	.articulosAgregados
+		width: 100%
+		height: 20rem
+		background: rgba(230, 200, 211, .2)	
 	.grupo
 		display: flex
 		justify-content: space-evenly
 		flex-direction: row
 		.duo
-			margin-left: 2rem
-			margin-right: 2rem
+			margin: 2rem
 			.input
 				align-self: flex-start
-				width: 20vw
+				width: 15vw
 				min-width: auto
 				height: 6vh
 				padding: .5rem
-				margin-top: 1rem
+				margin: 1rem
 			.label
 				color: white
 				font-weight: bold
 				margin-left: 20px
+			
 
 
 			.guardar
@@ -333,18 +380,3 @@ export default {
 			
 	
 </style>
-<!--<template>
-  <section class="agregarProv">
-      <h2>Agregar Proveedores</h2>
-  </section>
-</template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style scoped lang="sass">
-
-</style>-->
