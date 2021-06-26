@@ -56,105 +56,12 @@
 		</div>
 		<h2 class="detalleTitle">Articulos asociados: </h2>
 		<div v-for="detalle of detalles" :key="detalle._id" class="grupo">
-			
 			<div class="duo">
 				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
 				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
 				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
 				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<!--<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>
-			<div class="duo">
-				<label class="labelArticulo" ><b>{{ detalle.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ detalle.cantidad}}</span></p>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ detalle.precio}}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ detalle._id}}</span></p>
-			</div>-->
-
-			
+			</div>			
 		</div>		     
     </div>
 	<router-link class="volver" to="/compras/ingresos">
@@ -279,7 +186,7 @@ export default {
 			.detalleArticulo
 				padding: .5rem
 				display: flex
-				justify-content: start
+				justify-content: flex-start
 				color: rgba(120, 200, 200, .9)
 				font-weight: 200
 				font-size: 12px

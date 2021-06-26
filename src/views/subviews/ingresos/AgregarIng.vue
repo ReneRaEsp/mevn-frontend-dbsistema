@@ -1,12 +1,12 @@
 <template>
   <section class="agregarProv">
-    <h3 class="title">Agregar Ingreso</h3>
-	<br>
+    <!--<h3 class="title">Agregar Ingreso</h3>-->
 	<div @keyup.enter="guardar()" class="formAgregar">
+		<h3 class="title">Agregar o editar Ingreso</h3>
 		<div class="grupo">
 			<div class="duo">
-				<label class="label" for="categoria">Usuario&nbsp;</label>
-				
+				<label class="label" for="categoria">Usuario</label>
+				<br>
 				<select v-model="usuario" class="input cat" name="usuarios">
 					<option value="Seleccione una categoria" class="opcion" selected>Seleccione una usuario</option>
 					<hr>
@@ -14,7 +14,8 @@
 				</select>
 			</div>
 			<div class="duo">
-				<label class="label" for="categoria">Proveedor&nbsp;</label>
+				<label class="label" for="categoria">Proveedor</label>
+				<br>
 				<select v-model="proveedor" class="input cat" name="usuarios">
 					<option value="Seleccione una categoria" class="opcion" selected>Seleccione una proveedor</option>
 					<hr>
@@ -33,59 +34,96 @@
 			<div class="duo">
 				<label for="serieComprobante" class="label">Serie Comprobante</label>
 				<br>
-				<input v-model="serieComprobante" class="input" name="serieComprobante"
+				<input v-model.number="serieComprobante" class="input" name="serieComprobante"
 				placeholder="Serie de comprobante..." type="number" >
 			</div>
 			<div class="duo">
 				<label for="numComprobante" class="label">Número Comprobante</label>
 				<br>
-				<input v-model="numComprobante" class="input" name="numComprobante"
+				<input v-model.number="numComprobante" class="input" name="numComprobante"
 				placeholder="Numero de comprobante..." type="number" >
 			</div>
 			<div class="duo">
 				<label for="impuesto" class="label">Impuesto</label>
 				<br>
-				<input v-model="impuesto" class="input" name="impuesto"
+				<input v-model.number="impuesto" class="input" name="impuesto"
 				placeholder="Impuesto..." type="number" >
 			</div>
-			
 		</div>
 		<div class="grupo">
-			<div class="duo">
+			<!--<div class="duo">
 				<label for="total" class="label">Total</label>
 				<br>
 				<input v-model="total" class="input" name="total"
 				placeholder="Total..." type="number" >
+			</div>-->
+		</div>
+		<div class="grupo">
+			<div class="duo">
+				<label for="precio" class="label">Precio</label>
+				<br>
+				<input v-model.number="precio" class="input" name="precio"
+				type="number" placeholder="Precio articulo">
+			</div>
+			<div class="duo">
+				<label for="cantidad" class="label">Cantidad</label>
+				<br>
+				<input v-model.number="cantidad" class="input" name="cantidad"
+				type="number" placeholder="Cantidad">
 			</div>
 			<div class="duo">
 				<label for="codigo" class="label">Articulo</label>
 				<br>
 				<input v-model="codigo" class="input" name="codigo"
 				type="text" placeholder="Codigo de articulo">
+			</div>
+			<div class="duo">
+				<label for=""></label>
+				<br>
 				<button class="guardar" @click="agregarArticulo()">
-					Agregar articulo
+					Agregar lote de articulos
 				</button>
 			</div>
 		</div>
-		<h3 class="tituloAgregados">Articulos agregados</h3>
-		<div class="grupo articulosAgregados">
-			
+		<div v-if="articulos.length" class="moduloArt">
+		<div class="grupo">
+			<div class="duo">
+				<h4 class="tituloAgregados">Monto total: {{total}}</h4>
+				<h4 class="tituloAgregados">Cantidad de articulos agregados: {{articulos.length}}</h4>
+			</div>
 		</div>
 		<div class="grupo">
 			<div class="duo">
-				<router-link class="volver" to="/compras/ingresos">
+				<h3 class="tituloAgregados">Articulos agregados</h3>
+			</div>
+		</div>
+		<div class="grupo articulosAgregados">
+			<div v-for="(articulo, index) of articulos" :key="articulo._id" class="duo articuloDuo">
+				<i @click="eliminarArt(index)" class="equis fas fa-times"></i>
+				<label class="labelArticulo"><b>{{articulo.index}}</b></label>
+				<p class="detalleArticulo"><b>Indice: </b><span class="render"> &nbsp;{{ articulo.indice}}</span></p>
+				<p class="detalleArticulo"><b>Categoria: </b><span class="render"> &nbsp;{{ articulo.categoria.nombre}}</span></p>
+				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ articulo.precio}}</span></p>
+				<p class="detalleArticulo"><b>Precio Venta: </b><span class="render"> &nbsp;{{ articulo.precioVenta}}</span></p>
+				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ articulo.cantidad }}</span></p>
+				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ articulo.id}}</span></p>
+			</div>
+		</div>
+		</div>
+		<div class="grupo">
+			<div class="duo botones">
+				<button class="guardar" @click="guardar()">
+					Guardar ingreso
+				</button>
+				<router-link class="guardar volver" to="/compras/ingresos">
 					Volver sin guardar
 				</router-link>
-				<button class="guardar" @click="guardar()">
-					Guardar
-				</button>
 			</div>
 		</div>
         <div class="divErrores" v-for="mensaje of validarMensaje" :key="mensaje">
             <p class="errores">* {{mensaje}} </p>
         </div>
 		<br>
-        
     </div>
   </section>
 </template>
@@ -103,7 +141,12 @@ export default {
 			serieComprobante:'',
 			numComprobante:'',
 			impuesto:'',
-			total:'',
+			codigo:'',
+			ingreso:{},
+			total:0,
+			precio:'',
+			cantidad:'',
+			indice:0,
 			detalles:'',
 			ruta:this.$router.currentRoute.fullPath,
 			editar:false,
@@ -190,6 +233,7 @@ export default {
 				console.log('error del query: ' + error)
 			})
 		},
+		/*
 		doTrim(){
             this.nombre = this.nombre.trim()
 			this.tipoDocumento = this.tipoDocumento.trim()
@@ -197,11 +241,11 @@ export default {
 			this.direccion = this.direccion.trim()
 			this.email = this.email.trim()
 			this.telefono = this.telefono.trim()
-		},
+		},*/
 		validacion(){
 			this.validar=0
 			this.validarMensaje=[]
-			this.doTrim()
+			//this.doTrim()
 			let tipoDocumento = this.tipoDocumento
 			let nombre = this.nombre
 			let numDocumento = this.numDocumento
@@ -254,6 +298,31 @@ export default {
 				console.log(error)
 			})
 		},
+		agregarArticulo(){
+			let header = {'Token': this.$store.state.token}
+			let configuracion = {headers:header}
+			axios.get('articulo/query-codigo?codigo='+this.codigo, configuracion)
+			.then((res)=>{
+				this.precio = this.precio * this.cantidad
+				this.ingreso = {
+					indice:this.indice,
+					articulo:res.data.nombre,
+					categoria:res.data.categoria,
+					precioVenta:res.data.precio_venta,
+					id:res.data._id,
+					cantidad:this.cantidad,
+					precio:this.precio				
+				}
+				this.indice++
+				this.total = this.total + this.precio
+				this.precio=''
+				this.cantidad=''
+				this.codigo=''
+				this.articulos.push(this.ingreso)
+			}).catch((error)=>{
+				console.log(error)
+			})
+		},
 		limpiar(){
 			this.nombre=''
 			this.tipoDocumento=''
@@ -263,7 +332,22 @@ export default {
 			this.telefono=''
 			this.editar=false
 			this.ruta=''
-		}
+		},
+		eliminarArt(index){
+			let restar = this.articulos[index].precio
+			this.total = this.total - restar
+			this.articulos.splice(index, 1)
+		},
+		/*eliminarArt(index){
+			console.log(index)
+			for(let cont = 0; cont <= this.articulos.length; cont++ ){
+				if(cont == index){
+					let restar = this.articulos[index].precio
+					this.total = this.total - restar
+					this.articulos.splice(index, 1)
+				}
+			}			
+		}*/
 	},
 	created(){
 		this.opcion()
@@ -285,12 +369,14 @@ export default {
 	.title
 		font-size: 1.5rem
 		color: white
-		background: rgba(3, 33, 53, .86)
+		background: rgba(3, 33, 53, .4)
 		padding: .7rem
 		border-radius: 1rem
 		align-self: center
 		margin-top: .2rem
-		margin-bottom: .2rem
+		margin-bottom: 4rem
+		margin-left: 13rem
+		margin-right: 13rem
 		text-align: center
 	.formAgregar
 		align-self: center
@@ -298,85 +384,119 @@ export default {
 		justify-content: center
 		flex-wrap: wrap
 		flex-direction: row
-		width: 95%
-		height: 85%
-		padding: 3rem
-		background: rgba(3, 33, 53, .9)
+		width: 100%
+		height: 100%
+		padding: 1rem
+		background: rgba(3, 33, 53, .2)
 		border-radius: .7rem
 		overflow-y: auto
-		overflow-x: hidden
+		overflow-x: auto
 		.tituloAgregados
 			margin-bottom: 1rem
-			color: rgb(93, 235, 235)
-			font-size: 1.5rem
+			color: rgb(33, 235, 235)
+			font-size: 1rem
+			margin-left: 13rem
+			margin-right: 13rem
+			text-align: center
 	
 	
 	.articulosAgregados
 		width: 100%
-		height: 20rem
-		background: rgba(230, 200, 211, .2)	
+		height: auto
+		background: rgba(23, 20, 21, .3)
+		padding: .5rem
 	.grupo
 		display: flex
+		flex-wrap: wrap
 		justify-content: space-evenly
 		flex-direction: row
+		width: 100%
+		.articuloDuo
+			background: rgba(24, 27, 27, .8)
+			padding: .6rem
+			border-radius: 1rem
+			width: auto
+		.botones
+			display: flex
+			justify-content: center
 		.duo
-			margin: 2rem
+			margin: 1.3rem
+			display: flex
+			flex-direction: column
 			.input
 				align-self: flex-start
-				width: 15vw
+				width: auto
 				min-width: auto
-				height: 6vh
+				height: 5vh
 				padding: .5rem
 				margin: 1rem
 			.label
 				color: white
 				font-weight: bold
-				margin-left: 20px
+				margin: auto
+				//margin-left: 20px
+			.equis
+				display: flex
+				align-self: flex-end
+				color: rgba(140, 30, 30, .8)
+				&:hover
+					cursor: pointer
+			.labelArticulo
+				color: rgba(190, 190, 90, .8)
+				font-size: 16px
+				text-align: center
+				font-weight: bold
+				display: flex
+				justify-content: center
+				margin-bottom: 1rem
+			.detalleArticulo
+				padding: .5rem
+				display: flex
+				justify-content: flex-start
+				color: rgba(120, 200, 200, .9)
+				font-weight: 200
+				font-size: 12px
 			
 
 
 			.guardar
-				width: 7rem
-				padding: .3rem
-				margin-left: 3rem
+				width: 12rem
+				padding: .7rem
+				margin-left: 2rem
+				margin-right: 2rem
+				margin-top: 2rem
+				margin-bottom: 2rem
 				font-weight: bold
 				min-width: auto
-				border-radius: .7rem .7rem .7rem .7rem
-				border: 3px solid rgba(10, 40, 40, .0)
+				border-radius: .4rem .4rem .4rem .4rem
+				border: 3px solid rgba(10, 10, 10, .4)
 				background: rgba(33,133,233,.5)
 				color: white
 				font-weight: bold
 				transition: .5s
 				text-decoration: none
 				align-self: center
+				font-size: 1.2rem
 				margin-top: 1rem
 				//transform: translateX(9rem)
 				&:hover
 					opacity: 0.7
 					cursor: pointer
-
 			.volver
-				width: 7rem
-				padding: .3rem
-				margin-right: 3rem
-				min-width: auto
-				border-radius: .7rem .7rem .7rem .7rem
-				border: 3px solid rgba(10, 40, 40, .0)
 				background: rgba(73,73,83,.79)
-				color: white
-				font-weight: bold
-				transition: .5s
-				text-decoration: none
-				align-self: center
-				margin-top: 1rem
-				//transform: translateX(9rem)
-				&:hover
-					opacity: 0.7
-					cursor: pointer
+				text-align: center
+
+.moduloArt
+	background: rgba(23, 43, 53, .7)
+	border-radius: 1rem
+	width: 100%
+
 
 .opcion, .cat
 	color: rgba(20,120,130,.9)
 	font-weight: bold
 			
+.render
+	color: rgba(233, 233, 233, .9)
 	
 </style>
