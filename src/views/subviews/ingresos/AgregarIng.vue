@@ -159,10 +159,10 @@ export default {
 			if(!this.editar){
 				let header = {'Token':this.$store.state.token}
 				let configuracion = {headers:header}
-				console.log('debug'+this.usuario._id + ' && '+this.proveedor._id)
+				console.log('debug: ' + this.usuario._id + ' && ' + this.proveedor._id)
 				axios.post('ingreso/add', {
-							'usuario':this.usuario._id, 
-							'persona':this.proveedor._id, 
+							'usuario':this.usuario, 
+							'persona':this.proveedor, 
 							'tipo_comprobante':this.tipoComprobante,
 							'serie_comprobante':this.serieComprobante, 
 							'num_comprobante':this.numComprobante,
@@ -171,7 +171,7 @@ export default {
 							'detalles':this.articulos
 							}, configuracion)
 				.then((response)=>{
-					console.log('Persona agregada exitosamente: ' + response.data.nombre)
+					console.log('Ingreso agregado exitosamente: ' + response.data.nombre)
 				}).catch((error)=>{
 					console.log(error)
 					alert('no se pudo agregar el articulo')
@@ -181,18 +181,18 @@ export default {
 			} else {
 				let header = {'Token':this.$store.state.token}
 				let configuracion = {headers:header}
-				axios.put('persona/update', {
-							'_id':this.$router.currentRoute.params.id, 
-							'tipo_persona':this.tipoPersona,
-							'nombre':this.nombre, 
-							'tipo_documento':this.tipoDocumento,
-							'num_documento':this.numDocumento, 
-							'direccion':this.direccion,
-							'telefono':this.telefono,
-							'email':this.email
+				axios.put('ingreso/update', {
+							'usuario':this.usuario, 
+							'persona':this.proveedor, 
+							'tipo_comprobante':this.tipoComprobante,
+							'serie_comprobante':this.serieComprobante, 
+							'num_comprobante':this.numComprobante,
+							'impuesto':this.impuesto,
+							'total':this.total,
+							'detalles':this.articulos
 							}, configuracion)
 				.then((response)=>{
-					console.log('Persona actualizada exitosamente: ' + response.data.nombre)
+					console.log('Ingreso actualizado exitosamente: ' + response.data.nombre)
 				}).catch((error)=>{
 					console.log(error)
 					alert('No se pudo actualizar el usuario')
