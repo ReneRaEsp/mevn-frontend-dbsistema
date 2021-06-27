@@ -100,13 +100,10 @@
 		<div class="grupo articulosAgregados">
 			<div v-for="(articulo, index) of articulos" :key="articulo._id" class="duo articuloDuo">
 				<i @click="eliminarArt(index)" class="equis fas fa-times"></i>
-				<label class="labelArticulo"><b>{{articulo.index}}</b></label>
-				<p class="detalleArticulo"><b>Indice: </b><span class="render"> &nbsp;{{ articulo.indice}}</span></p>
-				<p class="detalleArticulo"><b>Categoria: </b><span class="render"> &nbsp;{{ articulo.categoria.nombre}}</span></p>
+				<label class="labelArticulo"><b>{{articulo.articulo}}</b></label>
 				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ articulo.precio}}</span></p>
-				<p class="detalleArticulo"><b>Precio Venta: </b><span class="render"> &nbsp;{{ articulo.precioVenta}}</span></p>
 				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ articulo.cantidad }}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ articulo.id}}</span></p>
+				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ articulo._id}}</span></p>
 			</div>
 		</div>
 		</div>
@@ -133,9 +130,7 @@ import axios from 'axios'
 export default {
 	data(){
 		return{
-			tipoPersona:'Cliente',
 			usuario:'',
-			persona:'',
 			proveedor:'',
 			tipoComprobante:'',
 			serieComprobante:'',
@@ -146,13 +141,11 @@ export default {
 			total:0,
 			precio:'',
 			cantidad:'',
-			indice:0,
-			detalles:'',
 			ruta:this.$router.currentRoute.fullPath,
 			editar:false,
 			validar:0,
 			validarMensaje:[],
-			opciones:[],
+//			opciones:[],
 			usuarios:[],
 			proveedores:[],
 			articulos:[]
@@ -160,20 +153,22 @@ export default {
 	},
 	methods:{
 		guardar(){
-			this.validacion()
-			if(this.validar<=0){
+			/*this.validacion()*/
+			/*if(this.validar<=0){*/
 
 			if(!this.editar){
 				let header = {'Token':this.$store.state.token}
 				let configuracion = {headers:header}
+				console.log('debug'+this.usuario._id + ' && '+this.proveedor._id)
 				axios.post('ingreso/add', {
-							'tipo_persona':this.tipoPersona, 
-							'nombre':this.nombre, 
-							'tipo_documento':this.tipoDocumento,
-							'num_documento':this.numDocumento, 
-							'direccion':this.direccion,
-							'telefono':this.telefono,
-							'email':this.email
+							'usuario':this.usuario._id, 
+							'persona':this.proveedor._id, 
+							'tipo_comprobante':this.tipoComprobante,
+							'serie_comprobante':this.serieComprobante, 
+							'num_comprobante':this.numComprobante,
+							'impuesto':this.impuesto,
+							'total':this.total,
+							'detalles':this.articulos
 							}, configuracion)
 				.then((response)=>{
 					console.log('Persona agregada exitosamente: ' + response.data.nombre)
@@ -206,9 +201,9 @@ export default {
 				this.$router.push({path:'/compras/ingresos'})
 			}
 
-			}else{
+			/*}else{
 				console.log('Error en la validacion')
-			}
+			}*/
 		},
 		opcion(){
 			if(this.ruta == '/compras/ingresos/add' || this.ruta == '/'){
@@ -242,6 +237,7 @@ export default {
 			this.email = this.email.trim()
 			this.telefono = this.telefono.trim()
 		},*/
+		/*
 		validacion(){
 			this.validar=0
 			this.validarMensaje=[]
@@ -276,6 +272,7 @@ export default {
 			}
 			return this.validar
 		},
+		*/
 		listarUsuarios(){
 			let header = {'Token': this.$store.state.token}
 			let configuracion = {headers:header}
@@ -304,40 +301,29 @@ export default {
 			axios.get('articulo/query-codigo?codigo='+this.codigo, configuracion)
 			.then((res)=>{
 				this.precio = this.precio * this.cantidad
-				this.ingreso = {
-					indice:this.indice,
+				this.articulos.push({
+					_id:res.data._id,
 					articulo:res.data.nombre,
-					categoria:res.data.categoria,
-					precioVenta:res.data.precio_venta,
-					id:res.data._id,
 					cantidad:this.cantidad,
 					precio:this.precio				
-				}
+				})
 				this.indice++
 				this.total = this.total + this.precio
-				this.precio=''
-				this.cantidad=''
-				this.codigo=''
-				this.articulos.push(this.ingreso)
+
 			}).catch((error)=>{
 				console.log(error)
 			})
 		},
 		limpiar(){
-			this.nombre=''
-			this.tipoDocumento=''
-			this.numDocumento=''
-			this.direccion=''
-			this.email=''
-			this.telefono=''
-			this.editar=false
-			this.ruta=''
+			this.precio=''
+			this.cantidad=''
+			this.codigo=''
 		},
 		eliminarArt(index){
 			let restar = this.articulos[index].precio
 			this.total = this.total - restar
 			this.articulos.splice(index, 1)
-		},
+		}
 		/*eliminarArt(index){
 			console.log(index)
 			for(let cont = 0; cont <= this.articulos.length; cont++ ){
