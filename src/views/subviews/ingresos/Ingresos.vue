@@ -9,7 +9,7 @@
           v-model="busqueda"
           class="input"
           type="text"
-          placeholder="Buscar usuario..."
+          placeholder="Buscar por usuario..."
           name="search"
         />
         <button @click="filtrarPorNombreInput()" class="submit">Buscar</button>
@@ -72,23 +72,28 @@
           </router-link>
         </td>
       </tr>
-    </table>
-    <table v-else-if="buscando" style="width: 90%">
+    </table><table v-if="buscando" style="width: 90%">
       <tr>
-        <th>Email</th>
-        <th>Nombre</th>
-        <th>Num Doc</th>
-        <th>Rol</th>
-        <th>Telefono</th>
+        <th>Usuario</th>
+        <th>Proveedor</th>
+        <th>Tipo Comprobante</th>
+        <th>Serie Comprobante</th>
+        <th>Nro Comprobante</th>
+        <th>Fecha</th>
+        <th>Impuesto</th>
+        <th>Total</th>
         <th>Estado</th>
-        <th>opc</th>
+        <th>Opciones</th>
       </tr>
       <tr v-for="resultado of resultados" :key="resultado._id">
-        <td>{{ resultado.email }}</td>
-        <td>{{ resultado.nombre }}</td>
-        <td>{{ resultado.num_documento }}</td>
-        <td>{{ resultado.rol }}</td>
-        <td>{{ resultado.telefono }}</td>
+        <td>{{resultado.usuario.nombre}}</td>
+        <td>{{resultado.persona.nombre}}</td>
+        <td>{{resultado.tipo_comprobante}}</td>
+        <td>{{resultado.serie_comprobante}}</td>
+        <td>{{resultado.num_comprobante}}</td>
+        <td>{{resultado.cretedAt}}</td>
+        <td>{{resultado.impuesto}}</td>
+        <td>{{resultado.total}}</td>
         <td>
           <div v-if="resultado.estado">
             <span class="activo"> Activo </span>
@@ -98,7 +103,7 @@
           </div>
         </td>
         <td>
-          <router-link :to="'/accesos/add-user' + resultado._id">
+          <router-link :to="'/compras/ingresos/add' + resultado._id">
             <i class="edit fas fa-edit"></i>
           </router-link>
           <button
@@ -115,6 +120,9 @@
           >
             <i class="delete fas fa-lock"></i>
           </button>
+          <router-link :to="'/compras/ingresos/detalles' + resultado._id">
+            <i class="detallesIco far fa-list-alt"><span class="detalles">Detalles</span></i>
+          </router-link>
         </td>
       </tr>
     </table>
@@ -164,9 +172,9 @@ export default {
         filtrarPorNombreInput(){
           this.resultados=[]
           let r = []
-          this.usuarios.forEach(usuario=>{
-            if(!usuario.nombre.search(this.busqueda)){
-            r.push(usuario)
+          this.ingresos.forEach(ingreso=>{
+            if(!ingreso.usuario.nombre.search(this.busqueda)){
+            r.push(ingreso)
             }else{
               this.sinCoincidencias = true
             }
