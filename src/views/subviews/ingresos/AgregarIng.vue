@@ -158,8 +158,8 @@ export default {
 	},
 	methods:{
 		guardar(){
-			/*this.validacion()*/
-			/*if(this.validar<=0){*/
+			this.validacion()
+			if(this.validar<=0){
 
 			if(!this.editar){
 				let header = {'Token':this.$store.state.token}
@@ -204,10 +204,9 @@ export default {
 				this.limpiar()
 				this.$router.push({path:'/compras/ingresos'})
 			}
-
-			/*}else{
+			}else{
 				console.log('Error en la validacion')
-			}*/
+			}
 		},
 		opcion(){
 			if(this.ruta == '/compras/ingresos/add' || this.ruta == '/'){
@@ -232,28 +231,18 @@ export default {
 				console.log('error del query: ' + error)
 			})
 		},
-		/*
-		doTrim(){
-            this.nombre = this.nombre.trim()
-			this.tipoDocumento = this.tipoDocumento.trim()
-			this.numDocumento = this.numDocument.trim()
-			this.direccion = this.direccion.trim()
-			this.email = this.email.trim()
-			this.telefono = this.telefono.trim()
-		},*/
 		validacion(){
 			this.validar=0
 			this.validarMensaje=[]
-			//this.doTrim()
-			let tipoComprobante = this.tipoComprobante
-			/*let serieComprobante = this.serieComprobante
-			let numComprobante = this.numComprobante
-			let impuesto = this.impuesto
-			let total = this.total
-			let detalles = this.detalles*/
 
-			if(tipoComprobante.length < 1 || tipoComprobante.length > 50){
-				this.validarMensaje.push('Debes ingresar un nombre y este no debe exceder los 50 caracteres')
+			if(this.serieComprobante.length < 1 || this.serieComprobante.length > 7){
+				this.validarMensaje.push('Debe ingresar el numero de serie del comprobante y este no puede ser mayor a 7')
+			}
+			if(this.numComprobante.length < 1 || this.numComprobante.length > 10){
+				this.validarMensaje.push('Debe ingresar el numero del comprobante y este no puede ser mayor a 10')
+			}
+			if(this.impuesto.length < 1 || this.impuesto.length > 10){
+				this.validarMensaje.push('Debe ingresar el impuesto y este no puede ser mayor a 10 caracteres')
 			}
 			if(this.validarMensaje.length){
 				this.validar=1
@@ -311,16 +300,6 @@ export default {
 			this.total = this.total - restar
 			this.articulos.splice(index, 1)
 		}
-		/*eliminarArt(index){
-			console.log(index)
-			for(let cont = 0; cont <= this.articulos.length; cont++ ){
-				if(cont == index){
-					let restar = this.articulos[index].precio
-					this.total = this.total - restar
-					this.articulos.splice(index, 1)
-				}
-			}			
-		}*/
 	},
 	created(){
 		this.opcion()
