@@ -5,30 +5,32 @@
 		<h3 class="title">Agregar o editar Ingreso</h3>
 		<div class="grupo">
 			<div class="duo">
-				<label class="label" for="categoria">Usuario</label>
+				<label class="label" for="usuario">Usuario</label>
 				<br>
-				<select v-model="usuario" class="input cat" name="usuarios">
-					<option value="Seleccione una categoria" class="opcion" selected>Seleccione una usuario</option>
+				<select v-model="usuario" class="input cat" name="usuario">
+					<option value="Seleccione una usuario" class="opcion" selected>Seleccione una usuario</option>
 					<hr>
 					<option class="opcion" v-for="usuario of usuarios" :key="usuario._id" :value="usuario._id">{{usuario.nombre}}</option>					
 				</select>
 			</div>
 			<div class="duo">
-				<label class="label" for="categoria">Proveedor</label>
+				<label class="label" for="proveedor">Proveedor</label>
 				<br>
-				<select v-model="proveedor" class="input cat" name="usuarios">
-					<option value="Seleccione una categoria" class="opcion" selected>Seleccione una proveedor</option>
+				<select v-model="proveedor" class="input cat" name="proveedor">
+					<option value="Seleccione un proveedor" class="opcion" selected>Seleccione una proveedor</option>
 					<hr>
 					<option class="opcion" v-for="proveedor of proveedores" :key="proveedor._id" :value="proveedor._id">{{proveedor.nombre}}</option>					
 				</select>
-			</div>		
+			</div>	
 			<div class="duo">
-				<label for="tipoComprobante" class="label">Tipo Comprobante</label>
+				<label class="label" for="categoria">Tipo Comprobante</label>
 				<br>
-				<input v-model="tipoComprobante" class="input" name="tipoComprobante"
-				placeholder="Tipo de comprobante..." type="text" >
-			</div>
-			
+				<select v-model="tipoComprobante" class="input cat" name="usuarios">
+					<option value="Seleccione una categoria" class="opcion" selected>Seleccione comprobante</option>
+					<hr>
+					<option class="opcion" v-for="comprobante of tiposComprobante" :key="comprobante" :value="comprobante">{{comprobante}}</option>					
+				</select>
+			</div>					
 		</div>
 		<div class="grupo">
 			<div class="duo">
@@ -133,6 +135,9 @@ export default {
 			usuario:'',
 			proveedor:'',
 			tipoComprobante:'',
+			tiposComprobante:[
+				'Factura','Boleta','Factura Electronica','Boleta Electronica'
+			],
 			serieComprobante:'',
 			numComprobante:'',
 			impuesto:'',
@@ -159,7 +164,6 @@ export default {
 			if(!this.editar){
 				let header = {'Token':this.$store.state.token}
 				let configuracion = {headers:header}
-				console.log('debug: ' + this.usuario._id + ' && ' + this.proveedor._id)
 				axios.post('ingreso/add', {
 							'usuario':this.usuario, 
 							'persona':this.proveedor, 
@@ -237,42 +241,25 @@ export default {
 			this.email = this.email.trim()
 			this.telefono = this.telefono.trim()
 		},*/
-		/*
 		validacion(){
 			this.validar=0
 			this.validarMensaje=[]
 			//this.doTrim()
-			let tipoDocumento = this.tipoDocumento
-			let nombre = this.nombre
-			let numDocumento = this.numDocumento
-			let direccion = this.direccion
-			let email = this.email
-			let telefono = this.telefono
+			let tipoComprobante = this.tipoComprobante
+			/*let serieComprobante = this.serieComprobante
+			let numComprobante = this.numComprobante
+			let impuesto = this.impuesto
+			let total = this.total
+			let detalles = this.detalles*/
 
-			if(nombre.length < 1 || nombre.length > 50){
+			if(tipoComprobante.length < 1 || tipoComprobante.length > 50){
 				this.validarMensaje.push('Debes ingresar un nombre y este no debe exceder los 50 caracteres')
-			}
-			if(tipoDocumento.length < 1 || tipoDocumento.length > 20){
-				this.validarMensaje.push('Debes introducir el tipo de documento y este no debe exceder los 20 caracteres')
-			}
-			if(numDocumento.length < 1 || numDocumento.length > 20){
-				this.validarMensaje.push('Debes introducir el nombre del documento y este no debe exceder los 20 caracteres')
-			}
-			if(direccion.length < 1 || direccion.length > 70){
-				this.validarMensaje.push('Debes introducir una dirección y esta no puede exceder los 70 caracteres')
-			}
-			if(telefono.length < 1 || telefono.length > 20){
-				this.validarMensaje.push('Debes introducir un telefono y este no puede exceder los 20 caracteres')
-			}
-            if(email.length < 1 || email.length > 50){
-				this.validarMensaje.push('Debes introducir un email y este no puede exceder los 50 caracteres')
 			}
 			if(this.validarMensaje.length){
 				this.validar=1
 			}
 			return this.validar
 		},
-		*/
 		listarUsuarios(){
 			let header = {'Token': this.$store.state.token}
 			let configuracion = {headers:header}
