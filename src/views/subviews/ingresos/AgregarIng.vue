@@ -1,31 +1,57 @@
 <template>
   <section class="agregarProv">
-    <!--<h3 class="title">Agregar Ingreso</h3>-->
 	<div @keyup.enter="guardar()" class="formAgregar">
 		<h3 class="title">Agregar o editar Ingreso</h3>
 		<div class="grupo">
-			<div class="duo">
+			<div class="duo pFila">
 				<label class="label" for="usuario">Usuario</label>
 				<br>
-				<select v-model="usuario" class="input cat" name="usuario">
+				<select v-if="!this.editar" v-model="usuario" class="input cat" name="usuario">
 					<option value="Seleccione una usuario" class="opcion" selected>Seleccione una usuario</option>
 					<hr>
 					<option class="opcion" v-for="usuario of usuarios" :key="usuario._id" :value="usuario._id">{{usuario.nombre}}</option>					
+				</select>
+				<div class="modificar" v-if="this.editar">
+					<input  class="input" :value="usuario.nombre" type="text">
+					<p @click="modificarUsuario()" class="modText">Modificar usuario</p>
+				</div>
+				<select  v-if="this.modificar.usuario && this.editar" v-model="tipoComprobante" class="input cat" name="usuarios">
+					<option value="Seleccione una categoria" class="opcion" selected>Seleccione usuario</option>
+					<hr>
+					<option class="opcion" v-for="usuario of usuarios" :key="usuario._id" :value="usuario">{{usuario.nombre}}</option>					
 				</select>
 			</div>
 			<div class="duo">
 				<label class="label" for="proveedor">Proveedor</label>
 				<br>
-				<select v-model="proveedor" class="input cat" name="proveedor">
+				<select v-if="!this.editar" v-model="proveedor" class="input cat" name="proveedor">
 					<option value="Seleccione un proveedor" class="opcion" selected>Seleccione una proveedor</option>
 					<hr>
 					<option class="opcion" v-for="proveedor of proveedores" :key="proveedor._id" :value="proveedor._id">{{proveedor.nombre}}</option>					
+				</select>
+				<div class="modificar" v-if="this.editar">
+					<input  class="input" :value="proveedor.nombre" type="text">
+					<p @click="modificarProv()" class="modText">Modificar proveedor</p>
+				</div>
+				<select  v-if="this.modificar.prov && this.editar" v-model="tipoComprobante" class="input cat" name="usuarios">
+					<option value="Seleccione una categoria" class="opcion" selected>Seleccione proveedor</option>
+					<hr>
+					<option class="opcion" v-for="proveedor of proveedores" :key="proveedor._id" :value="proveedor">{{proveedor.nombre}}</option>					
 				</select>
 			</div>	
 			<div class="duo">
 				<label class="label" for="categoria">Tipo Comprobante</label>
 				<br>
-				<select v-model="tipoComprobante" class="input cat" name="usuarios">
+				<select  v-if="!this.editar" v-model="tipoComprobante" class="input cat" name="usuarios">
+					<option value="Seleccione una categoria" class="opcion" selected>Seleccione comprobante</option>
+					<hr>
+					<option class="opcion" v-for="comprobante of tiposComprobante" :key="comprobante" :value="comprobante">{{comprobante}}</option>					
+				</select>
+				<div class="modificar" v-if="this.editar">
+					<input  class="input" :value="this.tipoComprobante" type="text">
+					<p @click="modificarTComp()" class="modText">Modificar tipo comprobante</p>
+				</div>
+				<select  v-if="this.modificar.tComp && this.editar" v-model="tipoComprobante" class="input cat" name="usuarios">
 					<option value="Seleccione una categoria" class="opcion" selected>Seleccione comprobante</option>
 					<hr>
 					<option class="opcion" v-for="comprobante of tiposComprobante" :key="comprobante" :value="comprobante">{{comprobante}}</option>					
@@ -37,7 +63,7 @@
 				<label for="serieComprobante" class="label">Serie Comprobante</label>
 				<br>
 				<input v-model.number="serieComprobante" class="input" name="serieComprobante"
-				placeholder="Serie de comprobante..." type="number" >
+				placeholder="Serie de comprobante..." type="number">
 			</div>
 			<div class="duo">
 				<label for="numComprobante" class="label">Número Comprobante</label>
@@ -51,14 +77,6 @@
 				<input v-model.number="impuesto" class="input" name="impuesto"
 				placeholder="Impuesto..." type="number" >
 			</div>
-		</div>
-		<div class="grupo">
-			<!--<div class="duo">
-				<label for="total" class="label">Total</label>
-				<br>
-				<input v-model="total" class="input" name="total"
-				placeholder="Total..." type="number" >
-			</div>-->
 		</div>
 		<div class="grupo">
 			<div class="duo">
@@ -150,10 +168,14 @@ export default {
 			editar:false,
 			validar:0,
 			validarMensaje:[],
-//			opciones:[],
 			usuarios:[],
 			proveedores:[],
-			articulos:[]
+			articulos:[],
+			modificar:{
+				tComp:false,
+				prov:false,
+				usuario:false
+			}
 		}
 	},
 	methods:{
@@ -178,7 +200,7 @@ export default {
 					console.log('Ingreso agregado exitosamente: ' + response.data.nombre)
 				}).catch((error)=>{
 					console.log(error)
-					alert('no se pudo agregar el articulo')
+					alert('no se pudo agregar el ingreso')
 				})
 				this.limpiar()
 				this.$router.push({path:'/compras/ingresos'})
@@ -199,7 +221,7 @@ export default {
 					console.log('Ingreso actualizado exitosamente: ' + response.data.nombre)
 				}).catch((error)=>{
 					console.log(error)
-					alert('No se pudo actualizar el usuario')
+					alert('No se pudo actualizar el ingreso')
 				})
 				this.limpiar()
 				this.$router.push({path:'/compras/ingresos'})
@@ -219,14 +241,16 @@ export default {
 		buscarPorId(){
 			let header = {'Token': this.$store.state.token}
 			let configuracion = {headers:header}
-			axios.get('persona/query?_id='+this.$router.currentRoute.params.id, configuracion)
+			axios.get('ingreso/query?_id='+this.$router.currentRoute.params.id, configuracion)
 			.then((response)=>{
-				this.nombre = response.data.nombre
-				this.tipoDocumento = response.data.tipo_documento
-				this.numDocumento = response.data.num_documento
-				this.direccion = response.data.direccion
-				this.email = response.data.email
-				this.telefono = response.data.telefono
+				this.usuario = response.data.usuario
+				this.proveedor = response.data.persona
+				this.tipoComprobante = response.data.tipo_comprobante
+				this.serieComprobante = response.data.serie_comprobante
+				this.numComprobante = response.data.num_comprobante
+				this.impuesto = response.data.impuesto
+				this.total = response.data.total
+				this.articulos = response.data.detalles
 			}).catch((error)=>{
 				console.log('error del query: ' + error)
 			})
@@ -299,6 +323,15 @@ export default {
 			let restar = this.articulos[index].precio
 			this.total = this.total - restar
 			this.articulos.splice(index, 1)
+		},
+		modificarTComp(){
+			!this.modificar.tComp ? this.modificar.tComp = true : this.modificar.tComp = false
+		},
+		modificarProv(){
+			!this.modificar.prov ? this.modificar.prov = true : this.modificar.prov = false
+		},
+		modificarUsuario(){
+			!this.modificar.usuario ? this.modificar.usuario = true : this.modificar.usuario = false
 		}
 	},
 	created(){
@@ -371,10 +404,23 @@ export default {
 		.botones
 			display: flex
 			justify-content: center
+		.pFila
+			height: 14rem
 		.duo
 			margin: 1.3rem
 			display: flex
 			flex-direction: column
+			justify-content: flex-start
+			align-content: flex-start
+			.modificar
+				display: flex
+				flex-direction: column
+				align-items: center
+				justify-content: center
+				.modText
+					color: rgb(30, 20, 100)
+					&:hover
+						cursor: pointer
 			.input
 				align-self: flex-start
 				width: auto
@@ -385,7 +431,9 @@ export default {
 			.label
 				color: white
 				font-weight: bold
-				margin: auto
+				margin: 1rem
+				margin-left: auto
+				margin-right: auto
 				//margin-left: 20px
 			.equis
 				display: flex
