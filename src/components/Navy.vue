@@ -21,12 +21,12 @@
       <li v-if="esAdministrador" class="list-element">
         <router-link class="button" to="/accesos/usuarios">Accesos</router-link>
       </li>
-      <li
+     <!--<li
         v-if="esAdministrador || esVendedor || esAlmacenero"
         class="list-element"
       >
         <router-link class="button" to="/consultas/compras">Consultas</router-link>
-      </li>
+      </li>-->
       <li class="list-element">
         <router-link class="button" to="/acerca-de">Acerca de</router-link>
       </li>

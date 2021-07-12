@@ -9,9 +9,8 @@ const routes = [
   {
     path: '/',
     name: 'Inicio',
-    component: ()=> import(/* webpackChunkName: "inicio" */'../views/subviews/ingresos/Ingresos'),
+    component: ()=> import(/* webpackChunkName: "inicio" */'../views/subviews/inicio/Inicio.vue'),
     meta:{
-      libre: true,
       administrador: true,
       almacenero: false,
       vendedor: true
@@ -22,7 +21,7 @@ const routes = [
     name: 'Login',
     component: ()=> import(/* webpackChunkName: "login" */'../views/subviews/inicio/Login.vue'),
     meta:{
-      libre:true,
+      libre:true
     }
   },
   {
@@ -225,10 +224,11 @@ const routes = [
       vendedor: false
     }
   },
+  /*
   {
     path: '/consultas/compras',
     name: 'ConsultasCompras',
-    component: ()=> import(/* webpackChunkName: "consultas-compras" */'../views/subviews/consultasCompras/ConsultasComp.vue'),
+    component: ()=> import(/* webpackChunkName: "consultas-compras" *//*'../views/subviews/consultasCompras/ConsultasComp.vue'),
     meta:{
       administrador: true,
       almacenero: true,
@@ -238,13 +238,13 @@ const routes = [
   {
     path: '/consultas/ventas',
     name: 'ConsultasVentas',
-    component: ()=> import(/* webpackChunkName: "consultas-ventas" */'../views/subviews/consultasVentas/ConsultasVent.vue'),
+    component: ()=> import(/* webpackChunkName: "consultas-ventas" *//*'../views/subviews/consultasVentas/ConsultasVent.vue'),
     meta:{
       administrador: true,
       almacenero: true,
       vendedor: true
     }
-  },
+  },*/
   {
     path: '/acerca-de',
     name: 'AcercaDe',
