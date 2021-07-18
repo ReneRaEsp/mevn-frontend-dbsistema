@@ -29,13 +29,13 @@
                 Ventas
             </router-link>
         </div>
-        <div v-if="esAdministrador || esVendedor" class="ventas elemento">
-            <h2 class="subtitle">Ventas</h2>
-            <router-link class="button" to="/ventas/clientes">
-                Clientes
+        <div class="consultas elemento">
+            <h2 class="subtitle">Consultas</h2>
+            <router-link v-if="esAdministrador || esAlmacenero" class="button" to="/consultas/compras">
+                Consultar Compras
             </router-link>
-            <router-link class="button" to="/ventas">
-                Ventas
+            <router-link v-if="esAdministrador || esVendedor" class="button" to="/consultas/ventas">
+                Consultar Ventas
             </router-link>
         </div>
     </div>
@@ -127,15 +127,15 @@ export default {
                     margin-left: auto
                     margin-right: auto
                     //background: rgba(20, 90, 100, .7)
-                    background: rgba(233, 240, 230, .7)
-                    color: rgba(20, 90, 100, 1)
+                    background: rgba(43, 100, 130, .7)
+                    color: rgba(200, 190, 200, 1)
                     font-weight: bold
                     border: 2px solid rgba(2, 2, 2, .1)
                     border-radius: 6px
                     transition: .9s
                     &:hover
                         background: rgba(20, 90, 100, .4)
-                        color: white
+                        color: rgba(250, 220, 200, .9)
                         border: 2px solid rgba(212, 212, 212, .3)
                         cursor: pointer
         .rejilla
@@ -146,14 +146,13 @@ export default {
             width: 100%
             height: 40%
             .almacen
-                grid-area: almacen
                 background: rgba(30, 22, 70, .7)
             .compras
-                grid-area: compras
                 background: rgba(50, 70, 110, .84)
             .ventas
-                grid-area: ventas
                 background: rgba(20, 50, 100, .7)
+            .consultas
+                background: rgba(13, 40, 80, .7)
             .elemento
                 display: flex
                 flex-direction: column
@@ -180,14 +179,15 @@ export default {
                     margin-top: 2rem
                     margin-left: auto
                     margin-right: auto
-                    background: rgba(20, 90, 100, .7)
+                    //background: rgba(20, 90, 100, .7)
+                    background: rgba(120, 190, 200, .7)
                     color: white 
                     font-weight: bold
                     border: 2px solid rgba(2, 2, 2, .1)
                     border-radius: 6px
                     transition: .9s
                     &:hover
-                        background: rgba(20, 90, 100, .4)
+                        background: rgba(20, 90, 100, .12)
                         border: 2px solid rgba(212, 212, 212, .3)
                         cursor: pointer
 

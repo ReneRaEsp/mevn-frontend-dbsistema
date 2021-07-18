@@ -224,27 +224,26 @@ const routes = [
       vendedor: false
     }
   },
-  /*
   {
     path: '/consultas/compras',
     name: 'ConsultasCompras',
-    component: ()=> import(/* webpackChunkName: "consultas-compras" *//*'../views/subviews/consultasCompras/ConsultasComp.vue'),
+    component: ()=> import(/* webpackChunkName: "consultas-compras" */'../views/subviews/consultasCompras/ConsultasComp.vue'),
     meta:{
       administrador: true,
       almacenero: true,
-      vendedor: true
+      vendedor: false
     }
   },
   {
     path: '/consultas/ventas',
     name: 'ConsultasVentas',
-    component: ()=> import(/* webpackChunkName: "consultas-ventas" *//*'../views/subviews/consultasVentas/ConsultasVent.vue'),
+    component: ()=> import(/* webpackChunkName: "consultas-ventas" */'../views/subviews/consultasVentas/ConsultasVent.vue'),
     meta:{
       administrador: true,
-      almacenero: true,
+      almacenero: false,
       vendedor: true
     }
-  },*/
+  },
   {
     path: '/acerca-de',
     name: 'AcercaDe',
