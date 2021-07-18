@@ -12,7 +12,7 @@ const routes = [
     component: ()=> import(/* webpackChunkName: "inicio" */'../views/subviews/inicio/Inicio.vue'),
     meta:{
       administrador: true,
-      almacenero: false,
+      almacenero: true,
       vendedor: true
     }
   },

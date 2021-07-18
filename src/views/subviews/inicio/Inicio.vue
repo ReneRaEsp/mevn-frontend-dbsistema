@@ -2,28 +2,53 @@
   <section class="Inicio">
     <h2 class="title">Bienvenido</h2>
     <div class="rejilla">
-        <div class="almacen elemento">
+        <div v-if="esAdministrador || esAlmacenero" class="almacen elemento">
             <h2 class="subtitle">Almacen</h2>
-            <button>Categorias</button>
-            <button>Articulos</button>
+            <router-link class="button" to="/almacen/categorias">
+                Categorias
+            </router-link>
+            <router-link class="button" to="/almacen/articulos">
+                Articulos
+            </router-link>
         </div>
-        <div class="compras elemento">
+        <div v-if="esAdministrador || esVendedor" class="compras elemento">
             <h2 class="subtitle">Compras</h2>
-            <button>Ingresos</button>
-            <button>Proveedores</button>
+            <router-link class="button" to="/compras/ingresos">
+                Ingresos
+            </router-link>
+            <router-link class="button" to="/compras/proveedores">
+                Proveedores
+            </router-link>
         </div>
-        <div class="ventas elemento">
+        <div v-if="esAdministrador || esVendedor" class="ventas elemento">
             <h2 class="subtitle">Ventas</h2>
-            <button>Ventas</button>
-            <button>Clientes</button>
+            <router-link class="button" to="/ventas/clientes">
+                Clientes
+            </router-link>
+            <router-link class="button" to="/ventas">
+                Ventas
+            </router-link>
+        </div>
+        <div v-if="esAdministrador || esVendedor" class="ventas elemento">
+            <h2 class="subtitle">Ventas</h2>
+            <router-link class="button" to="/ventas/clientes">
+                Clientes
+            </router-link>
+            <router-link class="button" to="/ventas">
+                Ventas
+            </router-link>
         </div>
     </div>
     <div class="subrejilla">
-        <div class="elemento accesos">
-            <button>Gestionar accesos</button>
+        <div v-if="esAdministrador" class="elemento accesos">
+            <router-link class="button" to="/accesos/usuarios">
+                Gestionar accesos
+            </router-link>
         </div>
-        <div class="elemento acerca">
-            <button>Informacion acerca de la app</button>
+        <div v-if="esAdministrador || esVendedor || esAlmacenero" class="elemento acerca">
+            <router-link class="button" to="/acerca-de">
+                Informacion de la app
+            </router-link>
         </div>
     </div>
   </section>
@@ -31,7 +56,25 @@
 
 <script>
 export default {
-
+    computed: {
+    esAdministrador() {
+      return (
+        this.$store.state.usuario &&
+        this.$store.state.usuario.rol == "Administrador"
+      );
+    },
+    esAlmacenero() {
+      return (
+        this.$store.state.usuario &&
+        this.$store.state.usuario.rol == "Almacenero"
+      );
+    },
+    esVendedor() {
+      return (
+        this.$store.state.usuario && this.$store.state.usuario.rol == "Vendedor"
+      );
+    },
+    }
 }
 </script>
 
@@ -52,6 +95,8 @@ export default {
             margin-top: 2rem
             display: flex
             justify-content: space-evenly
+            flex-wrap: wrap
+            overflow: auto
             width: 100%
             height: 30%
             .accesos
@@ -59,6 +104,8 @@ export default {
             .elemento
                 display: flex
                 width: 30%
+                flex-wrap: wrap
+                width: 49%
                 flex-direction: column
                 justify-content: flex-start
                 padding: 1.5rem
@@ -68,26 +115,34 @@ export default {
                     color: rgba(233, 233, 202, .9)
                     align-self: center
                     display: flex
-                button
+                .button
+                    display: flex
+                    justify-content: center
+                    align-items: center
+                    text-decoration: none
                     font-size: 18px
-                    height: 3rem
-                    width: 12rem
+                    height: 3.7rem
+                    width: 100%
                     margin-top: 2rem
                     margin-left: auto
                     margin-right: auto
-                    background: rgba(20, 90, 100, .7)
-                    color: white 
+                    //background: rgba(20, 90, 100, .7)
+                    background: rgba(233, 240, 230, .7)
+                    color: rgba(20, 90, 100, 1)
                     font-weight: bold
                     border: 2px solid rgba(2, 2, 2, .1)
                     border-radius: 6px
                     transition: .9s
                     &:hover
                         background: rgba(20, 90, 100, .4)
+                        color: white
                         border: 2px solid rgba(212, 212, 212, .3)
                         cursor: pointer
         .rejilla
             display: flex
             justify-content: space-around
+            flex-wrap: wrap
+            overflow: auto
             width: 100%
             height: 40%
             .almacen
@@ -103,6 +158,8 @@ export default {
                 display: flex
                 flex-direction: column
                 justify-content: flex-start
+                height: auto
+                width: auto
                 padding: 1.5rem
                 border: 3px solid rgba(20, 100, 190, .0)
                 border-radius: 12px
@@ -110,8 +167,14 @@ export default {
                     color: rgba(233, 233, 202, .9)
                     align-self: center
                     display: flex
-                button
+                .button
                     font-size: 18px
+                    text-align: center
+                    text-decoration: none
+                    display: flex
+                    justify-content: center
+                    align-items: center
+                    padding: auto
                     height: 3rem
                     width: 12rem
                     margin-top: 2rem
