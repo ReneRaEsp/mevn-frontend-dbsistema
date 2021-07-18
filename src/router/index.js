@@ -165,6 +165,16 @@ const routes = [
     }
   },
   {
+    path: '/ventas/add',
+    name: 'AgregarVen',
+    component: ()=> import(/* webpackChunkName: "agregar-ventas" */ '../views/subviews/ventas/AgregarVen.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: true
+    }
+  },
+  {
     path: '/ventas/clientes',
     name: 'Clientes',
     component: ()=> import (/* webpackChunkName: "clientes" */'../views/subviews/clientes/Clientes.vue'),

@@ -15,7 +15,7 @@
         <button @click="filtrarPorNombreInput()" class="submit">Buscar</button>
       </div>
       <button class="mostrarT" @click="listar()">mostrar todo</button>
-      <router-link class="agregar" to="/compras/ingresos/add">
+      <router-link class="agregar" to="/ventas/add">
         Agregar
       </router-link>
     </div>
@@ -50,7 +50,7 @@
           </div>
         </td>
         <td>
-          <router-link :to="'/compras/ingresos/add' + ingreso._id">
+          <router-link :to="'/ventas/add' + ingreso._id">
             <i class="edit fas fa-edit"></i>
           </router-link>
           <button
@@ -103,7 +103,7 @@
           </div>
         </td>
         <td>
-          <router-link :to="'/compras/ingresos/add' + resultado._id">
+          <router-link :to="'/ventas/add' + resultado._id">
             <i class="edit fas fa-edit"></i>
           </router-link>
           <button
