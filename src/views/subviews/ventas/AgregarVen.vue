@@ -22,21 +22,21 @@
 				</select>
 			</div>
 			<div class="duo">
-				<label class="label" for="proveedor">Proveedor</label>
+				<label class="label" for="cliente">Cliente</label>
 				<br>
-				<select v-if="!this.editar" v-model="proveedor" class="input cat" name="proveedor">
-					<option value="Seleccione un proveedor" class="opcion" selected>Seleccione una proveedor</option>
+				<select v-if="!this.editar" v-model="cliente" class="input cat" name="cliente">
+					<option value="Seleccione un cliente" class="opcion" selected>Seleccione una cliente</option>
 					<hr>
-					<option class="opcion" v-for="proveedor of proveedores" :key="proveedor._id" :value="proveedor._id">{{proveedor.nombre}}</option>					
+					<option class="opcion" v-for="cliente of clientes" :key="cliente._id" :value="cliente._id">{{cliente.nombre}}</option>					
 				</select>
 				<div class="modificar" v-if="this.editar">
-					<input  class="input" :value="proveedor.nombre" type="text">
-					<p @click="modificarProv()" class="modText">Modificar proveedor</p>
+					<input  class="input" :value="cliente.nombre" type="text">
+					<p @click="modificarProv()" class="modText">Modificar cliente</p>
 				</div>
 				<select  v-if="this.modificar.prov && this.editar" v-model="tipoComprobante" class="input cat" name="usuarios">
-					<option value="Seleccione una categoria" class="opcion" selected>Seleccione proveedor</option>
+					<option value="Seleccione una categoria" class="opcion" selected>Seleccione cliente</option>
 					<hr>
-					<option class="opcion" v-for="proveedor of proveedores" :key="proveedor._id" :value="proveedor">{{proveedor.nombre}}</option>					
+					<option class="opcion" v-for="cliente of clientes" :key="cliente._id" :value="cliente">{{cliente.nombre}}</option>					
 				</select>
 			</div>	
 			<div class="duo">
@@ -151,7 +151,7 @@ export default {
 	data(){
 		return{
 			usuario:'',
-			proveedor:'',
+			cliente:'',
 			tipoComprobante:'',
 			tiposComprobante:[
 				'Factura','Boleta','Factura Electronica','Boleta Electronica'
@@ -160,7 +160,7 @@ export default {
 			numComprobante:'',
 			impuesto:'',
 			codigo:'',
-			ingreso:{},
+			venta:{},
 			total:0,
 			precio:'',
 			cantidad:'',
@@ -169,7 +169,7 @@ export default {
 			validar:0,
 			validarMensaje:[],
 			usuarios:[],
-			proveedores:[],
+			clientes:[],
 			articulos:[],
 			modificar:{
 				tComp:false,
@@ -186,7 +186,7 @@ export default {
 			if(!this.editar){
 				let header = {'Token':this.$store.state.token}
 				let configuracion = {headers:header}
-				axios.post('ingreso/add', {
+				axios.post('venta/add', {
 							'usuario':this.usuario, 
 							'persona':this.proveedor, 
 							'tipo_comprobante':this.tipoComprobante,
@@ -197,17 +197,17 @@ export default {
 							'detalles':this.articulos
 							}, configuracion)
 				.then((response)=>{
-					console.log('Ingreso agregado exitosamente: ' + response.data.nombre)
+					console.log('Venta agregada exitosamente: ' + response.data.nombre)
 				}).catch((error)=>{
 					console.log(error)
 					alert('no se pudo agregar el ingreso')
 				})
 				this.limpiar()
-				this.$router.push({path:'/compras/ingresos'})
+				this.$router.push({path:'/ventas'})
 			} else {
 				let header = {'Token':this.$store.state.token}
 				let configuracion = {headers:header}
-				axios.put('ingreso/update', {
+				axios.put('venta/update', {
 							'usuario':this.usuario, 
 							'persona':this.proveedor, 
 							'tipo_comprobante':this.tipoComprobante,
@@ -218,20 +218,20 @@ export default {
 							'detalles':this.articulos
 							}, configuracion)
 				.then((response)=>{
-					console.log('Ingreso actualizado exitosamente: ' + response.data.nombre)
+					console.log('Venta actualizada exitosamente: ' + response.data.nombre)
 				}).catch((error)=>{
 					console.log(error)
 					alert('No se pudo actualizar el ingreso')
 				})
 				this.limpiar()
-				this.$router.push({path:'/compras/ingresos'})
+				this.$router.push({path:'/ventas'})
 			}
 			}else{
 				console.log('Error en la validacion')
 			}
 		},
 		opcion(){
-			if(this.ruta == '/compras/ingresos/add' || this.ruta == '/'){
+			if(this.ruta == '/ventas/add' || this.ruta == '/'){
 				this.editar=false
 			} else {
 				this.buscarPorId()
@@ -241,10 +241,10 @@ export default {
 		buscarPorId(){
 			let header = {'Token': this.$store.state.token}
 			let configuracion = {headers:header}
-			axios.get('ingreso/query?_id='+this.$router.currentRoute.params.id, configuracion)
+			axios.get('venta/query?_id='+this.$router.currentRoute.params.id, configuracion)
 			.then((response)=>{
 				this.usuario = response.data.usuario
-				this.proveedor = response.data.persona
+				this.cliente = response.data.persona
 				this.tipoComprobante = response.data.tipo_comprobante
 				this.serieComprobante = response.data.serie_comprobante
 				this.numComprobante = response.data.num_comprobante
@@ -284,12 +284,12 @@ export default {
 				console.log(error)
 			})
 		},
-		listarProveedores(){
+		listarClientes(){
 			let header = {'Token': this.$store.state.token}
 			let configuracion = {headers:header}
-			axios.get('persona/list-proveedores', configuracion)
+			axios.get('persona/list-clientes', configuracion)
 			.then((res)=>{
-				this.proveedores = res.data
+				this.clientes = res.data
 			})
 			.catch((error)=>{
 				console.log(error)

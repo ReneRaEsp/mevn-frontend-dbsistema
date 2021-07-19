@@ -22,7 +22,7 @@
     <table v-if="!buscando" style="width: 90%">
       <tr>
         <th>Usuario</th>
-        <th>Proveedor</th>
+        <th>Cliente</th>
         <th>Tipo Comprobante</th>
         <th>Serie Comprobante</th>
         <th>Nro Comprobante</th>
@@ -75,7 +75,7 @@
     </table><table v-if="buscando" style="width: 90%">
       <tr>
         <th>Usuario</th>
-        <th>Proveedor</th>
+        <th>Cliente</th>
         <th>Tipo Comprobante</th>
         <th>Serie Comprobante</th>
         <th>Nro Comprobante</th>
