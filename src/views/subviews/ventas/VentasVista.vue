@@ -32,42 +32,42 @@
         <th>Estado</th>
         <th>Opciones</th>
       </tr>
-      <tr v-for="ingreso of ingresos" :key="ingreso._id">
-        <td>{{ingreso.usuario.nombre}}</td>
-        <td>{{ingreso.persona.nombre}}</td>
-        <td>{{ingreso.tipo_comprobante}}</td>
-        <td>{{ingreso.serie_comprobante}}</td>
-        <td>{{ingreso.num_comprobante}}</td>
-        <td>{{ingreso.cretedAt}}</td>
-        <td>{{ingreso.impuesto}}</td>
-        <td>{{ingreso.total}}</td>
+      <tr v-for="venta of ventas" :key="venta._id">
+        <td>{{venta.usuario.nombre}}</td>
+        <td>{{venta.persona.nombre}}</td>
+        <td>{{venta.tipo_comprobante}}</td>
+        <td>{{venta.serie_comprobante}}</td>
+        <td>{{venta.num_comprobante}}</td>
+        <td>{{venta.cretedAt}}</td>
+        <td>{{venta.impuesto}}</td>
+        <td>{{venta.total}}</td>
         <td>
-          <div v-if="ingreso.estado">
-            <span class="activo"> Activo </span>
+          <div v-if="venta.estado">
+            <span class="activo"> Activa </span>
           </div>
           <div v-else>
-            <span class="inactivo"> Inactivo </span>
+            <span class="inactivo"> Inactiva </span>
           </div>
         </td>
         <td>
-          <router-link :to="'/ventas/add' + ingreso._id">
+          <router-link :to="'/ventas/add' + venta._id">
             <i class="edit fas fa-edit"></i>
           </router-link>
           <button
-            v-if="ingreso.estado == 0"
+            v-if="venta.estado == 0"
             class="buttonDelete"
-            @click="activar(ingreso._id)"
+            @click="activar(venta._id)"
           >
             <i class="delete fas fa-lock-open"></i>
           </button>
           <button
             v-else
             class="buttonDelete"
-            @click="desactivar(ingreso._id)"
+            @click="desactivar(venta._id)"
           >
             <i class="delete fas fa-lock"></i>
           </button>
-          <router-link :to="'/compras/ingresos/detalles' + ingreso._id">
+          <router-link :to="'/ventas/detalles' + venta._id">
             <i class="detallesIco far fa-list-alt"><span class="detalles">Detalles</span></i>
           </router-link>
         </td>
@@ -120,7 +120,7 @@
           >
             <i class="delete fas fa-lock"></i>
           </button>
-          <router-link :to="'/compras/ingresos/detalles' + resultado._id">
+          <router-link :to="'/ventas/detalles' + resultado._id">
             <i class="detallesIco far fa-list-alt"><span class="detalles">Detalles</span></i>
           </router-link>
         </td>
@@ -140,7 +140,7 @@ import CabeceroVentas from '../../../components/ventas/CabeceroVentas.vue'
 export default {
   data() {
     return {
-      ingresos: [],
+      ventas: [],
       busqueda: "",
       buscando: false,
       resultados: [],
@@ -156,10 +156,10 @@ export default {
           let configuracion = {headers:header}
           this.sinCoincidencias=false
           this.buscando=false
-          axios.get('ingreso/list', configuracion)
+          axios.get('ventas/list', configuracion)
           .then((response)=>{
               if(this.busqueda == ''){
-                  this.ingresos = response.data
+                  this.ventas = response.data
                   console.log('listo')
               }else {
                   console.log('Realizando busqueda')
@@ -172,38 +172,40 @@ export default {
         filtrarPorNombreInput(){
           this.resultados=[]
           let r = []
-          this.ingresos.forEach(ingreso=>{
-            if(!ingreso.usuario.nombre.search(this.busqueda)){
-            r.push(ingreso)
+          this.ventas.forEach(venta=>{
+            if(!venta.usuario.nombre.search(this.busqueda)){
+            r.push(venta)
             }else{
               this.sinCoincidencias = true
             }
           })
           this.resultados=r 
           this.resultados == [] || this.resultados == '' || this.resultados == undefined ? this.sinCoincidencias = true : this.sinCoincidencias = false
-          this.buscando=true
+          this.buscando = true
         },
         limpiar(){
             this.busqueda='',
             this.buscando=false,
             this.resultados=[],
             this.sinCoincidencias=false
-        },activar(_id){
+        },
+        
+        activar(_id){
           let header = {'Token':this.$store.state.token}
           let configuracion ={headers:header}
-          axios.put('/ingreso/activate', {'_id':_id}, configuracion)
+          axios.put('/venta/activate', {'_id':_id}, configuracion)
           .then((response)=>{
-            console.log('Ingreso activado: ' + response.data.nombre)
-        }).catch((error)=>{
-			console.log(error)		
-		})
-		this.limpiar()
-		this.listar()
-        },
+            console.log('Venta activada: ' + response.data.nombre)
+             }).catch((error)=>{
+               console.log(error)		})
+            this.limpiar()
+            this.listar()
+            },
+            
 		desactivar(_id){
 			let header = {'Token':this.$store.state.token}
 			let configuracion ={headers:header}
-			axios.put('/ingreso/deactivate', {'_id':_id}, configuracion)
+			axios.put('/venta/deactivate', {'_id':_id}, configuracion)
 			.then((response)=>{
 				console.log('Usuario desactivado: ' + response.data.nombre)
 			}).catch((error)=>{

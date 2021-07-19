@@ -175,6 +175,26 @@ const routes = [
     }
   },
   {
+    path: '/ventas/add:id',
+    name: 'EditarVen',
+    component: ()=> import(/* webpackChunkName: "editar-ventas" */ '../views/subviews/ventas/AgregarVen.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: true
+    }
+  },
+  {
+    path: '/ventas/detalles:id',
+    name: 'DetallesVen',
+    component: ()=> import(/* webpackChunkName: "detalles-ventas" */ '../views/subviews/ventas/DetallesVen.vue'),
+    meta:{
+      administrador: true,
+      almacenero: false,
+      vendedor: true
+    } 
+  },
+  {
     path: '/ventas/clientes',
     name: 'Clientes',
     component: ()=> import (/* webpackChunkName: "clientes" */'../views/subviews/clientes/Clientes.vue'),
