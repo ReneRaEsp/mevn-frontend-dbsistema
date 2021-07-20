@@ -160,7 +160,7 @@ export default {
 		doTrim(){
             this.nombre = this.nombre.trim()
 			this.tipoDocumento = this.tipoDocumento.trim()
-			this.numDocumento = this.numDocument.trim()
+			this.numDocumento = this.numDocumento.trim()
 			this.direccion = this.direccion.trim()
 			this.email = this.email.trim()
 			this.telefono = this.telefono.trim()

@@ -98,6 +98,12 @@
 				type="text" placeholder="Codigo de articulo">
 			</div>
 			<div class="duo">
+				<label for="descuento" class="label">Descuento</label>
+				<br>
+				<input v-model="descuento" class="input" name="descuento"
+				type="text" placeholder="Descuento del articulo">
+			</div>
+			<div class="duo">
 				<label for=""></label>
 				<br>
 				<button class="guardar" @click="agregarArticulo()">
@@ -159,6 +165,7 @@ export default {
 			serieComprobante:'',
 			numComprobante:'',
 			impuesto:'',
+			descuento:'',
 			codigo:'',
 			venta:{},
 			total:0,
@@ -188,7 +195,7 @@ export default {
 				let configuracion = {headers:header}
 				axios.post('venta/add', {
 							'usuario':this.usuario, 
-							'persona':this.proveedor, 
+							'persona':this.cliente, 
 							'tipo_comprobante':this.tipoComprobante,
 							'serie_comprobante':this.serieComprobante, 
 							'num_comprobante':this.numComprobante,
@@ -209,7 +216,7 @@ export default {
 				let configuracion = {headers:header}
 				axios.put('venta/update', {
 							'usuario':this.usuario, 
-							'persona':this.proveedor, 
+							'persona':this.cliente, 
 							'tipo_comprobante':this.tipoComprobante,
 							'serie_comprobante':this.serieComprobante, 
 							'num_comprobante':this.numComprobante,
@@ -305,7 +312,8 @@ export default {
 					_id:res.data._id,
 					articulo:res.data.nombre,
 					cantidad:this.cantidad,
-					precio:this.precio				
+					precio:this.precio,
+					descuento:this.descuento				
 				})
 				this.indice++
 				this.total = this.total + this.precio
@@ -337,7 +345,7 @@ export default {
 	created(){
 		this.opcion()
 		this.listarUsuarios()
-		this.listarProveedores()
+		this.listarClientes()
 	}
 }
 </script>

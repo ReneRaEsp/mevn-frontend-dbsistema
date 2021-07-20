@@ -1,6 +1,6 @@
 <template>
   <section class="ventas">
-    <CabeceroVentas/>
+    <CabeceroVentas />
     <h3 class="title">Ventas</h3>
     <div class="modulo">
       <div class="busqueda">
@@ -33,14 +33,14 @@
         <th>Opciones</th>
       </tr>
       <tr v-for="venta of ventas" :key="venta._id">
-        <td>{{venta.usuario.nombre}}</td>
-        <td>{{venta.persona.nombre}}</td>
-        <td>{{venta.tipo_comprobante}}</td>
-        <td>{{venta.serie_comprobante}}</td>
-        <td>{{venta.num_comprobante}}</td>
-        <td>{{venta.cretedAt}}</td>
-        <td>{{venta.impuesto}}</td>
-        <td>{{venta.total}}</td>
+        <td>{{ venta.usuario.nombre }}</td>
+        <td>{{ venta.persona.nombre }}</td>
+        <td>{{ venta.tipo_comprobante }}</td>
+        <td>{{ venta.serie_comprobante }}</td>
+        <td>{{ venta.num_comprobante }}</td>
+        <td>{{ venta.createdAt }}</td>
+        <td>{{ venta.impuesto }}</td>
+        <td>{{ venta.total }}</td>
         <td>
           <div v-if="venta.estado">
             <span class="activo"> Activa </span>
@@ -60,19 +60,19 @@
           >
             <i class="delete fas fa-lock-open"></i>
           </button>
-          <button
-            v-else
-            class="buttonDelete"
-            @click="desactivar(venta._id)"
-          >
+          <button v-else class="buttonDelete" @click="desactivar(venta._id)">
             <i class="delete fas fa-lock"></i>
           </button>
           <router-link :to="'/ventas/detalles' + venta._id">
-            <i class="detallesIco far fa-list-alt"><span class="detalles">Detalles</span></i>
+            <i class="detallesIco far fa-list-alt"
+              ><span class="detalles">Detalles</span></i
+            >
           </router-link>
         </td>
       </tr>
-    </table><table v-if="buscando" style="width: 90%">
+    </table>
+
+    <table v-if="buscando" style="width: 90%">
       <tr>
         <th>Usuario</th>
         <th>Cliente</th>
@@ -86,14 +86,14 @@
         <th>Opciones</th>
       </tr>
       <tr v-for="resultado of resultados" :key="resultado._id">
-        <td>{{resultado.usuario.nombre}}</td>
-        <td>{{resultado.persona.nombre}}</td>
-        <td>{{resultado.tipo_comprobante}}</td>
-        <td>{{resultado.serie_comprobante}}</td>
-        <td>{{resultado.num_comprobante}}</td>
-        <td>{{resultado.cretedAt}}</td>
-        <td>{{resultado.impuesto}}</td>
-        <td>{{resultado.total}}</td>
+        <td>{{ resultado.usuario.nombre }}</td>
+        <td>{{ resultado.persona.nombre }}</td>
+        <td>{{ resultado.tipo_comprobante }}</td>
+        <td>{{ resultado.serie_comprobante }}</td>
+        <td>{{ resultado.num_comprobante }}</td>
+        <td>{{ resultado.createdAt }}</td>
+        <td>{{ resultado.impuesto }}</td>
+        <td>{{ resultado.total }}</td>
         <td>
           <div v-if="resultado.estado">
             <span class="activo"> Activo </span>
@@ -121,11 +121,14 @@
             <i class="delete fas fa-lock"></i>
           </button>
           <router-link :to="'/ventas/detalles' + resultado._id">
-            <i class="detallesIco far fa-list-alt"><span class="detalles">Detalles</span></i>
+            <i class="detallesIco far fa-list-alt"
+              ><span class="detalles">Detalles</span></i
+            >
           </router-link>
         </td>
       </tr>
     </table>
+
     <h3 v-if="sinCoincidencias" class="sinCoincidencias">
       No se han encotrado resultados<br />
       para su busqueda
@@ -135,8 +138,8 @@
 </template>
 
 <script>
-import axios from 'axios'
-import CabeceroVentas from '../../../components/ventas/CabeceroVentas.vue'
+import axios from "axios";
+import CabeceroVentas from "../../../components/ventas/CabeceroVentas.vue";
 export default {
   data() {
     return {
@@ -145,80 +148,91 @@ export default {
       buscando: false,
       resultados: [],
       sinCoincidencias: false,
-    }
+    };
   },
   created() {
-    this.listar()
+    this.listar();
   },
   methods: {
-      listar(){
-          let header = {'Token' : this.$store.state.token}
-          let configuracion = {headers:header}
-          this.sinCoincidencias=false
-          this.buscando=false
-          axios.get('ventas/list', configuracion)
-          .then((response)=>{
-              if(this.busqueda == ''){
-                  this.ventas = response.data
-                  console.log('listo')
-              }else {
-                  console.log('Realizando busqueda')
-              }
-          }).catch((error)=>{
-              console.log(error)
-          })
-          this.limpiar()
-        },
-        filtrarPorNombreInput(){
-          this.resultados=[]
-          let r = []
-          this.ventas.forEach(venta=>{
-            if(!venta.usuario.nombre.search(this.busqueda)){
-            r.push(venta)
-            }else{
-              this.sinCoincidencias = true
-            }
-          })
-          this.resultados=r 
-          this.resultados == [] || this.resultados == '' || this.resultados == undefined ? this.sinCoincidencias = true : this.sinCoincidencias = false
-          this.buscando = true
-        },
-        limpiar(){
-            this.busqueda='',
-            this.buscando=false,
-            this.resultados=[],
-            this.sinCoincidencias=false
-        },
-        
-        activar(_id){
-          let header = {'Token':this.$store.state.token}
-          let configuracion ={headers:header}
-          axios.put('/venta/activate', {'_id':_id}, configuracion)
-          .then((response)=>{
-            console.log('Venta activada: ' + response.data.nombre)
-             }).catch((error)=>{
-               console.log(error)		})
-            this.limpiar()
-            this.listar()
-            },
-            
-		desactivar(_id){
-			let header = {'Token':this.$store.state.token}
-			let configuracion ={headers:header}
-			axios.put('/venta/deactivate', {'_id':_id}, configuracion)
-			.then((response)=>{
-				console.log('Usuario desactivado: ' + response.data.nombre)
-			}).catch((error)=>{
-				console.log(error)
-			})
-			this.limpiar()
-			this.listar()
-		}
+    listar() {
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
+      this.sinCoincidencias = false;
+      this.buscando = false;
+      axios
+        .get("venta/list", configuracion)
+        .then((response) => {
+          if (this.busqueda == "") {
+            this.ventas = response.data;
+            console.log("listo");
+          } else {
+            console.log("Realizando busqueda");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      this.limpiar();
+    },
+    filtrarPorNombreInput() {
+      this.resultados = [];
+      let r = [];
+      this.ventas.forEach((venta) => {
+        if (!venta.usuario.nombre.search(this.busqueda)) {
+          r.push(venta);
+        } else {
+          this.sinCoincidencias = true;
+        }
+      });
+      this.resultados = r;
+      this.resultados == [] ||
+      this.resultados == "" ||
+      this.resultados == undefined
+        ? (this.sinCoincidencias = true)
+        : (this.sinCoincidencias = false);
+      this.buscando = true;
+    },
+    limpiar() {
+      (this.busqueda = ""),
+        (this.buscando = false),
+        (this.resultados = []),
+        (this.sinCoincidencias = false);
+    },
+
+    activar(_id) {
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
+      axios
+        .put("/venta/activate", { _id: _id }, configuracion)
+        .then((response) => {
+          console.log("Venta activada: " + response.data.nombre);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      this.limpiar();
+      this.listar();
+    },
+
+    desactivar(_id) {
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
+      axios
+        .put("/venta/deactivate", { _id: _id }, configuracion)
+        .then((response) => {
+          console.log("Usuario desactivado: " + response.data.nombre);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      this.limpiar();
+      this.listar();
+    },
   },
-  components:{
-     CabeceroVentas
-  }
-}
+  components: {
+    CabeceroVentas,
+  },
+};
 </script>
 <style scoped lang="sass">
 .ventas
@@ -255,7 +269,7 @@ export default {
 		border-top: 3px solid rgba(10, 40, 40, .2)
 		border-left: 3px solid rgba(10, 40, 40, .2)
 		border-right: 3px solid rgba(10, 40, 40, .2)
-		width: 93%
+		width: 91%
 		align-self: center
 		.busqueda
 			.input
@@ -305,7 +319,7 @@ export default {
 		background: rgba(220, 222, 222, .9)
 		overflow: auto
 		margin-bottom: 2rem
-		max-width: 90%
+		max-width: 100%
 
 	td,	th
 		border: 3px solid rgba(100, 140, 140, .7)
@@ -313,7 +327,7 @@ export default {
 		padding: 8px
 		color: rgb(10, 43, 45)
 		overflow: auto
-	
+
 	tr
 		overflow: auto
 
