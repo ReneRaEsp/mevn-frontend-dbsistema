@@ -1,345 +1,489 @@
 <template>
   <section class="agregarProv">
-	<div @keyup.enter="guardar()" class="formAgregar">
-		<h3 class="title">Agregar o editar Ingreso</h3>
-		<div class="grupo">
-			<div class="duo pFila">
-				<label class="label" for="usuario">Usuario</label>
-				<br>
-				<select v-if="!this.editar" v-model="usuario" class="input cat" name="usuario">
-					<option value="Seleccione una usuario" class="opcion" selected>Seleccione una usuario</option>
-					<hr>
-					<option class="opcion" v-for="usuario of usuarios" :key="usuario._id" :value="usuario._id">{{usuario.nombre}}</option>					
-				</select>
-				<div class="modificar" v-if="this.editar">
-					<input  class="input" :value="usuario.nombre" type="text">
-					<p @click="modificarUsuario()" class="modText">Modificar usuario</p>
-				</div>
-				<select  v-if="this.modificar.usuario && this.editar" v-model="tipoComprobante" class="input cat" name="usuarios">
-					<option value="Seleccione una categoria" class="opcion" selected>Seleccione usuario</option>
-					<hr>
-					<option class="opcion" v-for="usuario of usuarios" :key="usuario._id" :value="usuario">{{usuario.nombre}}</option>					
-				</select>
-			</div>
-			<div class="duo">
-				<label class="label" for="proveedor">Proveedor</label>
-				<br>
-				<select v-if="!this.editar" v-model="proveedor" class="input cat" name="proveedor">
-					<option value="Seleccione un proveedor" class="opcion" selected>Seleccione una proveedor</option>
-					<hr>
-					<option class="opcion" v-for="proveedor of proveedores" :key="proveedor._id" :value="proveedor._id">{{proveedor.nombre}}</option>					
-				</select>
-				<div class="modificar" v-if="this.editar">
-					<input  class="input" :value="proveedor.nombre" type="text">
-					<p @click="modificarProv()" class="modText">Modificar proveedor</p>
-				</div>
-				<select  v-if="this.modificar.prov && this.editar" v-model="tipoComprobante" class="input cat" name="usuarios">
-					<option value="Seleccione una categoria" class="opcion" selected>Seleccione proveedor</option>
-					<hr>
-					<option class="opcion" v-for="proveedor of proveedores" :key="proveedor._id" :value="proveedor">{{proveedor.nombre}}</option>					
-				</select>
-			</div>	
-			<div class="duo">
-				<label class="label" for="categoria">Tipo Comprobante</label>
-				<br>
-				<select  v-if="!this.editar" v-model="tipoComprobante" class="input cat" name="usuarios">
-					<option value="Seleccione una categoria" class="opcion" selected>Seleccione comprobante</option>
-					<hr>
-					<option class="opcion" v-for="comprobante of tiposComprobante" :key="comprobante" :value="comprobante">{{comprobante}}</option>					
-				</select>
-				<div class="modificar" v-if="this.editar">
-					<input  class="input" :value="this.tipoComprobante" type="text">
-					<p @click="modificarTComp()" class="modText">Modificar tipo comprobante</p>
-				</div>
-				<select  v-if="this.modificar.tComp && this.editar" v-model="tipoComprobante" class="input cat" name="usuarios">
-					<option value="Seleccione una categoria" class="opcion" selected>Seleccione comprobante</option>
-					<hr>
-					<option class="opcion" v-for="comprobante of tiposComprobante" :key="comprobante" :value="comprobante">{{comprobante}}</option>					
-				</select>
-			</div>					
-		</div>
-		<div class="grupo">
-			<div class="duo">
-				<label for="serieComprobante" class="label">Serie Comprobante</label>
-				<br>
-				<input v-model.number="serieComprobante" class="input" name="serieComprobante"
-				placeholder="Serie de comprobante..." type="number">
-			</div>
-			<div class="duo">
-				<label for="numComprobante" class="label">Número Comprobante</label>
-				<br>
-				<input v-model.number="numComprobante" class="input" name="numComprobante"
-				placeholder="Numero de comprobante..." type="number" >
-			</div>
-			<div class="duo">
-				<label for="impuesto" class="label">Impuesto</label>
-				<br>
-				<input v-model.number="impuesto" class="input" name="impuesto"
-				placeholder="Impuesto..." type="number" >
-			</div>
-		</div>
-		<div class="grupo">
-			<div class="duo">
-				<label for="precio" class="label">Precio</label>
-				<br>
-				<input v-model.number="precio" class="input" name="precio"
-				type="number" placeholder="Precio articulo">
-			</div>
-			<div class="duo">
-				<label for="cantidad" class="label">Cantidad</label>
-				<br>
-				<input v-model.number="cantidad" class="input" name="cantidad"
-				type="number" placeholder="Cantidad">
-			</div>
-			<div class="duo">
-				<label for="codigo" class="label">Articulo</label>
-				<br>
-				<input v-model="codigo" class="input" name="codigo"
-				type="text" placeholder="Codigo de articulo">
-			</div>
-			<div class="duo">
-				<label for=""></label>
-				<br>
-				<button class="guardar" @click="agregarArticulo()">
-					Agregar lote de articulos
-				</button>
-			</div>
-		</div>
-		<div v-if="articulos.length" class="moduloArt">
-		<div class="grupo">
-			<div class="duo">
-				<h4 class="tituloAgregados">Monto total: {{total}}</h4>
-				<h4 class="tituloAgregados">Cantidad de articulos agregados: {{articulos.length}}</h4>
-			</div>
-		</div>
-		<div class="grupo">
-			<div class="duo">
-				<h3 class="tituloAgregados">Articulos agregados</h3>
-			</div>
-		</div>
-		<div class="grupo articulosAgregados">
-			<div v-for="(articulo, index) of articulos" :key="articulo._id" class="duo articuloDuo">
-				<i @click="eliminarArt(index)" class="equis fas fa-times"></i>
-				<label class="labelArticulo"><b>{{articulo.articulo}}</b></label>
-				<p class="detalleArticulo"><b>Precio: </b><span class="render"> &nbsp;{{ articulo.precio}}</span></p>
-				<p class="detalleArticulo"><b>Cantidad: </b><span class="render"> &nbsp;{{ articulo.cantidad }}</span></p>
-				<p class="detalleArticulo"><b>Id: </b><span class="render"> &nbsp;{{ articulo._id}}</span></p>
-			</div>
-		</div>
-		</div>
-		<div class="grupo">
-			<div class="duo botones">
-				<button class="guardar" @click="guardar()">
-					Guardar ingreso
-				</button>
-				<router-link class="guardar volver" to="/compras/ingresos">
-					Volver sin guardar
-				</router-link>
-			</div>
-		</div>
-        <div class="divErrores" v-for="mensaje of validarMensaje" :key="mensaje">
-            <p class="errores">* {{mensaje}} </p>
+    <div @keyup.enter="guardar()" class="formAgregar">
+      <h3 class="title">Agregar o editar Ingreso</h3>
+      <div class="grupo">
+        <div class="duo">
+          <label class="label" for="proveedor">Proveedor</label>
+          <br />
+          <select
+            v-if="!this.editar"
+            v-model="proveedor"
+            class="input cat"
+            name="proveedor"
+          >
+            <option value="Seleccione un proveedor" class="opcion" selected
+              >Seleccione una proveedor</option
+            >
+            <hr />
+            <option
+              class="opcion"
+              v-for="proveedor of proveedores"
+              :key="proveedor._id"
+              :value="proveedor._id"
+              >{{ proveedor.nombre }}</option
+            >
+          </select>
+          <div class="modificar" v-if="this.editar">
+            <input class="input" :value="proveedor.nombre" type="text" />
+            <p @click="modificarProv()" class="modText">Modificar proveedor</p>
+          </div>
+          <select
+            v-if="this.modificar.prov && this.editar"
+            v-model="tipoComprobante"
+            class="input cat"
+            name="usuarios"
+          >
+            <option value="Seleccione una categoria" class="opcion" selected
+              >Seleccione proveedor</option
+            >
+            <hr />
+            <option
+              class="opcion"
+              v-for="proveedor of proveedores"
+              :key="proveedor._id"
+              :value="proveedor"
+              >{{ proveedor.nombre }}</option
+            >
+          </select>
         </div>
-		<br>
+        <div class="duo">
+          <label class="label" for="categoria">Tipo Comprobante</label>
+          <br />
+          <select
+            v-if="!this.editar"
+            v-model="tipoComprobante"
+            class="input cat"
+            name="usuarios"
+          >
+            <option value="Seleccione una categoria" class="opcion" selected
+              >Seleccione comprobante</option
+            >
+            <hr />
+            <option
+              class="opcion"
+              v-for="comprobante of tiposComprobante"
+              :key="comprobante"
+              :value="comprobante"
+              >{{ comprobante }}</option
+            >
+          </select>
+          <div class="modificar" v-if="this.editar">
+            <input class="input" :value="this.tipoComprobante" type="text" />
+            <p @click="modificarTComp()" class="modText">
+              Modificar tipo comprobante
+            </p>
+          </div>
+          <select
+            v-if="this.modificar.tComp && this.editar"
+            v-model="tipoComprobante"
+            class="input cat"
+            name="usuarios"
+          >
+            <option value="Seleccione una categoria" class="opcion" selected
+              >Seleccione comprobante</option
+            >
+            <hr />
+            <option
+              class="opcion"
+              v-for="comprobante of tiposComprobante"
+              :key="comprobante"
+              :value="comprobante"
+              >{{ comprobante }}</option
+            >
+          </select>
+        </div>
+        <div class="duo">
+          <label for="serieComprobante" class="label">Serie Comprobante</label>
+          <br />
+          <input
+            v-model.number="serieComprobante"
+            class="input"
+            name="serieComprobante"
+            placeholder="Serie de comprobante..."
+            type="number"
+          />
+        </div>
+      </div>
+      <div class="grupo">
+        <div class="duo">
+          <label for="numComprobante" class="label">Número Comprobante</label>
+          <br />
+          <input
+            v-model.number="numComprobante"
+            class="input"
+            name="numComprobante"
+            placeholder="Numero de comprobante..."
+            type="number"
+          />
+        </div>
+        <div class="duo">
+          <label for="impuesto" class="label">Impuesto</label>
+          <br />
+          <input
+            v-model.number="impuesto"
+            class="input"
+            name="impuesto"
+            placeholder="Impuesto..."
+            type="number"
+          />
+        </div>
+      </div>
+      <div class="grupo">
+        <div class="duo">
+          <label for="precio" class="label">Precio</label>
+          <br />
+          <input
+            v-model.number="precio"
+            class="input"
+            name="precio"
+            type="number"
+            placeholder="Precio articulo"
+          />
+        </div>
+        <div class="duo">
+          <label for="cantidad" class="label">Cantidad</label>
+          <br />
+          <input
+            v-model.number="cantidad"
+            class="input"
+            name="cantidad"
+            type="number"
+            placeholder="Cantidad"
+          />
+        </div>
+        <div class="duo">
+          <label for="codigo" class="label">Articulo</label>
+          <br />
+          <input
+            v-model="codigo"
+            class="input"
+            name="codigo"
+            type="text"
+            placeholder="Codigo de articulo"
+          />
+        </div>
+        <div class="duo">
+          <label for=""></label>
+          <br />
+          <button class="guardar" @click="agregarArticulo()">
+            Agregar lote de articulos
+          </button>
+        </div>
+      </div>
+      <div v-if="articulos.length" class="moduloArt">
+        <div class="grupo">
+          <div class="duo">
+            <h4 class="tituloAgregados">Monto total: {{ total }}</h4>
+            <h4 class="tituloAgregados">
+              Lote de articulos agregados: {{ articulos.length }}
+            </h4>
+          </div>
+        </div>
+        <div class="grupo">
+          <div class="duo">
+            <h3 class="tituloAgregados">Articulos agregados</h3>
+          </div>
+        </div>
+        <div class="grupo articulosAgregados">
+          <div
+            v-for="(articulo, index) of articulos"
+            :key="articulo._id"
+            class="duo articuloDuo"
+          >
+            <i @click="eliminarArt(index)" class="equis fas fa-times"></i>
+            <label class="labelArticulo"
+              ><b>{{ articulo.articulo }}</b></label
+            >
+            <p class="detalleArticulo">
+              <b>Precio: </b
+              ><span class="render"> &nbsp;{{ articulo.precio }}</span>
+            </p>
+            <p class="detalleArticulo">
+              <b>Cantidad: </b
+              ><span class="render"> &nbsp;{{ articulo.cantidad }}</span>
+            </p>
+            <p class="detalleArticulo">
+              <b>Precio total: </b
+              ><span class="render"> &nbsp;{{ articulo.subtotal }}</span>
+            </p>
+            <p class="detalleArticulo">
+              <b>Id: </b><span class="render"> &nbsp;{{ articulo._id }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="grupo">
+        <div class="duo botones">
+          <button class="guardar" @click="guardar()">
+            Guardar ingreso
+          </button>
+          <router-link class="guardar volver" to="/compras/ingresos">
+            Volver sin guardar
+          </router-link>
+        </div>
+      </div>
+      <div class="divErrores" v-for="mensaje of validarMensaje" :key="mensaje">
+        <p class="errores">* {{ mensaje }}</p>
+      </div>
+      <br />
     </div>
   </section>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
-	data(){
-		return{
-			usuario:'',
-			proveedor:'',
-			tipoComprobante:'',
-			tiposComprobante:[
-				'Factura','Boleta','Factura Electronica','Boleta Electronica'
-			],
-			serieComprobante:'',
-			numComprobante:'',
-			impuesto:'',
-			codigo:'',
-			ingreso:{},
-			total:0,
-			precio:'',
-			cantidad:'',
-			ruta:this.$router.currentRoute.fullPath,
-			editar:false,
-			validar:0,
-			validarMensaje:[],
-			usuarios:[],
-			proveedores:[],
-			articulos:[],
-			modificar:{
-				tComp:false,
-				prov:false,
-				usuario:false
-			}
-		}
-	},
-	methods:{
-		guardar(){
-			this.validacion()
-			if(this.validar<=0){
+  data() {
+    return {
+      usuario: this.$store.state.usuario,
+      proveedor: "",
+      tipoComprobante: "",
+      tiposComprobante: [
+        "Factura",
+        "Boleta",
+        "Factura Electronica",
+        "Boleta Electronica",
+      ],
+      serieComprobante: "",
+      numComprobante: "",
+      impuesto: "",
+      codigo: "",
+      ingreso: {},
+      total: 0,
+      precio: "",
+      cantidad: "",
+      subTotal: 0,
+      ruta: this.$router.currentRoute.fullPath,
+      editar: false,
+      validar: 0,
+      validarMensaje: [],
+      usuarios: [],
+      proveedores: [],
+      articulos: [],
+      modificar: {
+        tComp: false,
+        prov: false,
+        usuario: false,
+      },
+    };
+  },
+  methods: {
+    guardar() {
+      this.validacion();
+      if (this.validar <= 0) {
+        if (!this.editar) {
+          let header = { Token: this.$store.state.token };
+          let configuracion = { headers: header };
+          axios
+            .post(
+              "ingreso/add",
+              {
+                usuario: this.usuario,
+                persona: this.proveedor,
+                tipo_comprobante: this.tipoComprobante,
+                serie_comprobante: this.serieComprobante,
+                num_comprobante: this.numComprobante,
+                impuesto: this.impuesto,
+                total: this.total,
+                detalles: this.articulos,
+              },
+              configuracion
+            )
+            .then((response) => {
+              console.log(
+                "Ingreso agregado exitosamente: " + response.data.nombre
+              );
+            })
+            .catch((error) => {
+              console.log(error);
+              alert("no se pudo agregar el ingreso");
+            });
+          this.limpiar();
+          this.$router.push({ path: "/compras/ingresos" });
+        } else {
+          let header = { Token: this.$store.state.token };
+          let configuracion = { headers: header };
+          axios
+            .put(
+              "ingreso/update",
+              {
+                usuario: this.usuario,
+                persona: this.proveedor,
+                tipo_comprobante: this.tipoComprobante,
+                serie_comprobante: this.serieComprobante,
+                num_comprobante: this.numComprobante,
+                impuesto: this.impuesto,
+                total: this.total,
+                detalles: this.articulos,
+              },
+              configuracion
+            )
+            .then((response) => {
+              console.log(
+                "Ingreso actualizado exitosamente: " + response.data.nombre
+              );
+            })
+            .catch((error) => {
+              console.log(error);
+              alert("No se pudo actualizar el ingreso");
+            });
+          this.limpiar();
+          this.$router.push({ path: "/compras/ingresos" });
+        }
+      } else {
+        console.log("Error en la validacion");
+      }
+    },
+    opcion() {
+      if (this.ruta == "/compras/ingresos/add" || this.ruta == "/") {
+        this.editar = false;
+      } else {
+        this.buscarPorId();
+        this.editar = true;
+      }
+    },
+    buscarPorId() {
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
+      axios
+        .get(
+          "ingreso/query?_id=" + this.$router.currentRoute.params.id,
+          configuracion
+        )
+        .then((response) => {
+          this.usuario = response.data.usuario;
+          this.proveedor = response.data.persona;
+          this.tipoComprobante = response.data.tipo_comprobante;
+          this.serieComprobante = response.data.serie_comprobante;
+          this.numComprobante = response.data.num_comprobante;
+          this.impuesto = response.data.impuesto;
+          this.total = response.data.total;
+          this.articulos = response.data.detalles;
+        })
+        .catch((error) => {
+          console.log("error del query: " + error);
+        });
+    },
+    validacion() {
+      this.validar = 0;
+      this.validarMensaje = [];
 
-			if(!this.editar){
-				let header = {'Token':this.$store.state.token}
-				let configuracion = {headers:header}
-				axios.post('ingreso/add', {
-							'usuario':this.usuario, 
-							'persona':this.proveedor, 
-							'tipo_comprobante':this.tipoComprobante,
-							'serie_comprobante':this.serieComprobante, 
-							'num_comprobante':this.numComprobante,
-							'impuesto':this.impuesto,
-							'total':this.total,
-							'detalles':this.articulos
-							}, configuracion)
-				.then((response)=>{
-					console.log('Ingreso agregado exitosamente: ' + response.data.nombre)
-				}).catch((error)=>{
-					console.log(error)
-					alert('no se pudo agregar el ingreso')
-				})
-				this.limpiar()
-				this.$router.push({path:'/compras/ingresos'})
-			} else {
-				let header = {'Token':this.$store.state.token}
-				let configuracion = {headers:header}
-				axios.put('ingreso/update', {
-							'usuario':this.usuario, 
-							'persona':this.proveedor, 
-							'tipo_comprobante':this.tipoComprobante,
-							'serie_comprobante':this.serieComprobante, 
-							'num_comprobante':this.numComprobante,
-							'impuesto':this.impuesto,
-							'total':this.total,
-							'detalles':this.articulos
-							}, configuracion)
-				.then((response)=>{
-					console.log('Ingreso actualizado exitosamente: ' + response.data.nombre)
-				}).catch((error)=>{
-					console.log(error)
-					alert('No se pudo actualizar el ingreso')
-				})
-				this.limpiar()
-				this.$router.push({path:'/compras/ingresos'})
-			}
-			}else{
-				console.log('Error en la validacion')
-			}
-		},
-		opcion(){
-			if(this.ruta == '/compras/ingresos/add' || this.ruta == '/'){
-				this.editar=false
-			} else {
-				this.buscarPorId()
-				this.editar=true
-			}
-		},
-		buscarPorId(){
-			let header = {'Token': this.$store.state.token}
-			let configuracion = {headers:header}
-			axios.get('ingreso/query?_id='+this.$router.currentRoute.params.id, configuracion)
-			.then((response)=>{
-				this.usuario = response.data.usuario
-				this.proveedor = response.data.persona
-				this.tipoComprobante = response.data.tipo_comprobante
-				this.serieComprobante = response.data.serie_comprobante
-				this.numComprobante = response.data.num_comprobante
-				this.impuesto = response.data.impuesto
-				this.total = response.data.total
-				this.articulos = response.data.detalles
-			}).catch((error)=>{
-				console.log('error del query: ' + error)
-			})
-		},
-		validacion(){
-			this.validar=0
-			this.validarMensaje=[]
-
-			if(this.serieComprobante.length < 1 || this.serieComprobante.length > 7){
-				this.validarMensaje.push('Debe ingresar el numero de serie del comprobante y este no puede ser mayor a 7')
-			}
-			if(this.numComprobante.length < 1 || this.numComprobante.length > 10){
-				this.validarMensaje.push('Debe ingresar el numero del comprobante y este no puede ser mayor a 10')
-			}
-			if(this.impuesto.length < 1 || this.impuesto.length > 10){
-				this.validarMensaje.push('Debe ingresar el impuesto y este no puede ser mayor a 10 caracteres')
-			}
-			if(this.validarMensaje.length){
-				this.validar=1
-			}
-			return this.validar
-		},
-		listarUsuarios(){
-			let header = {'Token': this.$store.state.token}
-			let configuracion = {headers:header}
-			axios.get('usuario/list', configuracion)
-			.then((res)=>{
-				this.usuarios = res.data
-			})
-			.catch((error)=>{
-				console.log(error)
-			})
-		},
-		listarProveedores(){
-			let header = {'Token': this.$store.state.token}
-			let configuracion = {headers:header}
-			axios.get('persona/list-proveedores', configuracion)
-			.then((res)=>{
-				this.proveedores = res.data
-			})
-			.catch((error)=>{
-				console.log(error)
-			})
-		},
-		agregarArticulo(){
-			let header = {'Token': this.$store.state.token}
-			let configuracion = {headers:header}
-			axios.get('articulo/query-codigo?codigo='+this.codigo, configuracion)
-			.then((res)=>{
-				this.precio = this.precio * this.cantidad
-				this.articulos.push({
-					_id:res.data._id,
-					articulo:res.data.nombre,
-					cantidad:this.cantidad,
-					precio:this.precio				
-				})
-				this.indice++
-				this.total = this.total + this.precio
-
-			}).catch((error)=>{
-				console.log(error)
-			})
-		},
-		limpiar(){
-			this.precio=''
-			this.cantidad=''
-			this.codigo=''
-		},
-		eliminarArt(index){
-			let restar = this.articulos[index].precio
-			this.total = this.total - restar
-			this.articulos.splice(index, 1)
-		},
-		modificarTComp(){
-			!this.modificar.tComp ? this.modificar.tComp = true : this.modificar.tComp = false
-		},
-		modificarProv(){
-			!this.modificar.prov ? this.modificar.prov = true : this.modificar.prov = false
-		},
-		modificarUsuario(){
-			!this.modificar.usuario ? this.modificar.usuario = true : this.modificar.usuario = false
-		}
-	},
-	created(){
-		this.opcion()
-		this.listarUsuarios()
-		this.listarProveedores()
-	}
-}
+      if (
+        this.serieComprobante.length < 1 ||
+        this.serieComprobante.length > 7
+      ) {
+        this.validarMensaje.push(
+          "Debe ingresar el numero de serie del comprobante y este no puede ser mayor a 7"
+        );
+      }
+      if (this.numComprobante.length < 1 || this.numComprobante.length > 10) {
+        this.validarMensaje.push(
+          "Debe ingresar el numero del comprobante y este no puede ser mayor a 10"
+        );
+      }
+      if (this.impuesto.length < 1 || this.impuesto.length > 10) {
+        this.validarMensaje.push(
+          "Debe ingresar el impuesto y este no puede ser mayor a 10 caracteres"
+        );
+      }
+      if (this.validarMensaje.length) {
+        this.validar = 1;
+      }
+      return this.validar;
+    },
+    listarUsuarios() {
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
+      axios
+        .get("usuario/list", configuracion)
+        .then((res) => {
+          this.usuarios = res.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    listarProveedores() {
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
+      axios
+        .get("persona/list-proveedores", configuracion)
+        .then((res) => {
+          this.proveedores = res.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    agregarArticulo() {
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
+      axios
+        .get("articulo/query-codigo?codigo=" + this.codigo, configuracion)
+        .then((res) => {
+          this.precio = this.precio * this.cantidad;
+          this.articulos.push({
+            _id: res.data._id,
+            articulo: res.data.nombre,
+            cantidad: this.cantidad,
+            subTotal: this.subTotal,
+            precio: res.data.precio_venta,
+          });
+          this.indice++;
+          this.total = this.total + this.subTotal;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    cargarPrecioArticulo() {
+      this.cantidad = "";
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
+      axios
+        .get("articulo/query-codigo?codigo=" + this.codigo, configuracion)
+        .then((res) => {
+          this.precio = res.data.precio_venta;
+          console.log(this.precio);
+        });
+    },
+    calcularSubtotal() {
+      this.subTotal = this.cantidad * this.precio;
+    },
+    limpiar() {
+      this.precio = "";
+      this.cantidad = "";
+      this.codigo = "";
+      this.subTotal = "";
+    },
+    eliminarArt(index) {
+      let restar = this.articulos[index].subTotal;
+      this.total = this.total - restar;
+      this.articulos.splice(index, 1);
+    },
+    modificarTComp() {
+      !this.modificar.tComp
+        ? (this.modificar.tComp = true)
+        : (this.modificar.tComp = false);
+    },
+    modificarProv() {
+      !this.modificar.prov
+        ? (this.modificar.prov = true)
+        : (this.modificar.prov = false);
+    },
+    modificarUsuario() {
+      !this.modificar.usuario
+        ? (this.modificar.usuario = true)
+        : (this.modificar.usuario = false);
+    },
+  },
+  created() {
+    this.opcion();
+    this.listarUsuarios();
+    this.listarProveedores();
+  },
+};
 </script>
 <style scoped lang="sass">
 .agregarProv
@@ -383,8 +527,8 @@ export default {
 			margin-left: 13rem
 			margin-right: 13rem
 			text-align: center
-	
-	
+
+
 	.articulosAgregados
 		width: 100%
 		height: auto
@@ -456,7 +600,7 @@ export default {
 				color: rgba(120, 200, 200, .9)
 				font-weight: 200
 				font-size: 12px
-			
+
 
 
 			.guardar
@@ -495,8 +639,7 @@ export default {
 .opcion, .cat
 	color: rgba(20,120,130,.9)
 	font-weight: bold
-			
+
 .render
 	color: rgba(233, 233, 233, .9)
-	
 </style>

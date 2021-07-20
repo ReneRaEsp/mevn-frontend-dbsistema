@@ -1,6 +1,6 @@
 <template>
   <section class="usuarios">
-    <CabeceroCompras/>
+    <CabeceroCompras />
     <h3 class="title">Ingresos</h3>
     <div class="modulo">
       <div class="busqueda">
@@ -33,14 +33,14 @@
         <th>Opciones</th>
       </tr>
       <tr v-for="ingreso of ingresos" :key="ingreso._id">
-        <td>{{ingreso.usuario.nombre}}</td>
-        <td>{{ingreso.persona.nombre}}</td>
-        <td>{{ingreso.tipo_comprobante}}</td>
-        <td>{{ingreso.serie_comprobante}}</td>
-        <td>{{ingreso.num_comprobante}}</td>
-        <td>{{ingreso.cretedAt}}</td>
-        <td>{{ingreso.impuesto}}</td>
-        <td>{{ingreso.total}}</td>
+        <td>{{ ingreso.usuario.nombre }}</td>
+        <td>{{ ingreso.persona.nombre }}</td>
+        <td>{{ ingreso.tipo_comprobante }}</td>
+        <td>{{ ingreso.serie_comprobante }}</td>
+        <td>{{ ingreso.num_comprobante }}</td>
+        <td>{{ ingreso.createdAt }}</td>
+        <td>{{ ingreso.impuesto }}</td>
+        <td>{{ ingreso.total }}</td>
         <td>
           <div v-if="ingreso.estado">
             <span class="activo"> Activo </span>
@@ -60,19 +60,19 @@
           >
             <i class="delete fas fa-lock-open"></i>
           </button>
-          <button
-            v-else
-            class="buttonDelete"
-            @click="desactivar(ingreso._id)"
-          >
+          <button v-else class="buttonDelete" @click="desactivar(ingreso._id)">
             <i class="delete fas fa-lock"></i>
           </button>
           <router-link :to="'/compras/ingresos/detalles' + ingreso._id">
-            <i class="detallesIco far fa-list-alt"><span class="detalles">Detalles</span></i>
+            <i class="detallesIco far fa-list-alt"
+              ><span class="detalles">Detalles</span></i
+            >
           </router-link>
         </td>
       </tr>
-    </table><table v-if="buscando" style="width: 90%">
+    </table>
+
+    <table v-if="buscando" style="width: 90%">
       <tr>
         <th>Usuario</th>
         <th>Proveedor</th>
@@ -86,14 +86,14 @@
         <th>Opciones</th>
       </tr>
       <tr v-for="resultado of resultados" :key="resultado._id">
-        <td>{{resultado.usuario.nombre}}</td>
-        <td>{{resultado.persona.nombre}}</td>
-        <td>{{resultado.tipo_comprobante}}</td>
-        <td>{{resultado.serie_comprobante}}</td>
-        <td>{{resultado.num_comprobante}}</td>
-        <td>{{resultado.cretedAt}}</td>
-        <td>{{resultado.impuesto}}</td>
-        <td>{{resultado.total}}</td>
+        <td>{{ resultado.usuario.nombre }}</td>
+        <td>{{ resultado.persona.nombre }}</td>
+        <td>{{ resultado.tipo_comprobante }}</td>
+        <td>{{ resultado.serie_comprobante }}</td>
+        <td>{{ resultado.num_comprobante }}</td>
+        <td>{{ resultado.createdAt }}</td>
+        <td>{{ resultado.impuesto }}</td>
+        <td>{{ resultado.total }}</td>
         <td>
           <div v-if="resultado.estado">
             <span class="activo"> Activo </span>
@@ -121,11 +121,14 @@
             <i class="delete fas fa-lock"></i>
           </button>
           <router-link :to="'/compras/ingresos/detalles' + resultado._id">
-            <i class="detallesIco far fa-list-alt"><span class="detalles">Detalles</span></i>
+            <i class="detallesIco far fa-list-alt"
+              ><span class="detalles">Detalles</span></i
+            >
           </router-link>
         </td>
       </tr>
     </table>
+
     <h3 v-if="sinCoincidencias" class="sinCoincidencias">
       No se han encotrado resultados<br />
       para su busqueda
@@ -135,8 +138,8 @@
 </template>
 
 <script>
-import axios from 'axios'
-import CabeceroCompras from '../../../components/compras/CabeceroCompras.vue'
+import axios from "axios";
+import CabeceroCompras from "../../../components/compras/CabeceroCompras.vue";
 export default {
   data() {
     return {
@@ -145,78 +148,89 @@ export default {
       buscando: false,
       resultados: [],
       sinCoincidencias: false,
-    }
+    };
   },
   created() {
-    this.listar()
+    this.listar();
   },
   methods: {
-      listar(){
-          let header = {'Token' : this.$store.state.token}
-          let configuracion = {headers:header}
-          this.sinCoincidencias=false
-          this.buscando=false
-          axios.get('ingreso/list', configuracion)
-          .then((response)=>{
-              if(this.busqueda == ''){
-                  this.ingresos = response.data
-                  console.log('listo')
-              }else {
-                  console.log('Realizando busqueda')
-              }
-          }).catch((error)=>{
-              console.log(error)
-          })
-          this.limpiar()
-        },
-        filtrarPorNombreInput(){
-          this.resultados=[]
-          let r = []
-          this.ingresos.forEach(ingreso=>{
-            if(!ingreso.usuario.nombre.search(this.busqueda)){
-            r.push(ingreso)
-            }else{
-              this.sinCoincidencias = true
-            }
-          })
-          this.resultados=r 
-          this.resultados == [] || this.resultados == '' || this.resultados == undefined ? this.sinCoincidencias = true : this.sinCoincidencias = false
-          this.buscando=true
-        },
-        limpiar(){
-            this.busqueda='',
-            this.buscando=false,
-            this.resultados=[],
-            this.sinCoincidencias=false
-        },activar(_id){
-          let header = {'Token':this.$store.state.token}
-          let configuracion ={headers:header}
-          axios.put('/ingreso/activate', {'_id':_id}, configuracion)
-          .then((response)=>{
-            console.log('Ingreso activado: ' + response.data.nombre)
-        }).catch((error)=>{
-			console.log(error)		
-		})
-		this.limpiar()
-		this.listar()
-        },
-		desactivar(_id){
-			let header = {'Token':this.$store.state.token}
-			let configuracion ={headers:header}
-			axios.put('/ingreso/deactivate', {'_id':_id}, configuracion)
-			.then((response)=>{
-				console.log('Usuario desactivado: ' + response.data.nombre)
-			}).catch((error)=>{
-				console.log(error)
-			})
-			this.limpiar()
-			this.listar()
-		}
+    listar() {
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
+      this.sinCoincidencias = false;
+      this.buscando = false;
+      axios
+        .get("ingreso/list", configuracion)
+        .then((response) => {
+          if (this.busqueda == "") {
+            this.ingresos = response.data;
+            console.log("listo");
+          } else {
+            console.log("Realizando busqueda");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      this.limpiar();
+    },
+    filtrarPorNombreInput() {
+      this.resultados = [];
+      let r = [];
+      this.ingresos.forEach((ingreso) => {
+        if (!ingreso.usuario.nombre.search(this.busqueda)) {
+          r.push(ingreso);
+        } else {
+          this.sinCoincidencias = true;
+        }
+      });
+      this.resultados = r;
+      this.resultados == [] ||
+      this.resultados == "" ||
+      this.resultados == undefined
+        ? (this.sinCoincidencias = true)
+        : (this.sinCoincidencias = false);
+      this.buscando = true;
+    },
+    limpiar() {
+      (this.busqueda = ""),
+        (this.buscando = false),
+        (this.resultados = []),
+        (this.sinCoincidencias = false);
+    },
+    activar(_id) {
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
+      axios
+        .put("/ingreso/activate", { _id: _id }, configuracion)
+        .then((response) => {
+          console.log("Ingreso activado: " + response.data.nombre);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      this.limpiar();
+      this.listar();
+    },
+    desactivar(_id) {
+      let header = { Token: this.$store.state.token };
+      let configuracion = { headers: header };
+      axios
+        .put("/ingreso/deactivate", { _id: _id }, configuracion)
+        .then((response) => {
+          console.log("Usuario desactivado: " + response.data.nombre);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      this.limpiar();
+      this.listar();
+    },
   },
-  components:{
-     CabeceroCompras 
-  }
-}
+  components: {
+    CabeceroCompras,
+  },
+};
 </script>
 <style scoped lang="sass">
 .usuarios
@@ -311,7 +325,7 @@ export default {
 		padding: 8px
 		color: rgb(10, 43, 45)
 		overflow: auto
-	
+
 	tr
 		overflow: auto
 

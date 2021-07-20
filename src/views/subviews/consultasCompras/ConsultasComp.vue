@@ -78,13 +78,14 @@ export default {
       });
       //var ctx = document.getElementById("myChart").getContext("2d");
       var ctx = document.getElementById("myChart");
+      // eslint-disable-next-line no-unused-vars
       var myChart = new chart(ctx, {
         type: "bar",
         data: {
           labels: this.meses,
           datasets: [
             {
-              label: "Ventas de los ultimos 12 meses",
+              label: "Compras de los ultimos 12 meses",
               data: this.totales,
               backgroundColor: [
                 "rgba(255, 99, 132, 0.6)",
@@ -126,7 +127,7 @@ export default {
           },
         },
       });
-      this.myChart = myChart;
+      //this.myChart = myChart;
     },
   },
   mounted() {
