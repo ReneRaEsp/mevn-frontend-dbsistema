@@ -65,12 +65,18 @@
             ><b>{{ detalle.articulo }}</b></label
           >
           <p class="detalleArticulo">
+            <b>Precio: </b
+            ><span class="render"> &nbsp;{{ detalle.precio }}</span>
+          </p>
+          <p class="detalleArticulo">
             <b>Cantidad: </b
             ><span class="render"> &nbsp;{{ detalle.cantidad }}</span>
           </p>
           <p class="detalleArticulo">
-            <b>Precio: </b
-            ><span class="render"> &nbsp;{{ detalle.precio }}</span>
+            <b>Total: </b
+            ><span class="render">
+              &nbsp;{{ detalle.precio * detalle.cantidad }}</span
+            >
           </p>
           <p class="detalleArticulo">
             <b>Id: </b><span class="render"> &nbsp;{{ detalle._id }}</span>

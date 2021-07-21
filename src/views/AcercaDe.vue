@@ -3,7 +3,7 @@
     <h2 class="title">Sistema de gestion de compras, ventas e inventario</h2>
     <p class="descripcion">
       Este sistema es un sistema web desarrollado utilizando las tecnologias del
-      stack MEVN(MongoDB, Express, Vue.js y Node.js) Por lo cual esta
+      stack MEVN (MongoDB, Express, Vue.js y Node.js) Por lo cual esta
       completamente desarrollado en JavaScript tanto en el frontend como en el
       backend.
       <br />
@@ -19,12 +19,14 @@
       página) lo cual quiere decir que se puede acceder a todas las funciones
       del sistema sin que sea recargada la página, la cual ademas cuenta con un
       enrutamiento, para los estilos se utiliza el preprocesador sass y no se
-      ocupa ningún framework de css
+      ocupa ningún framework de css. Mientras que para los gráficos se utiliza
+      la version 2 de la libreria chart.js
       <br />
       <br />
-      Para el backend se utiliza Node.js versión 12.14.1 en conjunto con el
-      framework Express y utiliza ciertas librerias como: Mongoose, Axios y
-      Chart.js y accede a una base de datos no relacional MongoDB
+      Para el backend he desarrollado un API rest en Node.js versión 12.14.1 en
+      conjunto con el framework Express y el cual además utiliza ciertas
+      librerias como Mongoose y Axios para realizar la persistencia hacia la
+      base de datos MongoDB y para las peticiones http respectivamente
       <br />
       <br />
       Sistema desarrollado por René Ramirez, Desarrollador Web - Julio del 2021
