@@ -131,6 +131,18 @@
       </div>
       <div class="grupo">
         <div class="duo">
+          <label for="codigo" class="label">Articulo</label>
+          <br />
+          <input
+            v-model="codigo"
+            class="input"
+            name="codigo"
+            type="text"
+            placeholder="Codigo de articulo"
+            @input="cargarPrecioArticulo()"
+          />
+        </div>
+        <div class="duo">
           <label for="precio" class="label">Precio</label>
           <br />
           <input
@@ -150,17 +162,6 @@
             name="cantidad"
             type="number"
             placeholder="Cantidad"
-          />
-        </div>
-        <div class="duo">
-          <label for="codigo" class="label">Articulo</label>
-          <br />
-          <input
-            v-model="codigo"
-            class="input"
-            name="codigo"
-            type="text"
-            placeholder="Codigo de articulo"
           />
         </div>
         <div class="duo">
@@ -205,7 +206,7 @@
             </p>
             <p class="detalleArticulo">
               <b>Precio total: </b
-              ><span class="render"> &nbsp;{{ articulo.subtotal }}</span>
+              ><span class="render"> &nbsp;{{ articulo.subTotal }}</span>
             </p>
             <p class="detalleArticulo">
               <b>Id: </b><span class="render"> &nbsp;{{ articulo._id }}</span>
@@ -419,10 +420,10 @@ export default {
     agregarArticulo() {
       let header = { Token: this.$store.state.token };
       let configuracion = { headers: header };
+      this.calcularSubtotal();
       axios
         .get("articulo/query-codigo?codigo=" + this.codigo, configuracion)
         .then((res) => {
-          this.precio = this.precio * this.cantidad;
           this.articulos.push({
             _id: res.data._id,
             articulo: res.data.nombre,
@@ -431,7 +432,7 @@ export default {
             precio: res.data.precio_venta,
           });
           this.indice++;
-          this.total = this.total + this.subTotal;
+          this.total = this.total + parseInt(this.subTotal);
         })
         .catch((error) => {
           console.log(error);
@@ -449,7 +450,7 @@ export default {
         });
     },
     calcularSubtotal() {
-      this.subTotal = this.cantidad * this.precio;
+      this.subTotal = this.cantidad * parseInt(this.precio);
     },
     limpiar() {
       this.precio = "";

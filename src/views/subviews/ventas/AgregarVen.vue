@@ -433,6 +433,7 @@ export default {
     agregarArticulo() {
       let header = { Token: this.$store.state.token };
       let configuracion = { headers: header };
+      this.calcularSubtotal();
       axios
         .get("articulo/query-codigo?codigo=" + this.codigo, configuracion)
         .then((res) => {
@@ -445,7 +446,7 @@ export default {
             descuento: this.descuento,
           });
           this.indice++;
-          this.total = this.total + this.subTotal;
+          this.total = parseInt(this.total) + parseInt(this.subTotal);
         })
         .catch((error) => {
           console.log(error);
