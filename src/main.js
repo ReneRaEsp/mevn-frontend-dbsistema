@@ -6,7 +6,7 @@ import store from './store'
 import axios from 'axios'
 
 Vue.config.productionTip = false
-axios.defaults.baseURL='http://localhost:5000/api/'
+axios.defaults.baseURL='https://arcane-river-53544.herokuapp.com/api/'
 
 new Vue({
   router,
