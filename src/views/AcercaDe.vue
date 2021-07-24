@@ -2,7 +2,7 @@
   <section class="acercaDe">
     <h2 class="title">Sistema de gestion de compras, ventas e inventario</h2>
     <p class="descripcion">
-      Este sistema es un sistema web desarrollado utilizando las tecnologias del
+      Este sistema web fue desarrollado utilizando las tecnologias del
       stack MEVN (MongoDB, Express, Vue.js y Node.js) Por lo cual esta
       completamente desarrollado en JavaScript tanto en el frontend como en el
       backend.
