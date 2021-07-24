@@ -2,6 +2,12 @@
   <section class="login">
     <h2 class="title">Acceder al sistema</h2>
     <div v-on:keyup.enter="ingresar()" class="formLogin">
+      <h5>credenciales para ingresar
+        <br>
+        usuario: admin2@prueba.com clave: admin 
+        <br>
+        usuario: almacenero@prueba.com clave: almacen        
+      </h5>
       <input 
       class="input" 
       v-model="email" 
@@ -141,6 +147,8 @@ export default {
 
            
 
-    
+    h5
+      color: white
+      font-weight: bold
 
 </style>

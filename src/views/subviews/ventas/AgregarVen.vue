@@ -446,7 +446,7 @@ export default {
             descuento: this.descuento,
           });
           this.indice++;
-          this.total = parseInt(this.total) + parseInt(this.subTotal);
+          this.total =this.total + this.subTotal;
         })
         .catch((error) => {
           console.log(error);
