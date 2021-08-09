@@ -192,8 +192,10 @@ export default {
             display: flex
             justify-content: space-around
             padding: 1rem
+            flex-wrap: wrap
             background: rgba(3, 33, 53, .7)
-            border-radius: 1rem 1rem 0 0
+            border-radius: 1rem 1rem 1rem 1rem
+            margin-bottom: 1rem
             border-top: 3px solid rgba(10, 40, 40, .2)
             border-left: 3px solid rgba(10, 40, 40, .2)
             border-right: 3px solid rgba(10, 40, 40, .2)
@@ -230,7 +232,7 @@ export default {
                     cursor: pointer
             .mostrarT
                 padding: .3rem
-                margin-left: -4rem
+                margin-left: 0rem
                 border-radius: .7rem .7rem .7rem .7rem
                 border: 3px solid rgba(10, 40, 40, .0)
                 background: rgba(23,73,33,.5)
@@ -252,7 +254,7 @@ export default {
     td, th
         border: 3px solid rgba(100, 140, 140, .7)
         text-align: center
-        padding: 8px
+        padding: .3rem
         color: rgb(10, 43, 45)
 
     .activo

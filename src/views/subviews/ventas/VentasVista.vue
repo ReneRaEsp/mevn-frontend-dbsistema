@@ -238,13 +238,9 @@ export default {
 .ventas
 	display: flex
 	justify-content: flex-start
-	//flex-wrap: wrap
+	flex-wrap: wrap
 	flex-direction: column
-	overflow-y: auto
-	overflow-x: auto
-	width: 80vw
-	height: 100vh
-	background: rgba(20, 180, 233, .1)
+  overflow: auto
 	.title
 		font-size: 2.1rem
 		color: rgb(100, 197, 192)
@@ -263,9 +259,10 @@ export default {
 		display: flex
 		justify-content: space-around
 		flex-wrap: wrap
+    margin-bottom: 1rem
 		padding: 1rem
 		background: rgba(3, 33, 53, .7)
-		border-radius: 1rem 1rem 0 0
+		border-radius: 1rem 1rem 1rem 1rem
 		border-top: 3px solid rgba(10, 40, 40, .2)
 		border-left: 3px solid rgba(10, 40, 40, .2)
 		border-right: 3px solid rgba(10, 40, 40, .2)
@@ -302,7 +299,7 @@ export default {
 				cursor: pointer
 		.mostrarT
 			padding: .3rem
-			margin-left: -4rem
+			margin-left: 0
 			border-radius: .7rem .7rem .7rem .7rem
 			border: 3px solid rgba(10, 40, 40, .0)
 			background: rgba(33,73,23,.5)
@@ -319,12 +316,12 @@ export default {
 		background: rgba(220, 222, 222, .9)
 		overflow: auto
 		margin-bottom: 2rem
-		max-width: 100%
+		max-width: 60%
 
 	td,	th
 		border: 3px solid rgba(100, 140, 140, .7)
 		text-align: center
-		padding: 8px
+		padding: .2rem
 		color: rgb(10, 43, 45)
 		overflow: auto
 

@@ -6,8 +6,7 @@
       <Navy />
     </section>
     <section id="open-navy-icon">
-      <img v-on:click="showMenu()" id="hamburger-icon" src="./assets/img/hamburger.svg" alt="">
-    </section>
+      <img v-on:click="showMenu()" id="hamburger-icon" src="./assets/img/hamburger.svg" alt="">          </section>
     <section class="content">
       <router-view />
     </section>
@@ -77,18 +76,15 @@ body
   #open-navy-icon
     display: none
     justify-content: flex-start
+    position: fixed
     align-items: center
     flex-direction: column
     flex-wrap: no-wrap
-    overflow: auto
-    width: 20vw
-    height: 100vh
-    //background-image: url("assets/img/fondo.jpg")
-    background: rgba(2, 28, 54, .6)
     #hamburger-icon
       display: block
       margin-top: 3rem
-      width: 2rem
+      transform: translateX(1rem)
+      width: 3rem
       height: 2rem
       cursor: pointer
 
