@@ -219,14 +219,17 @@ export default {
             justify-content: space-around
             flex-wrap: wrap
             padding: 1rem
+            margin-bottom: 1rem
             background: rgba(3, 33, 53, .7)
-            border-radius: 1rem 1rem 0 0
+            border-radius: 1rem 1rem 1rem 1rem
             border-top: 3px solid rgba(10, 40, 40, .2)
             border-left: 3px solid rgba(10, 40, 40, .2)
             border-right: 3px solid rgba(10, 40, 40, .2)
-            width: 90%
+            width: 97%
             align-self: center
             .busqueda
+                display: flex
+                justify-content: center
                 .input
                     padding: .3rem
                     background: rgba(233,233,233,.7)
@@ -253,11 +256,12 @@ export default {
                 transition: .5s     
                 text-decoration: none          
                 &:hover
+                font-size: .7rem
                     opacity: .7
                     cursor: pointer
             .mostrarT
                 padding: .3rem
-                margin-left: -4rem
+                margin-left: 0
                 border-radius: .7rem .7rem .7rem .7rem
                 border: 3px solid rgba(10, 40, 40, .0)
                 background: rgba(33,73,23,.5)
@@ -275,11 +279,12 @@ export default {
         background: rgba(220, 222, 222, .9)
         overflow: hidden
         margin-bottom: 2rem
+        width: 60%
 
     td, th
         border: 3px solid rgba(100, 140, 140, .7)
         text-align: center
-        padding: 8px
+        padding: .3rem
         color: rgb(10, 43, 45)
 
     .activo

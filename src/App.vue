@@ -1,14 +1,12 @@
 <template>
   <div id="app">
-    <!--<div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>-->
-    <section class="navy">
+    <section id="navy-1" class="navy">
       <Porfile />
       <hr />
       <Navy />
+    </section>
+    <section id="open-navy-icon">
+      <img v-on:click="showMenu()" id="hamburger-icon" src="./assets/img/hamburger.svg" alt="">
     </section>
     <section class="content">
       <router-view />
@@ -28,7 +26,15 @@ export default {
   },
   created() {},
   computed: {},
-  methods: {},
+  methods: {
+    showMenu(){
+      document.getElementById('navy-1').style.display = "flex";
+      document.getElementById('navy-1').style.width = "50vw";
+      document.getElementById('navy-1').style.position = "absolute";
+      document.getElementById('navy-1').style.transform = "translateX(0)";
+      document.getElementById('hamburger-icon').style.display = "none";
+    },
+  },
 };
 </script>
 <style lang="sass">
@@ -59,6 +65,7 @@ body
     overflow: auto
     width: 20vw
     height: 100vh
+    transform: translateX(0)
     //background-image: url("assets/img/fondo.jpg")
     background: rgba(10, 70, 93, .55)
   .content
@@ -67,6 +74,23 @@ body
     height: 100vh
     overflow: hidden
     background: rgba(2, 28, 54, .6)
+  #open-navy-icon
+    display: none
+    justify-content: flex-start
+    align-items: center
+    flex-direction: column
+    flex-wrap: no-wrap
+    overflow: auto
+    width: 20vw
+    height: 100vh
+    //background-image: url("assets/img/fondo.jpg")
+    background: rgba(2, 28, 54, .6)
+    #hamburger-icon
+      display: block
+      margin-top: 3rem
+      width: 2rem
+      height: 2rem
+      cursor: pointer
 
 hr
   width: 80%
@@ -90,4 +114,29 @@ hr
     background: rgba(12, 18, 34, .4)
   &:active
     background: rgba(12, 18, 34, .8)
+
+
+@media screen and (max-width: 600px)
+  #app
+    .navy
+      display: none
+      transform: translateX(-20vw)
+    #open-navy-icon
+      display: flex
+    .content
+      width: 100vw
+
+  body
+    font-size: 8px
+  
+@media screen and (min-width: 601px)
+  #app
+    .navy
+      display: flex
+      transform: translateX(0)
+    #open-navy-icon
+      display: none
+    .content
+      width: 80vw
+
 </style>
