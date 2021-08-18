@@ -6,7 +6,8 @@
       <Navy />
     </section>
     <section id="open-navy-icon">
-      <img v-on:click="showMenu()" id="hamburger-icon" src="./assets/img/hamburger.svg" alt="">          </section>
+      <img v-on:click="showMenu()" id="hamburger-icon" src="./assets/img/hamburger.svg" alt="">          
+    </section>
     <section class="content">
       <router-view />
     </section>
